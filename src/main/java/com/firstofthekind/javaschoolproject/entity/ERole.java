@@ -1,4 +1,4 @@
-package com.firstofthekind.javaschoolproject.Entity;
+package com.firstofthekind.javaschoolproject.entity;
 
 public enum ERole {
     ROLE_USER,

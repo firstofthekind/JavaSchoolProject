@@ -1,4 +1,4 @@
-package com.firstofthekind.javaschoolproject.Entity;
+package com.firstofthekind.javaschoolproject.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

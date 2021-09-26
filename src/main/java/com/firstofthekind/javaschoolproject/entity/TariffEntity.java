@@ -1,4 +1,4 @@
-package com.firstofthekind.javaschoolproject.Entity;
+package com.firstofthekind.javaschoolproject.entity;
 
 
 import lombok.Getter;
@@ -20,6 +20,8 @@ public class TariffEntity extends AbstractEntity {
     private String title;
 
     private double price;
+
+    private double connectionCost;
 
     @ManyToMany
     @JoinTable(

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Registration Page</title>
+</head>
+
+<body>
+<div>
+    Registration page
+</div>
+<form method="post">
+    <div class="container">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col"><input class="form-control" type="text" name="firstname"
+                                    placeholder="Enter your first name"/></div>
+            <div class="col"><input class="form-control" type="text" name="secondname"
+                                    placeholder="Enter your second name"/></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"></div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col"><input class="form-control" type="email" name="email" placeholder="Email"/></div>
+            <div class="col"><input class="form-control" type="email" name="emailRepeat" placeholder="Confirm Email"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"></div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col"><input class="form-control" type="date" name="birthdate"/></div>
+            <div class="col"><input class="form-control" type="text" name="passport"
+                                    placeholder="Passport number in format: 1234 123456" pattern="[0-9]{4} [0-9]{6}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"></div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col"><input class="form-control" type="text" name="adress"
+                                    placeholder="Saint-Petersburg, Nevskaya st., 4"/></div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="mb-3"></div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col"><input class="form-control" type="password" name="password" placeholder="Password"/></div>
+            <div class="col"><input class="form-control" type="password" name="passwordConfirm"
+                                    placeholder="Confirm password"/></div>
+        </div>
+    </div>
+    <div class="mb-3"></div>
+    <div class="mb-3"></div>
+    <div class="mb-3"></div>
+    <div class="mb-3"></div>
+    <div class="mb-3"></div>
+    <div class="mb-3"></div>
+    <div class="mb-3">
+        <div class="form-check"><label class="form-check-label">
+            <input class="form-check-input" type="checkbox"/>I agree
+            to </label><a class="already" href="#">the license terms.</a>
+        </div>
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
+    </div>
+    You already have an account? <a class="already" href="login.html"> Login here.</a>
+</form>
+</body>
+</html>
