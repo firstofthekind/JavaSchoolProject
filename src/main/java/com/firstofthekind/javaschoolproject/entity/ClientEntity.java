@@ -26,14 +26,16 @@ public class ClientEntity extends AbstractEntity{
     private String firstname;
 
     @NotBlank
+    private String password;
+
+    @NotBlank
     private String lastname;
 
     @OneToMany(mappedBy = "client")
     private Set<ContractEntity> contracts;
 
     @NotBlank
-    @DateTimeFormat(pattern = "dd.MM.yyyy")
-    private Date birthdate;
+    private String birthdate;
 
     @NotBlank
     @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Enter passport in format 1234 123456")
@@ -47,16 +49,25 @@ public class ClientEntity extends AbstractEntity{
     private String email;
 
     @NotBlank
-    @Size(min = 6, message = "Password must contain at least 6 characters")
-    private String password;
-
-    @Transient
-    private String passwordConfirm;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "client_role",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleEntity> roles = new HashSet<>();
 
+    public ClientEntity(String firstname, String lastname, String birthdate, String passport, String address, String email, String password) {
+        this.firstname=firstname;
+        this.lastname = lastname;
+        this.birthdate = birthdate;
+        this.passport = passport;
+        this.address=address;
+        this.email=email;
+        this.password = password;
+
+    }
+
+    public ClientEntity(String firstname, String encode) {
+        this.firstname = firstname;
+        this.password = encode;
+    }
 }

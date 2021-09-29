@@ -25,7 +25,7 @@ public class TariffEntity extends AbstractEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "supplement_tariff",
+            name = "tariff_supplement",
             joinColumns = @JoinColumn(name = "tariff_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id")
     )

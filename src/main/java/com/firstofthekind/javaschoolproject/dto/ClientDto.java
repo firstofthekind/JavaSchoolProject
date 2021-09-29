@@ -9,7 +9,7 @@ import java.util.Set;
 public class ClientDto {
     private long id;
     private String firstname;
-    private String secondname;
+    private String lastname;
     private Data birthdate;
     private String address;
     private String passport;

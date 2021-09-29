@@ -1,89 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Registration Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Javaschool</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css}">
+    <link rel="stylesheet" th:href="@{/css/static/css/Footer-Basic.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
+    <link rel="stylesheet" th:href="@{/css/Navigation-with-Button.css}">
+    <link rel="stylesheet" th:href="@{/css/Registration-Form-with-Photo.css}">
+    <link rel="stylesheet" th:href="@{/css/Soft-ui-Navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/vanilla-zoom.min.css}">
 </head>
 
 <body>
-<div>
-    Registration page
-</div>
-<form method="post">
-    <div class="container">
-        <div class="row">
-        </div>
-        <div class="row">
-            <div class="col"><input class="form-control" type="text" name="firstname"
-                                    placeholder="Enter your first name"/></div>
-            <div class="col"><input class="form-control" type="text" name="secondname"
-                                    placeholder="Enter your second name"/></div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mb-3"></div>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+        <div class="container"><a class="navbar-brand" href="/main">First mobile operator</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/main">Main</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/deals">Deals</a></li>
+                    <li class="nav-item dropdown show"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="/plans">Plans</a>
+                        <div class="dropdown-menu show"><a class="dropdown-item" href="tariff.html">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                    </li>
+                </ul><span class="navbar-text actions"> <a class="login" href="/login">Log In</a><a class="btn btn-light action-button" role="button" href="#">Sign Up</a></span>
             </div>
         </div>
-        <div class="row">
-        </div>
-        <div class="row">
-            <div class="col"><input class="form-control" type="email" name="email" placeholder="Email"/></div>
-            <div class="col"><input class="form-control" type="email" name="emailRepeat" placeholder="Confirm Email"/>
+    </nav>
+    <main class="page landing-page">
+        <section class="register-photo">
+            <div class="form-container">
+                <form method="post" th:object="${regDto}" th:action="@{/registration}" >
+                    <h2 class="text-center"><strong>Create</strong> an account.</h2>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6"><small>First name</small></div>
+                            <div class="col-md-6"><small>Second name</small></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="text" name="firstname" placeholder="Enter your first name" th:field="*{firstname}"></div>
+                            <div class="col"><input class="form-control" type="text" name="lastname" placeholder="Enter your last name" th:field="*{lastname}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><small>Email adress</small></div>
+                            <div class="col"><small>Confirm email</small></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="email" name="email" placeholder="Email" th:field="*{email}"></div>
+                            <div class="col"><input class="form-control" type="email" name="emailConfirm" placeholder="Confirm Email" th:field="*{emailConfirm}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><small>Birthdate</small></div>
+                            <div class="col"><small>Passport data</small></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="date" name="birthdate" th:field="*{birthdate}"></div>
+                            <div class="col"><input class="form-control" type="text" name="passport" placeholder="Passport number in format: 1234 123456" pattern="[0-9]{4} [0-9]{6}" th:field="*{passport}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><small>Home adress</small></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="text" name="address" placeholder="Saint-Petersburg, Nevskaya st., 4" th:field="*{address}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><small>Password</small></div>
+                            <div class="col"><small>Confirm password</small></div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="password" name="password" placeholder="Password" th:field="*{password}"></div>
+                            <div class="col"><input class="form-control" type="password" name="passwordConfirm" placeholder="Confirm password" th:field="*{passwordConfirm}"></div>
+                        </div>
+                        <input type="hidden" name="role"   value="user" th:field="*{role}" />
+                    </div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3">
+                        <div class="form-check"><label class="form-check-label" th:field="*{checkbox}" name="checkbox"><input class="form-check-input" type="checkbox">I agree to the license terms.</label></div>
+                    </div>
+                    <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" action="/login" >Sign Up</button></div><a class="already" href="/login">You already have an account? Login here.</a>
+                </form>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mb-3"></div>
-            </div>
-        </div>
-        <div class="row">
-        </div>
-        <div class="row">
-            <div class="col"><input class="form-control" type="date" name="birthdate"/></div>
-            <div class="col"><input class="form-control" type="text" name="passport"
-                                    placeholder="Passport number in format: 1234 123456" pattern="[0-9]{4} [0-9]{6}"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mb-3"></div>
-            </div>
-        </div>
-        <div class="row">
-        </div>
-        <div class="row">
-            <div class="col"><input class="form-control" type="text" name="adress"
-                                    placeholder="Saint-Petersburg, Nevskaya st., 4"/></div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="mb-3"></div>
-            </div>
-        </div>
-        <div class="row">
-        </div>
-        <div class="row">
-            <div class="col"><input class="form-control" type="password" name="password" placeholder="Password"/></div>
-            <div class="col"><input class="form-control" type="password" name="passwordConfirm"
-                                    placeholder="Confirm password"/></div>
-        </div>
-    </div>
-    <div class="mb-3"></div>
-    <div class="mb-3"></div>
-    <div class="mb-3"></div>
-    <div class="mb-3"></div>
-    <div class="mb-3"></div>
-    <div class="mb-3"></div>
-    <div class="mb-3">
-        <div class="form-check"><label class="form-check-label">
-            <input class="form-check-input" type="checkbox"/>I agree
-            to </label><a class="already" href="#">the license terms.</a>
-        </div>
-    </div>
-    <div class="mb-3">
-        <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
-    </div>
-    You already have an account? <a class="already" href="login.html"> Login here.</a>
-</form>
+        </section>
+        <footer class="footer-basic">
+            <div class="social"><a href="http://instagram.com/firstofthekind"><img src="/assets/img/small-logos/instagram.png" width="40" style="margin: 0px 12px 0px 0px;" href="instagram.com/firstofthekind"></a><a href="http://vk.com/firstofthekind"><img src="/assets/img/small-logos/vk-social-logotype.png" width="40" style="margin: 0px 12px 0px 0px;" href="vk.com/firstofthekind" link="vk.com/firstofthekind"></a><a href="http://github.com/firstofthekind"><img src="/assets/img/small-logos/github.png" width="40" style="margin: 0px 12px 0px 0px;" href="github.com/firstofthekind"></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Home</a></li>
+                <li class="list-inline-item"><a href="#">Services</a></li>
+                <li class="list-inline-item"><a href="#">About</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">Viacheslav Liashenko © 2021</p>
+        </footer>
+    </main>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js}"></script>
+    <script th:src="@{/js/vanilla-zoom.js}"></script>
+    <script th:src="@{/js/theme.js}"></script>
 </body>
+
 </html>

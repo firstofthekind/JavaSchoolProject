@@ -1,39 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>Login Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Javaschool</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/css/vanilla-zoom.min.css">
 </head>
 
 <body>
-<div>
-    Login page
-</div>
-<div class="container">
-    <form class="login-form" action="main.html">
-        <div class="login-wrap">
-            <p class="login-img"><i class="icon_lock_alt"></i></p>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="icon_profile"></i></span>
-                <input type="text" class="form-control" placeholder="Email" autofocus>
+    <nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+        <div class="container"><a class="navbar-brand" href="/main">First mobile operator</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/main">Main</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/deals">Deals</a></li>
+                    <li class="nav-item dropdown show"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="/plans">Plans</a>
+                        <div class="dropdown-menu show"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                    </li>
+                </ul><span class="navbar-text actions"> <a class="login" href="#">Log In</a><a class="btn btn-light action-button" role="button" href="/registration">Sign Up</a></span>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
-                <input type="password" class="form-control" placeholder="Password">
-            </div>
-            <label class="checkbox">
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
         </div>
-        <div>
-            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
-
-        </div>
-    </form>
-    <div>
-
-        You still don't have an account? <a class="already" href="registration.html"> Register here.</a>
-    </div>
-</div>
+    </nav>
+    <main class="page landing-page">
+        <section class="register-photo">
+            <section class="register-photo">
+                <div class="form-container">
+                    <div class="image-holder"></div>
+                    <form th:action="@{/login}" method="post" >
+                        <h2 class="text-center"><strong>Log into</strong>&nbsp;an account.</h2>
+                        <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
+                        <div class="mb-3"></div>
+                        <div class="mb-3"></div>
+                        <div class="mb-3"></div>
+                        <div class="mb-3"></div><input class="form-control" type="password" name="password" placeholder="Password">
+                        <div class="mb-3"></div>
+                        <div class="mb-3"></div>
+                        <div class="mb-3"></div>
+                        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" th:action="@{/login}" th:method="post">Log In</button></div><a class="already" href="/registration">You still don't have an account? Register here.</a>
+                    </form>
+                </div>
+            </section>
+            <div class="form-container"></div>
+        </section>
+        <footer class="footer-basic">
+            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Home</a></li>
+                <li class="list-inline-item"><a href="#">Services</a></li>
+                <li class="list-inline-item"><a href="#">About</a></li>
+                <li class="list-inline-item"><a href="#">Terms</a></li>
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            </ul>
+            <p class="copyright">Viacheslav Liashenko © 2021</p>
+        </footer>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script src="/js/vanilla-zoom.js"></script>
+    <script src="/js/theme.js"></script>
 </body>
+
 </html>
