@@ -48,6 +48,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .defaultSuccessUrl("/")
                 .and()
+                .rememberMe()
+                .key("eCareToken")
+                .tokenValiditySeconds(86400)
+                .rememberMeParameter("rememberMe")
+                .and()
                 .logout()
                 .permitAll()
                 .logoutSuccessUrl("/");
