@@ -1,6 +1,5 @@
 package com.firstofthekind.javaschoolproject.service;
 
-import com.firstofthekind.javaschoolproject.dto.ClientDto;
 import com.firstofthekind.javaschoolproject.entity.ClientEntity;
 import com.firstofthekind.javaschoolproject.entity.RoleEntity;
 import com.firstofthekind.javaschoolproject.repository.ClientRepository;
@@ -9,18 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-public class ClientDetailsService {
+
+public class ClientDetailsService implements UserDetailsService {
 
     @Autowired
     ClientRepository clientRepository;
@@ -40,4 +38,5 @@ public class ClientDetailsService {
         return roleEntities.stream().map(roleEntity ->
                 new SimpleGrantedAuthority(roleEntity.getShortName())).collect(Collectors.toList());
     }
+
 }

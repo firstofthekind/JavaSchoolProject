@@ -2,6 +2,7 @@ package com.firstofthekind.javaschoolproject.entity;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -14,7 +15,6 @@ import java.util.Set;
 @Table(name = "role")
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class RoleEntity {
 
     @Id
@@ -26,6 +26,9 @@ public class RoleEntity {
 
     public RoleEntity(ERole name) {
         this.name = name;
+    }
+    public RoleEntity(){
+
     }
 
     public String getShortNames(Set<RoleEntity> roleEntitySet) {

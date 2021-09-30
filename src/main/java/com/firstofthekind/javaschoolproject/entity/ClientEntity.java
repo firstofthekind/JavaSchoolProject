@@ -2,6 +2,7 @@ package com.firstofthekind.javaschoolproject.entity;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,8 +20,10 @@ import java.util.Set;
 @Table(name = "client")
 @Getter
 @Setter
-@RequiredArgsConstructor
-public class ClientEntity extends AbstractEntity{
+public class ClientEntity extends AbstractEntity {
+    public ClientEntity() {
+
+    }
 
     @NotBlank
     private String firstname;
@@ -49,6 +52,9 @@ public class ClientEntity extends AbstractEntity{
     private String email;
 
     @NotBlank
+    private boolean enabled = true;
+
+    @NotBlank
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "client_role",
             joinColumns = @JoinColumn(name = "client_id"),
@@ -56,12 +62,12 @@ public class ClientEntity extends AbstractEntity{
     private Set<RoleEntity> roles = new HashSet<>();
 
     public ClientEntity(String firstname, String lastname, String birthdate, String passport, String address, String email, String password) {
-        this.firstname=firstname;
+        this.firstname = firstname;
         this.lastname = lastname;
         this.birthdate = birthdate;
         this.passport = passport;
-        this.address=address;
-        this.email=email;
+        this.address = address;
+        this.email = email;
         this.password = password;
 
     }
