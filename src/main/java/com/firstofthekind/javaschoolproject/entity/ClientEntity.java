@@ -49,7 +49,7 @@ public class ClientEntity extends AbstractEntity{
     private String email;
 
     @NotBlank
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "client_role",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

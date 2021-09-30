@@ -38,29 +38,6 @@ public class ClientService {
     @Autowired
     RoleRepository roleRepository;
 
-    /*
-        @Autowired
-        UserDetailsService userDetailsService;
-
-        @Autowired
-        AuthenticationManager authenticationManager;*/
-/*
-    @Transactional
-    public void login(String email, String password) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                password,
-                userDetails.getAuthorities());
-        authenticationManager.authenticate(token);
-        if (token.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(token);
-            log.info("Auto login " + email + " is successful");
-        } else {
-            log.info("Auto login " + email + " is not successful");
-        }
-    }
-*/
     public ResponseEntity<?> registerClient(RegDto regDto) {
 
 

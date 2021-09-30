@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -22,20 +24,20 @@ public class ClientDetailsService {
 
     @Autowired
     ClientRepository clientRepository;
-/*
-    @Transactional(readOnly = true)
-    public UserDetails loadClientByEmail(String email) throws UsernameNotFoundException {
-        ClientEntity client = clientRepository.findByEmail(email);
+
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        ClientEntity client = clientRepository.findByEmail(username);
         if (client == null) {
-            log.info("Client with email " + email + " is not found");
-            throw new UsernameNotFoundException("Client is not found");
+            log.info("Client not found");
+            throw new UsernameNotFoundException("Invalid email or password in back");
         }
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (RoleEntity role :
-                client.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getShortName()));
-        }
-        log.info("Client with email " + email + " is loaded");
-        return new ClientEntity(client.getEmail(), client.getPassword());
-    }*/
+        log.info("Client" + client.getEmail() + " logged in");
+        return new org.springframework.security.core.userdetails.User(client.getEmail(), client.getPassword(), mapRolesToAuthorities(client.getRoles()));
+    }
+
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<RoleEntity> roleEntities) {
+        return roleEntities.stream().map(roleEntity ->
+                new SimpleGrantedAuthority(roleEntity.getShortName())).collect(Collectors.toList());
+    }
 }
