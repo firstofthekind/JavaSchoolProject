@@ -1,16 +1,12 @@
 package com.firstofthekind.javaschoolproject.dto;
 
-import com.firstofthekind.javaschoolproject.entity.ContractEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.Set;
 
 @Setter
