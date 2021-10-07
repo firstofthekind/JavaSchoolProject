@@ -11,5 +11,5 @@ public class TariffDto {
     private String title;
     private double price;
     private double connectionCost;
-    private Set<SupplementDto> supplementDtos;
+    private Set<SupplementDto> supplementDto;
 }

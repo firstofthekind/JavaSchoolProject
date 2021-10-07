@@ -33,9 +33,9 @@ public class AuthController {
 
     @PostMapping("/registration")
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> registration(@Valid @ModelAttribute("regDto") RegDto regDto) {
-
-        return clientService.registerClient(regDto);
+    public String registration(@Valid @ModelAttribute("regDto") RegDto regDto) {
+        clientService.registerClient(regDto);
+        return "login";
     }
 
 }

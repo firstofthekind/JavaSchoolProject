@@ -1,23 +1,29 @@
 package com.firstofthekind.javaschoolproject.service;
 
+import com.firstofthekind.javaschoolproject.dto.ClientDto;
 import com.firstofthekind.javaschoolproject.dto.RegDto;
 import com.firstofthekind.javaschoolproject.entity.ClientEntity;
 import com.firstofthekind.javaschoolproject.entity.ERole;
 import com.firstofthekind.javaschoolproject.entity.RoleEntity;
 import com.firstofthekind.javaschoolproject.repository.ClientRepository;
 import com.firstofthekind.javaschoolproject.repository.RoleRepository;
+import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
 @Log4j2
 @Service
-public class ClientService{
+public class ClientService {
     @Autowired
     private RoleService roleService;
 
@@ -30,24 +36,24 @@ public class ClientService{
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public ResponseEntity<?> registerClient(RegDto regDto) {
+    public ClientDto getClientDto(long id){
+        ClientEntity client = clientRepository.findById(id);
+        return ObjectMapperUtils.map(client, ClientDto.class);
+    }
+
+    public String registerClient(RegDto regDto) {
         if (clientRepository.existsByEmail(regDto.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new String("Error: Email is already in use!"));
+            return "Error: Email is already in use!";
         }
         if (!regDto.getPassword().equals(regDto.getPasswordConfirm())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new String("Error: Passwords don' match!"));
+            return "Error: Passwords don' match!";
         }
-        if (!regDto.isCheckbox()){
-            return ResponseEntity
-                    .badRequest()
-                    .body(new String("Error: you must be agree with license terms!"));
+        if (!regDto.isCheckbox()) {
+            return "Error: you must be agree with license terms!";
         }
 
         // Create new client's account - to controller
+
         ClientEntity client = new ClientEntity(
                 regDto.getFirstname(),
                 regDto.getLastname(),
@@ -61,21 +67,23 @@ public class ClientService{
         Set<RoleEntity> roles = new HashSet<>();
 
         if (!strRoles.contains("admin")) {
-                RoleEntity clientRole = roleRepository.findByName(ERole.ROLE_USER)
-                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                roles.add(clientRole);
+            RoleEntity clientRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(clientRole);
         } else {
-                    RoleEntity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                }
+            RoleEntity adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(adminRole);
+        }
 
         client.setRoles(roles);
         clientRepository.save(client);
         String roleList = new RoleEntity().getShortNames(roles);
         log.info("New client was created." +
-                "\n Email: "+ client.getEmail()+ "; Role " + roleList);
-        return null;
+                "\n Email: " + client.getEmail() + "; Role " + roleList);
+        return "login";
+
+
     }
 /*
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
