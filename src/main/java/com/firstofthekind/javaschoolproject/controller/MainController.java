@@ -1,24 +1,21 @@
 package com.firstofthekind.javaschoolproject.controller;
 
 
-import com.firstofthekind.javaschoolproject.dto.ContractDto;
 import com.firstofthekind.javaschoolproject.dto.RegDto;
-import com.firstofthekind.javaschoolproject.entity.ContractEntity;
+import com.firstofthekind.javaschoolproject.dto.TariffDto;
 import com.firstofthekind.javaschoolproject.service.ContractService;
+import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
-import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class MainController {
@@ -26,6 +23,10 @@ public class MainController {
     private ContractService contractService;
     @Autowired
     private TariffService tariffService;
+    @Autowired
+    private SupplementService supplementService;
+
+    private ServletUriComponentsBuilder servletUriComponentsBuilder;
 
     @GetMapping("/main")
     public String main() {
@@ -33,16 +34,16 @@ public class MainController {
     }
 
     @GetMapping("/tariffs")
-    public String tariff(ModelMap modelMap){
-        modelMap.put("tariffs", tariffService.getAllTariffs());
+    public String tariff(ModelMap modelMap) {
+        modelMap.put("tariffs", tariffService.getAll());
         return "tariffs";
     }
-
-    @GetMapping("/tariffs?supplement")
-    public String supplemments(ModelMap modelMap){
-        modelMap.put("tariffs", tariffService.getAllTariffs());
-        return "tariffs?supplement";
+    @PostMapping("/tariffs")
+    public String registration(@Valid @ModelAttribute("tariffDto") TariffDto tariffDto) {
+        tariffService.save(tariffDto);
+        return "redirect:"+"tariffs?created";
     }
+
 /*
     @GetMapping(value = {"", "/", "main"})
     public Iterable<ContractDto> getContracts() {

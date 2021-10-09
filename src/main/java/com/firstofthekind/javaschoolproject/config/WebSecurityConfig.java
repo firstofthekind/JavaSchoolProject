@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/tariffs")
                 .and()
                 .rememberMe()
                 .key("eCareToken")
@@ -58,4 +58,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         hierarchy.setHierarchy("ROLE_ADMIN > ROLE_USER");
         return hierarchy;
     }
+
 }

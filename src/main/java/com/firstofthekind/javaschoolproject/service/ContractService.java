@@ -22,12 +22,12 @@ public class ContractService {
     @Autowired
     private ContractRepository contractRepository;
 
-    public Iterable<ContractDto> getAllContracts() {
+    public Iterable<ContractDto> getAll() {
         List<ContractEntity> contractEntities = contractRepository.findAll();
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
-    public ContractDto getContract(long id) {
+    public ContractDto getOne(long id) {
         return ObjectMapperUtils.map(contractRepository
                 .findById(id), ContractDto.class);
     }

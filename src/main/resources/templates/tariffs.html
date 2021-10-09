@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}">
+    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css}">
+    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
+    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
+    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+</head>
+<body>
+<div class="col-md-4">
+    <div class="generic_content clearfix">
+        <div class="generic_feature_list">
+            <h3>Tariff list</h3>
+            <ul th:each="tariff : ${tariffs}">
+                <li th:text="${tariff.title}"> Title</li>
+                <li th:text="${tariff.connectionCost}"> Connection Cost</li>
+                <li th:text="${tariff.price}"> Price</li>
+            </ul>
+        </div>
+        <div class="generic_price_btn clearfix"><a href>Sign up</a></div>
+    </div>
+</div>
+<div sec:authorize="hasAuthority('ADMIN')" >
+<div th:if="${param.created}">
+    new tariff created
+</div>
+<div th:if="${param.add}">
+    <form th:action="@{/tariffs}" th:object="${tariffDto}" method="post">
+        <h2 class="text-center"><strong>Create</strong>&nbsp;new tariff.</h2>
+        <div class="mb-3"><input class="form-control" type="text"
+                                 name = "title" placeholder="Title"></div>
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <input class="form-control"  type="text" name="connectionCost"
+               placeholder="Connection Cost">
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <input class="form-control"  type="text" name="price"
+               placeholder="Price">
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <div class="mb-3"></div>
+        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">CREATE TARIFF</button>
+        </div>
+    </form>
+</div>
+    <a class="already" th:href="@{?add=true}">
+        You can add new tariff here.</a>
+</div>
+    <a class="already" th:href="@{/registration}">
+        You still don't have an account? Register here.</a>
+</body>
+</html>

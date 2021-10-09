@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -55,16 +54,20 @@
 
 
                         <h2 class="text-center"><strong>Log into</strong>&nbsp;an account.</h2>
-                        <div class="mb-3"><input class="form-control" type="text" name = "username" placeholder="Email"></div>
+                        <div class="mb-3"><input class="form-control" type="text"
+                                                 name = "username" placeholder="Email"></div>
                         <div class="mb-3"></div>
                         <div class="mb-3"></div>
                         <div class="mb-3"></div>
                         <div class="mb-3"></div>
-                        <input class="form-control"  type="password" name="password" placeholder="Password">
+                        <input class="form-control"  type="password" name="password"
+                               placeholder="Password">
                         <div class="mb-3"></div>
                         <div class="mb-3"></div>
                         <div class="mb-3"></div>
-                        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Log In</button></div><a class="already" th:href="@{/registration}">You still don't have an account? Register here.</a>
+                        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Log In</button>
+                        </div><a class="already" th:href="@{/registration}">
+                        You still don't have an account? Register here.</a>
                     </form>
                 </div>
             </section>
