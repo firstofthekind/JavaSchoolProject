@@ -36,7 +36,7 @@
     <main class="page landing-page">
         <section class="register-photo">
             <div class="form-container">
-                <form method="post" th:object="${regDto}" th:action="@{/registration}" >
+                <form method="post" action="#" th:object="${regDto}" th:action="@{/registration}" >
                     <h2 class="text-center"><strong>Create</strong> an account.</h2>
                     <div class="container">
                         <div class="row">
@@ -106,9 +106,18 @@
                     <div class="mb-3"></div>
                     <div class="mb-3"></div>
                     <div class="mb-3">
-                        <div class="form-check"><label class="form-check-label" th:field="*{checkbox}" name="checkbox"><input class="form-check-input" th:field="*{checkbox}" type="checkbox">I agree to the license terms.</label></div>
+                        <div class="form-check">
+                            <label class="form-check-label" th:field="*{checkbox}" name="checkbox">
+                                <input class="form-check-input" th:field="*{checkbox}" type="checkbox">
+                                I agree to the license terms.</label>
+                            <span th:if="${#fields.hasErrors('checkbox')}" th:errors="*{checkbox}" class="alert alert-danger"></span>
+                        </div>
                     </div>
-                    <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" action="/login" >Sign Up</button></div><a class="already" href="/login">You already have an account? Login here.</a>
+                    <div class="mb-3" >
+                        <input type="submit" class="btn btn-primary d-block w-100" value="Sign Up">
+                        <button class="btn btn-primary d-block w-100" type="submit" >Sign Up</button>
+                    </div>
+                    <a class="already" href="/login">You already have an account? Login here.</a>
                 </form>
             </div>
         </section>

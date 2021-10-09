@@ -57,10 +57,10 @@
         </div>
     </form>
 </div>
-    <a class="already" th:href="@{?add=true}">
+    <a class="already" th:href="@{?add=true}" th:if="not ${param.add}">
         You can add new tariff here.</a>
 </div>
-    <a class="already" th:href="@{/registration}">
+    <a class="already" th:href="@{/registration}" sec:authorize="false">
         You still don't have an account? Register here.</a>
 </body>
 </html>

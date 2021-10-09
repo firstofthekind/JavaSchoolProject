@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Setter
@@ -14,6 +12,7 @@ import java.util.Set;
 @Data
 public class RegDto {
     @NotBlank
+    @NotNull
     private String firstname;
 
     @NotBlank
@@ -43,6 +42,7 @@ public class RegDto {
     @Email
     private String emailConfirm;
 
+    @AssertTrue
     private boolean checkbox;
 
     private Set<String> role;

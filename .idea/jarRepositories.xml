@@ -37,6 +37,11 @@
       <option name="url" value="http://repository.jboss.org/nexus/content/groups/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="jboss-repo" />
+      <option name="name" value="jboss-repo" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="java-net-repo" />
       <option name="name" value="java-net-repo" />
       <option name="url" value="https://maven.java.net/content/repositories/public/" />
