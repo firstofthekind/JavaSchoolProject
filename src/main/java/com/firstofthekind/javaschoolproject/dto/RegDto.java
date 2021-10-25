@@ -11,41 +11,41 @@ import java.util.Set;
 @Getter
 @Data
 public class RegDto {
-    @NotBlank
-    @NotNull
+    @NotEmpty
     private String firstname;
 
-    @NotBlank
+    @NotEmpty
     private String password;
 
-    @NotBlank
+    @NotEmpty
     private String passwordConfirm;
 
-    @NotBlank
+    @NotEmpty
     private String birthdate;
 
-    @NotBlank
+    @NotEmpty
     private String lastname;
 
-    @NotBlank
+    @NotEmpty
     @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Enter passport in format 1234 123456")
     private String passport;
 
-    @NotBlank
+    @NotEmpty
     private String address;
 
-    @NotBlank
+    @NotEmpty
     @Email
     private String email;
 
-    @NotBlank
+    @NotEmpty
     @Email
     private String emailConfirm;
 
-    @AssertTrue
+    @AssertTrue(message = "You should be agree with licence terms")
     private boolean checkbox;
 
     private Set<String> role;
+
 
 
 }

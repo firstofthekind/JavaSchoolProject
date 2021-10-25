@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Javaschool</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="assets/css/Manage-Users.css">
+</head>
+
+<body>
+
+<div th:replace="/fragments/navbar :: navbar">
+</div>
+<main class="page landing-page">
+    <section class="register-photo">
+        <div class="form-container"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-lg-4" style="padding-right: 0px;padding-left: 0px;"><h2
+                        class="text-center text-info">Client's card</h2>
+                    <div class="card clean-card text-center">
+                        <div class="card-body info">
+                            <div class="row" style="margin-top: -24px;">
+                                <div class="col-md-12" style="margin-top: 22px;">
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Firstname</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getFirstname()}">
+                                            first name</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Lastname</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getLastname()}">last
+                                            name</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Date of birth</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getBirthdate()}">
+                                            dob</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Email</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getEmail()}">email
+                                            adress</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Passport №</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getPassport()}">
+                                            passport data</p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col"><p class="labels"><strong>Address</strong></p></div>
+                                        <div class="col"><p class="labels" th:text="${currentClient.getAddress()}">
+                                            adress</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="btn btn-primary d-block" href="/profileedit">Edit</a></div>
+                    </div>
+                </div>
+                <div class="col"><h2 class="text-center text-info">Client's Contracts</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-md-5 col-lg-4" th:each="contract : ${contracts}" th:if="!${contract.isBlockedByAdmin()}">
+                            <div class="clean-pricing-item" >
+                                <div class="heading"><h3 class="text-primary">Contract
+                                    №</h3>
+                                    <h6 class="text-primary" th:text="${contract.getNumber()}">Contract №</h6></div>
+                                <div class="features"><h4><span class="feature">Tariff:&nbsp;</span><span
+                                        th:text="${contract.tariff.title}">No</span></h4><h4><span class="feature">Price (USD per month):&nbsp;</span><span
+                                        th:text="${contract.getPrice()}">No</span></h4><h4><span class="feature">Connection cost (USD):&nbsp;</span><span
+                                        th:text="${contract.getConnectionCost()}">30 Days</span></h4><h4><span
+                                        class="feature">Supplements:&nbsp;</span>
+                                </h4><h6 th:each="sup : ${contract.getSupplement()}"><a
+                                        class="font-monospace text-black-50 feature" th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
+                                </h6></div>
+                                <div class="price"></div>
+                                <a class="btn btn-primary d-block" th:href="@{/editcontract/{id} (id=${contract.getId()})}">Edit</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="footer-basic">
+    <div class="social"><a href="http://instagram.com/firstofthekind"><img src="assets/img/small-logos/instagram.png"
+                                                                           width="40" style="margin: 0px 12px 0px 0px;"
+                                                                           href="instagram.com/firstofthekind"></a><a
+            href="http://vk.com/firstofthekind"><img src="assets/img/small-logos/vk-social-logotype.png" width="40"
+                                                     style="margin: 0px 12px 0px 0px;" href="vk.com/firstofthekind"
+                                                     link="vk.com/firstofthekind"></a><a
+            href="http://github.com/firstofthekind"><img src="assets/img/small-logos/github.png" width="40"
+                                                         style="margin: 0px 12px 0px 0px;"
+                                                         href="github.com/firstofthekind"></a></div>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Home</a></li>
+        <li class="list-inline-item"><a href="#">Services</a></li>
+        <li class="list-inline-item"><a href="#">About</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+    </ul>
+    <p class="copyright">Viacheslav Liashenko © 2021</p></footer>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="assets/js/vanilla-zoom.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

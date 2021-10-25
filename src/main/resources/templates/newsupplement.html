@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -30,18 +30,15 @@
 <main class="page landing-page">
     <section class="register-photo">
         <div class="form-container">
-            <form method="post" th:object="${regDto}" th:action="@{/registration}"><h2 class="text-center"><strong>Create</strong>
-                an account.</h2>
+            <form method="post" th:object="${supplementDto}" th:action="@{/newsupplement}"><h2
+                    class="text-center"><strong>Create</strong> new supplement.</h2>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6"><small>First name</small></div>
-                        <div class="col-md-6"><small>Last name</small></div>
+                        <div class="col-md-6"><small>Title</small></div>
                     </div>
                     <div class="row">
-                        <div class="col"><input class="form-control" type="text" name="firstname"
-                                                placeholder="Enter your first name" th:field="*{firstname}"></div>
-                        <div class="col"><input class="form-control" type="text" name="lastname"
-                                                placeholder="Enter your last name" th:field="*{lastname}"></div>
+                        <div class="col"><input class="form-control" type="text" name="title"
+                                                placeholder="Enter supplement title"></div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -49,14 +46,11 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Email adress</small></div>
-                        <div class="col"><small>Confirm email</small></div>
+                        <div class="col"><small>Price (USD per month)</small></div>
                     </div>
                     <div class="row">
-                        <div class="col"><input class="form-control" type="email" name="email" placeholder="Email"
-                                                th:field="*{email}"></div>
-                        <div class="col"><input class="form-control" type="email" name="emailConfirm"
-                                                placeholder="Confirm Email" th:field="*{emailConfirm}"></div>
+                        <div class="col"><input class="form-control" type="text" name="price"
+                                                placeholder="Enter supplement price"></div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -64,64 +58,21 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Birthdate</small></div>
-                        <div class="col"><small>Passport data</small></div>
+                        <div class="col"><small>Connection cost (USD)</small></div>
                     </div>
                     <div class="row">
-                        <div class="col"><input class="form-control" type="date" name="birthdate"
-                                                th:field="*{birthdate}"></div>
-                        <div class="col"><input class="form-control" type="text" name="passport"
-                                                placeholder="Passport number in format: 1234 123456"
-                                                pattern="[0-9]{4} [0-9]{6}" th:field="*{passport}"></div>
+                        <div class="col"><input class="form-control" type="text" name="connectionCost"
+                                                placeholder="Enter supplement connection cost"></div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="mb-3"></div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><small>Home adress</small></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><input class="form-control" type="text" name="address"
-                                                placeholder="Saint-Petersburg, Nevskaya st., 4" th:field="*{address}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><small>Password</small></div>
-                        <div class="col"><small>Confirm password</small></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><input class="form-control" type="password" name="password"
-                                                placeholder="Password" th:field="*{password}"></div>
-                        <div class="col"><input class="form-control" type="password" name="passwordConfirm"
-                                                placeholder="Confirm password" th:field="*{passwordConfirm}"></div>
                     </div>
                 </div>
                 <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
                 <div class="mb-3">
-                    <input type="hidden" name="role" value="user" th:field="*{role}"/>
-                    <div class="form-check">
-                        <label class="form-check-label" th:field="*{checkbox}" name="checkbox">
-                            <input class="form-check-input" th:field="*{checkbox}" type="checkbox">
-                            I agree to the license terms.</label>
-                        <span th:if="${#fields.hasErrors('checkbox')}" th:errors="*{checkbox}"
-                              class="alert alert-danger"></span>
-                    </div>
-                    <div class="mb-3">
-                        <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
-                    </div>
-                    <a class="already" href="/login">You already have an account? Login here.</a>
+                    <button class="btn btn-primary d-block w-100" type="submit" >Create</button>
                 </div>
             </form>
         </div>

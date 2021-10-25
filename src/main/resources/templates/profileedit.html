@@ -3,24 +3,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Javaschool</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
-    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
-    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
-    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
-    <link rel="stylesheet" href="assets/css/Manage-Users.css">
+    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="/static/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="/static/css/Manage-Users.css">
 </head>
 
 <body>
@@ -30,18 +31,22 @@
 <main class="page landing-page">
     <section class="register-photo">
         <div class="form-container">
-            <form method="post" th:object="${regDto}" th:action="@{/registration}"><h2 class="text-center"><strong>Create</strong>
-                an account.</h2>
+            <form method="post" th:object="${editClientDto}" th:action="@{/profileedit}"><h2 class="text-center">User's
+                account</h2>
+                <input type="hidden" name="id" th:value="${currentClient.getId()}"/>
+                <input type="hidden" name="birthdate" th:value="${currentClient.getBirthdate()}"/>
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6"><small>First name</small></div>
-                        <div class="col-md-6"><small>Last name</small></div>
+                        <div class="col"><small>New first name</small></div>
+                        <div class="col"><small>New last name</small></div>
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="text" name="firstname"
-                                                placeholder="Enter your first name" th:field="*{firstname}"></div>
+                                                placeholder="New first name" th:value="${currentClient.getFirstname()}">
+                        </div>
                         <div class="col"><input class="form-control" type="text" name="lastname"
-                                                placeholder="Enter your last name" th:field="*{lastname}"></div>
+                                                placeholder="New last name" th:value="${currentClient.getLastname()}">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -49,14 +54,15 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Email adress</small></div>
+                        <div class="col"><small>New email adress</small></div>
                         <div class="col"><small>Confirm email</small></div>
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="email" name="email" placeholder="Email"
-                                                th:field="*{email}"></div>
+                                                th:value="${currentClient.getEmail()}"></div>
                         <div class="col"><input class="form-control" type="email" name="emailConfirm"
-                                                placeholder="Confirm Email" th:field="*{emailConfirm}"></div>
+                                                placeholder="Confirm Email" th:value="${currentClient.getEmail()}">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -64,15 +70,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Birthdate</small></div>
-                        <div class="col"><small>Passport data</small></div>
+                        <div class="col"><small>New passport data</small></div>
                     </div>
                     <div class="row">
-                        <div class="col"><input class="form-control" type="date" name="birthdate"
-                                                th:field="*{birthdate}"></div>
                         <div class="col"><input class="form-control" type="text" name="passport"
                                                 placeholder="Passport number in format: 1234 123456"
-                                                pattern="[0-9]{4} [0-9]{6}" th:field="*{passport}"></div>
+                                                pattern="[0-9]{4} [0-9]{6}" th:value="${currentClient.getPassport()}">
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -84,7 +88,16 @@
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="text" name="address"
-                                                placeholder="Saint-Petersburg, Nevskaya st., 4" th:field="*{address}">
+                                                placeholder="Saint-Petersburg, Nevskaya st., 4"
+                                                th:value="${currentClient.getAddress()}">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><small>New password</small></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><input class="form-control" type="text" name="password"
+                                                placeholder="password">
                         </div>
                     </div>
                     <div class="row">
@@ -92,36 +105,35 @@
                             <div class="mb-3"></div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col"><small>Password</small></div>
-                        <div class="col"><small>Confirm password</small></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><input class="form-control" type="password" name="password"
-                                                placeholder="Password" th:field="*{password}"></div>
-                        <div class="col"><input class="form-control" type="password" name="passwordConfirm"
-                                                placeholder="Confirm password" th:field="*{passwordConfirm}"></div>
-                    </div>
                 </div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
+
+                <div sec:authorize="${hasAuthority('ADMIN')}">
+
+                    <div class="row">
+                        <div class="col"><small>New Roles</small></div>
+                    </div>
+                    <select multiple class="form-control" id="exampleFormControlSelect2" type="text"
+                    name="rolesStr">
+                        <option value="ROLE_ADMIN">ADMIN</option>
+                        <option value="ROLE_USER">USER</option>
+                    </select>
+
+                </div>
+
+
                 <div class="mb-3"></div>
                 <div class="mb-3">
-                    <input type="hidden" name="role" value="user" th:field="*{role}"/>
-                    <div class="form-check">
-                        <label class="form-check-label" th:field="*{checkbox}" name="checkbox">
-                            <input class="form-check-input" th:field="*{checkbox}" type="checkbox">
-                            I agree to the license terms.</label>
-                        <span th:if="${#fields.hasErrors('checkbox')}" th:errors="*{checkbox}"
-                              class="alert alert-danger"></span>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6 align-self-center"><a
+                                    class="btn btn-danger d-block w-100" href="/profile">Discard</a></div>
+                            <div class="col-md-6 align-self-center">
+                                <button class="btn btn-primary d-block w-100"
+                                        type="submit">Apply
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
-                    </div>
-                    <a class="already" href="/login">You already have an account? Login here.</a>
                 </div>
             </form>
         </div>

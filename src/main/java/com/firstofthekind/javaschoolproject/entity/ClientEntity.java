@@ -46,10 +46,8 @@ public class ClientEntity extends AbstractEntity {
     @Email
     private String email;
 
-    @NotBlank
     private boolean enabled = true;
 
-    @NotBlank
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "client_role",
             joinColumns = @JoinColumn(name = "client_id"),

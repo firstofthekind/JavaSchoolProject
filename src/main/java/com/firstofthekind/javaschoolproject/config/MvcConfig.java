@@ -16,15 +16,26 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/registration").setViewName("registration");
         registry.addViewController("/tariffs").setViewName("tariffs");
         registry.addViewController("/tariffs?created").setViewName("tariffs?created");
+        registry.addViewController("/cart").setViewName("cart");
+        registry.addViewController("/error").setViewName("main");
 
     }
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
+                .addResourceHandler("/assets/css/**")
+                .addResourceLocations("classpath:/static/css/");
+        registry
                 .addResourceHandler("/static/css/**")
                 .addResourceLocations("classpath:/static/css/");
         registry
-                .addResourceHandler("/assets/**")
+                .addResourceHandler("/assets/**", "assets/**")
                 .addResourceLocations("classpath:/static/");
+        registry
+                .addResourceHandler("/static/**", "static/**")
+                .addResourceLocations("classpath:/static/");
+        registry
+                .addResourceHandler("assets/")
+                .addResourceLocations("classpath:assets/");
 
     }
     

@@ -1,27 +1,25 @@
 package com.firstofthekind.javaschoolproject.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.mail.FetchProfile;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 public class CartDto {
-    private List<ItemDto> itemDtoList = new ArrayList<>();
 
-    private void addItem(ItemDto itemDto) {
-        itemDtoList.add(itemDto);
+    public ItemDto itemDto;
+
+    public void addItem(ItemDto itemDto) {
+        this.itemDto = new ItemDto();
     }
 
-    private void deleteItem(Long contractID) {
-        for (ItemDto item : itemDtoList) {
-            if (item.getContractDto().getId() == contractID) {
-                itemDtoList.remove(item);
-            }
-        }
+    public void deleteItem() {
+        itemDto = null;
     }
 
 }

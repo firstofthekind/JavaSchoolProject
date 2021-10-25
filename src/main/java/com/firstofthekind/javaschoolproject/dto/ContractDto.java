@@ -1,23 +1,29 @@
 package com.firstofthekind.javaschoolproject.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import com.firstofthekind.javaschoolproject.entity.ClientEntity;
+import com.firstofthekind.javaschoolproject.entity.SupplementEntity;
+import com.firstofthekind.javaschoolproject.entity.TariffEntity;
+import lombok.*;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@Setter
-@Getter
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class ContractDto {
     private long id;
     private String number;
     private double price;
     private double connectionCost;
-    private ClientDto clientDto;
-    private TariffDto tariffDto;
-    private Set<SupplementDto> supplementDto;
+    private ClientEntity client;
+    private TariffEntity tariff;
+    private Set<SupplementEntity> supplement;
+    private boolean isDeleted;
+
+    private boolean isBlockedByClient ;
+
+    private boolean isBlockedByAdmin ;
 }

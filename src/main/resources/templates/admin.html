@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Javaschool</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i}">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet"
+          th:href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="assets/css/Manage-Users.css">
+</head>
+
+<body>
+
+<div th:replace="/fragments/navbar :: navbar">
+</div>
+
+<main class="page landing-page">
+    <section class="register-photo">
+        <section class="register-photo">
+            <div class="form-container">
+                <div class="row justify-content-center">
+                    <div class="col-md-5 col-lg-4">
+                        <div class="clean-pricing-item">
+                            <div class="heading"><h3>Users</h3></div>
+                            <p>Here you can find users manage panel<br></p>
+                            <a class="btn btn-primary d-block"
+                               href="/userlist">Manage</a></div>
+                    </div><div class="col-md-5 col-lg-4">
+                        <form class="clean-pricing-item" method="post" th:action="@{/finduser}"
+                        th:method="post" th:object="${contract}">
+                            <div class="heading"><h3>Find by contract number</h3></div>
+                            <p>Here you can find client by contract number<br></p>
+                            <div><input class="form-control" type="text" name="number"
+                                   placeholder="Enter new tariff title" /></div>
+                            <button class="btn btn-primary d-block"
+                               type="submit">find</button></form>
+                    </div>
+                    <div>
+                        <div class="clean-pricing-item">
+                            <div class="heading"><h3>Contracts</h3></div>
+                            <p>Here you can find contract manage panel</p>
+                            <div class="features"></div>
+                            <a class="btn btn-primary d-block"
+                               href="/contractlist">Manage</a>
+                            <div class="price"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4">
+                        <div class="clean-pricing-item">
+                            <div class="heading"><h3>Tariffs</h3></div>
+                            <p>Here you can find tariffs manage panel<br></p>
+                            <div class="features"></div>
+                            <a class="btn btn-primary d-block"
+                               href="/tarifflist">Manage</a>
+                            <div class="price"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4">
+                        <div class="clean-pricing-item">
+                            <div class="heading"><h3>Supplements</h3></div>
+                            <p>Here you can find supplements manage panel<br></p>
+                            <div class="features"></div>
+                            <a class="btn btn-primary d-block" href="/supplementlist">Manage</a>
+                            <div class="price"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="form-container"></div>
+    </section>
+</main>
+<footer class="footer-basic">
+    <div class="social"><a href="http://instagram.com/firstofthekind"><img src="assets/img/small-logos/instagram.png"
+                                                                           width="40" style="margin: 0px 12px 0px 0px;"
+                                                                           href="instagram.com/firstofthekind"></a><a
+            href="http://vk.com/firstofthekind"><img src="assets/img/small-logos/vk-social-logotype.png" width="40"
+                                                     style="margin: 0px 12px 0px 0px;" href="vk.com/firstofthekind"
+                                                     link="vk.com/firstofthekind"></a><a
+            href="http://github.com/firstofthekind"><img src="assets/img/small-logos/github.png" width="40"
+                                                         style="margin: 0px 12px 0px 0px;"
+                                                         href="github.com/firstofthekind"></a></div>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Home</a></li>
+        <li class="list-inline-item"><a href="#">Services</a></li>
+        <li class="list-inline-item"><a href="#">About</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+    </ul>
+    <p class="copyright">Viacheslav Liashenko © 2021</p></footer>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js}"></script>
+<script src="/static/js/vanilla-zoom.js"></script>
+<script src="/static/js/theme.js"></script>
+<script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+</body>
+</html>

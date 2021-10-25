@@ -3,6 +3,7 @@ package com.firstofthekind.javaschoolproject.service;
 import com.firstofthekind.javaschoolproject.entity.ClientEntity;
 import com.firstofthekind.javaschoolproject.entity.RoleEntity;
 import com.firstofthekind.javaschoolproject.repository.ClientRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,11 +18,11 @@ import java.util.stream.Collectors;
 
 @Log4j2
 @Service
-
+@RequiredArgsConstructor
 public class ClientDetailsService implements UserDetailsService {
 
-    @Autowired
-    ClientRepository clientRepository;
+@Autowired
+    private ClientRepository clientRepository;
 
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

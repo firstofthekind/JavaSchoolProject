@@ -6,29 +6,39 @@ import com.firstofthekind.javaschoolproject.dto.TariffDto;
 import com.firstofthekind.javaschoolproject.entity.SupplementEntity;
 import com.firstofthekind.javaschoolproject.entity.TariffEntity;
 import com.firstofthekind.javaschoolproject.repository.SupplementRepository;
-import com.firstofthekind.javaschoolproject.repository.TariffRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
+
 @Service
+@RequiredArgsConstructor
+@Log4j2
 public class SupplementService {
-    @Autowired
-    private SupplementRepository supplementRepository;
+    private final SupplementRepository supplementRepository;
 
-    public Iterable<TariffDto> getAll() {
-        return ObjectMapperUtils.mapAll(supplementRepository.findAll(), TariffDto.class);
+    public Iterable<SupplementDto> getAll() {
+        return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
     }
 
-    public SupplementDto getOne(long id) {
-        return ObjectMapperUtils.map(supplementRepository
-                        .findById(id)
-                        .orElseThrow(() -> new ResourceNotFoundException("Product not found")),
-                SupplementDto.class);
+    public SupplementEntity getOne(long id) {
+        return supplementRepository.getById(id);
     }
 
-    public SupplementEntity save(TariffDto tariffDto) {
-        return supplementRepository.save(ObjectMapperUtils.map(tariffDto, SupplementEntity.class));
+    public SupplementDto getById(long id) {
+        return ObjectMapperUtils.map(supplementRepository.getById(id), SupplementDto.class);
+    }
+
+    public void save(SupplementDto supplementDto) {
+        supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
+        log.info("Supplement " + supplementDto.getTitle() + " created.");
+    }
+
+    void updateSupplementDto(SupplementDto supplementDto) {
+        supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
     }
 }

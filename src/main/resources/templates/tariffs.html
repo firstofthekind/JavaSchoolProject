@@ -1,66 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Title</title>
-
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <title>Pricing - Brand</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
-    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css}">
-    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css}">
-    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
-    <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
-    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
-    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="assets/css/Manage-Users.css">
 </head>
+
 <body>
-<div class="col-md-4">
-    <div class="generic_content clearfix">
-        <div class="generic_feature_list">
-            <h3>Tariff list</h3>
-            <ul th:each="tariff : ${tariffs}">
-                <li th:text="${tariff.title}"> Title</li>
-                <li th:text="${tariff.connectionCost}"> Connection Cost</li>
-                <li th:text="${tariff.price}"> Price</li>
-            </ul>
+
+<div th:replace="/fragments/navbar :: navbar">
+</div>
+<main class="page pricing-table-page">
+    <section class="clean-block clean-pricing dark">
+        <div class="container text-primary">
+            <div class="block-heading"><h2 class="text-info">Select one of available tariffs</h2></div>
+            <div class="row justify-content-center">
+                <div class="col-md-5 col-lg-4" th:each="tariff,iterStat : ${tariffs}"
+                      th:class="${iterStat.odd}? 'odd'">
+                    <form class="clean-pricing-item" th:if="${!tariff.isDeleted()}">
+                        <div class="heading"><h3 class="text-primary" th:text="${tariff.title}">title</h3></div>
+                        <div class="features"><p>Tariff description</p><h4><span class="feature">Price (USD per month):&nbsp;</span><span
+                                th:text="${tariff.price}">No</span></h4><h4><span class="feature">Connection cost (USD):&nbsp;</span><span
+                                th:text="${tariff.connectionCost}">30 Days</span></h4></div>
+                        <div class="price"></div>
+                        <a th:href="${'/tariffs/select/'+ tariff.id}" class="btn btn-primary d-block"
+                           th:if="${#authentication.principal} != anonymousUser">Select</a><a
+                            class="btn btn-primary d-block" href="/login"
+                            th:if="${#authentication.principal} == anonymousUser">Sign in</a></form>
+                </div>
+            </div>
         </div>
-        <div class="generic_price_btn clearfix"><a href>Sign up</a></div>
-    </div>
-</div>
-<div sec:authorize="hasAuthority('ADMIN')" >
-<div th:if="${param.created}">
-    new tariff created
-</div>
-<div th:if="${param.add}">
-    <form th:action="@{/tariffs}" th:object="${tariffDto}" method="post">
-        <h2 class="text-center"><strong>Create</strong>&nbsp;new tariff.</h2>
-        <div class="mb-3"><input class="form-control" type="text"
-                                 name = "title" placeholder="Title"></div>
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <input class="form-control"  type="text" name="connectionCost"
-               placeholder="Connection Cost">
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <input class="form-control"  type="text" name="price"
-               placeholder="Price">
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <div class="mb-3"></div>
-        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">CREATE TARIFF</button>
-        </div>
-    </form>
-</div>
-    <a class="already" th:href="@{?add=true}" th:if="not ${param.add}">
-        You can add new tariff here.</a>
-</div>
-    <a class="already" th:href="@{/registration}" sec:authorize="false">
-        You still don't have an account? Register here.</a>
+    </section>
+</main>
+<footer class="footer-basic">
+    <div class="social"><a href="http://instagram.com/firstofthekind"><img src="assets/img/small-logos/instagram.png"
+                                                                           width="40" style="margin: 0px 12px 0px 0px;"
+                                                                           href="instagram.com/firstofthekind"></a><a
+            href="http://vk.com/firstofthekind"><img src="assets/img/small-logos/vk-social-logotype.png" width="40"
+                                                     style="margin: 0px 12px 0px 0px;" href="vk.com/firstofthekind"
+                                                     link="vk.com/firstofthekind"></a><a
+            href="http://github.com/firstofthekind"><img src="assets/img/small-logos/github.png" width="40"
+                                                         style="margin: 0px 12px 0px 0px;"
+                                                         href="github.com/firstofthekind"></a></div>
+    <ul class="list-inline">
+        <li class="list-inline-item"><a href="#">Home</a></li>
+        <li class="list-inline-item"><a href="#">Services</a></li>
+        <li class="list-inline-item"><a href="#">About</a></li>
+        <li class="list-inline-item"><a href="#">Terms</a></li>
+        <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+    </ul>
+    <p class="copyright">Viacheslav Liashenko © 2021</p></footer>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="assets/js/vanilla-zoom.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

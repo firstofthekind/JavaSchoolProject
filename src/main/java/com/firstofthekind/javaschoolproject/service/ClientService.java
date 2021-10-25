@@ -2,27 +2,26 @@ package com.firstofthekind.javaschoolproject.service;
 
 import com.firstofthekind.javaschoolproject.dto.ClientDto;
 import com.firstofthekind.javaschoolproject.dto.RegDto;
+import com.firstofthekind.javaschoolproject.dto.TariffDto;
 import com.firstofthekind.javaschoolproject.entity.ClientEntity;
+import com.firstofthekind.javaschoolproject.entity.ContractEntity;
 import com.firstofthekind.javaschoolproject.entity.ERole;
 import com.firstofthekind.javaschoolproject.entity.RoleEntity;
 import com.firstofthekind.javaschoolproject.repository.ClientRepository;
 import com.firstofthekind.javaschoolproject.repository.RoleRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class ClientService {
     @Autowired
     private RoleService roleService;
@@ -32,13 +31,26 @@ public class ClientService {
 
     @Autowired
     private RoleRepository roleRepository;
+    private ContractService contractService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public ClientDto getClientDto(long id){
+    public ClientDto getClientDto(long id) {
         ClientEntity client = clientRepository.findById(id);
         return ObjectMapperUtils.map(client, ClientDto.class);
+    }
+
+    public ClientDto getClientDtoByEmail(String email) {
+        ClientEntity client = clientRepository.findByEmail(email);
+        return ObjectMapperUtils.map(client, ClientDto.class);
+    }
+    public ClientEntity getClientByEmail(String email) {
+        return clientRepository.findByEmail(email);
+    }
+
+    public ClientEntity getClientEntity(long id) {
+        return clientRepository.findById(id);
     }
 
     public String registerClient(RegDto regDto) {
@@ -47,9 +59,6 @@ public class ClientService {
         }
         if (!regDto.getPassword().equals(regDto.getPasswordConfirm())) {
             return "Error: Passwords don' match!";
-        }
-        if (!regDto.isCheckbox()) {
-            return "Error: you must be agree with license terms!";
         }
 
         // Create new client's account - to controller
@@ -75,30 +84,36 @@ public class ClientService {
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(adminRole);
         }
-
         client.setRoles(roles);
         clientRepository.save(client);
         String roleList = new RoleEntity().getShortNames(roles);
         log.info("New client was created." +
                 "\n Email: " + client.getEmail() + "; Role " + roleList);
         return "login";
-
-
     }
-/*
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        ClientEntity client = clientRepository.findByEmail(username);
-        if (client==null){
-            log.info("Client not found");
-            throw new UsernameNotFoundException("Invalid email or password in back");
+
+    public void updateClient(ClientDto clientDto) {
+        ClientEntity client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
+        if (client.getRoles() == null & clientDto.getRolesStr() == null || clientDto.getRolesStr() == null) {
+            client.setRoles(clientRepository.findById(clientDto.getId()).getRoles());
+        } else {
+            Set<RoleEntity> roleEntities = new HashSet<>();
+            for (String role : clientDto.getRolesStr()) {
+                roleEntities.add(roleRepository.findAllByName(ERole.valueOf(role)));
+            }
+            client.setRoles(roleEntities);
         }
-        log.info("Client" + client.getEmail() +" logged in");
-        return new org.springframework.security.core.userdetails.User(client.getEmail(), client.getPassword(), mapRolesToAuthorities(client.getRoles()));
+        client.setPassword(clientRepository.findById(clientDto.getId()).getPassword());
+        clientRepository.save(client);
     }
 
-    private Collection<? extends  GrantedAuthority> mapRolesToAuthorities(Collection<RoleEntity> roleEntities){
-       return roleEntities.stream().map(roleEntity ->
-               new SimpleGrantedAuthority(roleEntity.getShortName())).collect(Collectors.toList());
-    }*/
+    public void updateClient(RegDto clientDto) {
+        ClientEntity client = clientRepository.findByEmail(clientDto.getEmail());
+        client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
+        clientRepository.save(client);
+    }
 
+    public Iterable<ClientDto> getAll() {
+        return ObjectMapperUtils.mapAll(clientRepository.findAll(), ClientDto.class);
+    }
 }

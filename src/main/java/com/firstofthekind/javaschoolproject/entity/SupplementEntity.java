@@ -20,7 +20,6 @@ public class SupplementEntity extends AbstractEntity{
     @NotBlank
     private String title;
 
-    @NotBlank
     private double price;
 
     private double connectionCost;
@@ -40,4 +39,5 @@ public class SupplementEntity extends AbstractEntity{
             inverseJoinColumns = @JoinColumn(name = "codependents_supp_id")
     )
     private Set<SupplementEntity> codependents = new HashSet<>();
+
 }

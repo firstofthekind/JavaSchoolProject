@@ -1,5 +1,6 @@
 package com.firstofthekind.javaschoolproject.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -12,16 +13,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "contract")
-@Getter
-@Setter
+@Data
 @RequiredArgsConstructor
 public class ContractEntity extends AbstractEntity {
     @NotBlank
     private String number;
 
-    private boolean isBlockedByClient = false;
+    private boolean isBlockedByClient;
 
-    private boolean isBlockedByAdmin = false;
+    private boolean isBlockedByAdmin;
 
     private double price;
 
@@ -42,6 +42,17 @@ public class ContractEntity extends AbstractEntity {
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id"))
     private Set<SupplementEntity> supplement = new HashSet<>();
+
+    public ContractEntity(String number, double price,
+                          double connectionCost, ClientEntity client,
+                          TariffEntity tariffEntity, Set<SupplementEntity> supplementSet) {
+        this.number = number;
+        this.price = price;
+        this.supplement = supplementSet;
+        this.tariff = tariffEntity;
+        this.connectionCost = connectionCost;
+        this.client = client;
+    }
 
     public void addOption(SupplementEntity supp) {
         this.supplement.add(supp);
