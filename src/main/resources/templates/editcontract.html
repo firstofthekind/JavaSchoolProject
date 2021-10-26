@@ -32,43 +32,62 @@
         <div class="form-container">
             <div th:if="!${contract.isBlockedByAdmin()}">
                 <div class="clean-pricing-item">
-                    <div class="heading"><h3 class="text-primary" th:text="'Contract No '+${contract.getNumber()}">
-                        Contract №</h3>
-                        <a class="btn btn-primary " sec:authorize="${hasAuthority('ADMIN')}"
-                                  th:href="@{/changenumber/{id} (id=${contract.getId()})}">Change number</a></div>
-                    <div class="features"></div>
-                    <h4><span class="feature">Tariff:&nbsp;</span><span
-                            th:text="${contract.tariff.title}">No</span>
-                        <a class="btn btn-primary"th:href="@{/changetariff/{id} (id=${contract.getId()})}">Change tariff</a></h4>
-                    <h4><span class="feature">Price (USD per month):&nbsp;</span><span
-                            th:text="${contract.getPrice()}">No</span></h4>
-                    <h4><span class="feature">Connection cost (USD):&nbsp;</span><span
-                            th:text="${contract.getConnectionCost()}">30 Days</span><span
-                            class="feature">Supplements:&nbsp;</span>
-                        <a class="btn btn-primary " th:href="@{/changesupplements/{id} (id=${contract.getId()})}">Edit supplements</a>
-                        <h6 th:each="sup : ${contract.getSupplement()}"><a
-                                class="font-monospace text-black-50 feature"
-                                th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
-                        </h6></h4><button type="submit" class="btn btn-primary d-block" >save changes</button></div>
-
+                    <div class="heading">
+                        <h3>
+                        <a class="text-center" th:text="'Contract No '+${contract.getNumber()}">
+                        Contract № </a>
+                        <a class="btn btn-primary d-block " style="float: right; border-radius: 30px"
+                           sec:authorize="${hasAuthority('ADMIN')}"
+                           th:href="@{/changenumber/{id} (id=${contract.getId()})}">Change number</a></h3>
+                        <div class="text-warning" style="text-align: center"
+                             th:if="${contract.isBlockedByClient()}">blocked by client
+                        </div>
                 </div>
+                <div class="features" ></div>
+                <h4 style="margin-top: 40px"><span class="feature">Tariff:&nbsp;</span><span
+                        th:text="${contract.tariff.title}">No</span>
+                    <a class="btn btn btn-primary d-block " th:href="@{/changetariff/{id} (id=${contract.getId()})}"
+                       style="float: right; border-radius: 30px">Change tariff</a></h4>
+                <h4 style="margin-top: 40px"><span class="feature">Price (USD per month):&nbsp;</span>
+                    <span style="float: right"
+                        th:text="${contract.getPrice()}">No</span></h4>
+                <h4 style="margin-top: 40px"><span class="feature">Connection cost (USD):&nbsp;</span><span
+                        th:text="${contract.getConnectionCost()}" style="float: right">30 Days</span></h4>
+                <h4 style="margin-top: 40px"
+                        class="feature">Supplements:&nbsp;
+                    <a class="btn btn btn-primary d-block "
+                       th:href="@{/changesupplements/{id} (id=${contract.getId()})}"
+                       style="float: right; border-radius: 30px">Edit supplements</a>
+                    <h6 th:each="sup : ${contract.getSupplement()}"><a
+                            class="font-monospace text-black-50 feature"
+                            th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
+                    </h6></h4>
+                <button type="submit" class="btn btn-primary d-block " style="width: 100%; border-radius: 30px">save
+                    changes
+                </button>
+            </div>
+
+        </div>
+        <div th:if="${contract.isBlockedByAdmin()}" class="clean-pricing-item">
+            <h3 class="text-center">Contract was blocked by admin</h3>
+            <a class="btn btn-primary d-block" href="/main" style="margin-top: 10px">main page</a>
+            <a class="btn btn-primary d-block" href="/admin" style="margin-top: 10px" sec:authorize="${hasAuthority('ADMIN')}">admin panel</a>
+            <a class="btn btn-primary d-block" style="margin-top: 10px" th:href="@{/contractlist/{id}/undel (id=${contract.getId()})}" sec:authorize="${hasAuthority('ADMIN')}">restore</a>
+        </div>
+        </div>
 
         </div>
 
-        </div>
-        <div th:if="${contract.isBlockedByAdmin()}">
-            <h3 class="text-primary">Contract was blocked by admin</h3>
-            <a class="btn btn-primary d-block" href="/main">main page</a>
-        </div>
+
         </div>
     </section>
     <footer class="footer-basic">
         <div class="social"><a href="http://instagram.com/firstofthekind"><img
-                src="assets/img/small-logos/instagram.png" width="40" style="margin: 0px 12px 0px 0px;"
+                src="/static/img/small-logos/instagram.png" width="40" style="margin: 0px 12px 0px 0px;"
                 href="instagram.com/firstofthekind"></a><a href="http://vk.com/firstofthekind"><img
-                src="assets/img/small-logos/vk-social-logotype.png" width="40" style="margin: 0px 12px 0px 0px;"
+                src="/static/img/small-logos/vk-social-logotype.png" width="40" style="margin: 0px 12px 0px 0px;"
                 href="vk.com/firstofthekind" link="vk.com/firstofthekind"></a><a
-                href="http://github.com/firstofthekind"><img src="assets/img/small-logos/github.png" width="40"
+                href="http://github.com/firstofthekind"><img src="/static/img/small-logos/github.png" width="40"
                                                              style="margin: 0px 12px 0px 0px;"
                                                              href="github.com/firstofthekind"></a></div>
         <ul class="list-inline">
@@ -80,10 +99,10 @@
         </ul>
         <p class="copyright">Viacheslav Liashenko © 2021</p></footer>
 </main>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-<script src="assets/js/vanilla-zoom.js"></script>
-<script src="assets/js/theme.js"></script>
+<script src="/static/js/vanilla-zoom.js"></script>
+<script src="/static/js/theme.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
 </html>

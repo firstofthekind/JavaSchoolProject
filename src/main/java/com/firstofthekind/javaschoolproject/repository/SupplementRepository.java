@@ -9,11 +9,12 @@ import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
 public interface SupplementRepository extends JpaRepository<SupplementEntity, Long> {
-    List<SupplementEntity> findAll();
+     LinkedList<SupplementEntity> findAll();
 
     @Override
     SupplementEntity getById(Long id);

@@ -8,33 +8,35 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Javaschool</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i}">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
-    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
     <link rel="stylesheet"
           th:href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
-    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
-    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
-    <link rel="stylesheet" href="assets/css/Manage-Users.css">
+    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="/static/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="/static/css/Manage-Users.css">
 </head>
 
 <body>
 <div class="navbar navbar-light navbar-expand-md navigation-clean-button" th:fragment="navbar">
 
-    <div class="container"><a class="navbar-brand" th:href="@{/main}">First mobile operator</a>
+    <div class="container"><a class="navbar-brand" th:href="@{/main}"><img src="/static/img/tech/main%20logo.png" width="60"
+                                                                           style="margin: 0px 0px 0px 0px;" href="vk.com/firstofthekind"
+                                                                           link="vk.com/firstofthekind"></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link" href="/main">Main</a></li>
-                <li class="nav-item"><a class="nav-link" href="/tariffs">New contract</a></li>
+                <li class="nav-item"><a class="nav-link" href="/tariffs">Tariffs</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin" sec:authorize="${hasAuthority('ADMIN')}"><strong>ADMIN
                     PANEL</strong></a></li>
             </ul>

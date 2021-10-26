@@ -1,6 +1,7 @@
 package com.firstofthekind.javaschoolproject.controller;
 
 import com.firstofthekind.javaschoolproject.dto.*;
+import com.firstofthekind.javaschoolproject.entity.ClientEntity;
 import com.firstofthekind.javaschoolproject.entity.ContractEntity;
 import com.firstofthekind.javaschoolproject.exception.CodependentSupplementException;
 import com.firstofthekind.javaschoolproject.exception.IncompatibleSupplementException;
@@ -18,7 +19,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.sound.sampled.EnumControl;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,8 +64,11 @@ public class CartController {
 
     @GetMapping("/supplements")
     public String showSupplements(ModelMap modelMap, HttpSession session) {
-        if (session.getAttribute("selected") == null) {
-            Set<SupplementDto> supplements = new HashSet<>();
+        if (session.getAttribute("tariff") == null) {
+            log.info("u should add tariff first");
+            return "redirect:" + "/tariffs";
+        } else if (session.getAttribute("selected") == null) {
+            List<SupplementDto> supplements = new LinkedList<>();
             session.setAttribute("selected", supplements);
         }
         modelMap.put("supplements", supplementService.getAll());
@@ -76,12 +82,12 @@ public class CartController {
         if (session.getAttribute("tariff") == null) {
             log.info("u should add tariff first");
         } else if (session.getAttribute("selected") == null) {
-            Set<SupplementDto> supplements = new HashSet<>();
+            List<SupplementDto> supplements = new LinkedList<>();
             supplements.add(supplementService.getById(supplementId));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
         } else {
-            Set<SupplementDto> supplements = (HashSet<SupplementDto>) session.getAttribute("selected");
+            List<SupplementDto> supplements = (LinkedList<SupplementDto>) session.getAttribute("selected");
             supplements.add(supplementService.getById(supplementId));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
@@ -91,22 +97,27 @@ public class CartController {
 
     @PostMapping("/addnewcontract")
     public String addNewContract(ModelMap map, HttpSession session) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = user.getUsername();
-        ClientDto clientDto1 = clientService.getClientDtoByEmail(email);
+        String email;
+        if (session.getAttribute("client") == null) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            email = user.getUsername();
+        } else {
+            ClientDto clientDto = (ClientDto) session.getAttribute("client");
+            email = clientDto.getEmail();
+        }
         ContractDto contractDto = new ContractDto();
         long num = (1000000 + (long) (Math.random() * ((999999 - 100000) + 1)));
         contractDto.setNumber(Long.toString(num));
         contractService.save(contractDto, clientService.getClientDtoByEmail(email),
                 (TariffDto) session.getAttribute("tariff")
-                , (Set<SupplementDto>) session.getAttribute("selected"));
+                , (LinkedList<SupplementDto>) session.getAttribute("selected"));
         return "redirect:" + "/profile";
     }
 
     @GetMapping("/supplements/delete/{supplementId}")
     public String delSupplement(@PathVariable long supplementId,
                                 ModelMap map, HttpSession session) {
-        Set<SupplementDto> supplements = (HashSet<SupplementDto>) session.getAttribute("selected");
+        List<SupplementDto> supplements = (LinkedList<SupplementDto>) session.getAttribute("selected");
         if (supplements != null) {
             supplements.remove(supplementService.getById(supplementId));
             session.setAttribute("selected", supplements);

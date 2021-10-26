@@ -8,6 +8,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util. LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Log4j2
@@ -17,7 +19,7 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     public void create() {
-        Set<RoleEntity> roleEntitySet = new HashSet<>();
+        List<RoleEntity> roleEntitySet = new  LinkedList<>();
         for (ERole role : ERole.values()) {
             if (!roleRepository.existsByName(role)) {
                 roleEntitySet.add(new RoleEntity(role));

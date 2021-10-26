@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
+import java.util. LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class ClientController {
         String email = user.getUsername();
         ClientDto clientDto = clientService.getClientDtoByEmail(email);
         modelMap.put("currentClient", clientDto);
-        HashSet<ContractDto> contractDtos = (HashSet<ContractDto>) contractService.getAllByClientEmail(email);
+         LinkedList<ContractDto> contractDtos = ( LinkedList<ContractDto>) contractService.getAllByClientEmail(email);
         modelMap.put("contracts", contractDtos);
         return "profile";
     }

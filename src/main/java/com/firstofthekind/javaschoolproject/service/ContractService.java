@@ -12,8 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
-import java.util.List;
+import java.util. LinkedList;
 import java.util.Set;
 
 @Service
@@ -27,20 +26,20 @@ public class ContractService {
     private final SupplementService supplementService;
 
     public Iterable<ContractDto> getAll() {
-        Set<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNull();
-        return ObjectMapperUtils.mapAllSet(contractEntities, ContractDto.class);
+         LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
     public Iterable<ContractDto> getAllByClientId(long id) {
-        Set<ContractEntity> contractEntities = contractRepository
-                .findAllByClientOrderByNumber(clientService.getClientEntity(id));
-        return ObjectMapperUtils.mapAllSet(contractEntities, ContractDto.class);
+         LinkedList<ContractEntity> contractEntities = contractRepository
+                .findAllByClientOrderById(clientService.getClientEntity(id));
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
     public Iterable<ContractDto> getAllByClientEmail(String email) {
-        Set<ContractEntity> contractEntities = contractRepository
-                .findAllByClientOrderByNumber(clientService.getClientByEmail(email));
-        return ObjectMapperUtils.mapAllSet(contractEntities, ContractDto.class);
+         LinkedList<ContractEntity> contractEntities = contractRepository
+                .findAllByClientOrderById(clientService.getClientByEmail(email));
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
 
@@ -54,9 +53,14 @@ public class ContractService {
     public ContractEntity getByNumber(String number) {
         return contractRepository.findByNumber(number);
     }
-    public void blockContract(long id, boolean b) {
+    public void blockContractByAdmin(long id, boolean b) {
         ContractEntity contract = contractRepository.getById(id);
         contract.setBlockedByAdmin(b);
+        contractRepository.save(contract);
+    }
+    public void blockContractByClient(long id, boolean b) {
+        ContractEntity contract = contractRepository.getById(id);
+        contract.setBlockedByClient(b);
         contractRepository.save(contract);
     }
     public void save(ContractEntity contract) {
@@ -64,8 +68,8 @@ public class ContractService {
     }
 
     public void save(ContractDto contractDto, ClientDto clientDto,
-                     TariffDto tariffDto, Set<SupplementDto> supplementDtos) {
-        Set<SupplementEntity> supplementSet = new HashSet<>();
+                     TariffDto tariffDto,  LinkedList<SupplementDto> supplementDtos) {
+         LinkedList<SupplementEntity> supplementSet = new  LinkedList<>();
         for (SupplementDto sup : supplementDtos) {
             supplementSet.add(supplementService.getOne(sup.getId()));
         }

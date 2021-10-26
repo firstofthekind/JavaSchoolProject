@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,7 @@ public class RoleEntity {
 
     }
 
-    public String getShortNames(Set<RoleEntity> roleEntitySet) {
+    public String getShortNames(List<RoleEntity> roleEntitySet) {
         StringBuilder list = new StringBuilder();
         for (RoleEntity role : roleEntitySet
         ) {

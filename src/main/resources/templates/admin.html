@@ -8,21 +8,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Javaschool</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i}">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css">
-    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
     <link rel="stylesheet"
           th:href="@{https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css}">
-    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css">
-    <link rel="stylesheet" href="assets/css/Registration-Form-with-Photo.css">
-    <link rel="stylesheet" href="assets/css/Soft-ui-Navbar.css">
-    <link rel="stylesheet" href="assets/css/vanilla-zoom.min.css">
-    <link rel="stylesheet" href="assets/css/Light-Contact-List.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---3-Profile.css">
-    <link rel="stylesheet" href="assets/css/Ludens-Users---4-Edit-Profile.css">
-    <link rel="stylesheet" href="assets/css/Manage-Users.css">
+    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="/static/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="/static/css/Manage-Users.css">
 </head>
 
 <body>
@@ -32,68 +32,67 @@
 
 <main class="page landing-page">
     <section class="register-photo">
-        <section class="register-photo">
             <div class="form-container">
                 <div class="row justify-content-center">
-                    <div class="col-md-5 col-lg-4">
-                        <div class="clean-pricing-item">
+                    <div class="col-md-5 col-lg-4"style="padding: 3px">
+                        <form class="clean-pricing-item" style="width: 30%; padding: 10px">
                             <div class="heading"><h3>Users</h3></div>
                             <p>Here you can find users manage panel<br></p>
                             <a class="btn btn-primary d-block"
-                               href="/userlist">Manage</a></div>
-                    </div><div class="col-md-5 col-lg-4">
+                               href="/userlist">Manage</a></form>
+                    </div>
+                    <div class="col-md-5 col-lg-4"style="padding: 3px">
                         <form class="clean-pricing-item" method="post" th:action="@{/finduser}"
-                        th:method="post" th:object="${contract}">
+                        th:method="post" th:object="${contract}" style="width: 30%; padding: 10px">
                             <div class="heading"><h3>Find by contract number</h3></div>
                             <p>Here you can find client by contract number<br></p>
                             <div><input class="form-control" type="text" name="number"
-                                   placeholder="Enter new tariff title" /></div>
+                                   placeholder="Enter contract number" /></div>
                             <button class="btn btn-primary d-block"
-                               type="submit">find</button></form>
+                               type="submit" style="width: 100%">find</button></form>
                     </div>
-                    <div>
-                        <div class="clean-pricing-item">
+                    <div class="col-md-5 col-lg-4" style="padding: 3px">
+                        <form class="clean-pricing-item" style="width: 30%; padding: 10px">
                             <div class="heading"><h3>Contracts</h3></div>
                             <p>Here you can find contract manage panel</p>
                             <div class="features"></div>
                             <a class="btn btn-primary d-block"
                                href="/contractlist">Manage</a>
                             <div class="price"></div>
-                        </div>
+                        </form>
                     </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div class="clean-pricing-item">
+                    <div class="col-md-5 col-lg-4" style="padding: 3px">
+                        <form class="clean-pricing-item" style="width: 30%; padding: 10px">
                             <div class="heading"><h3>Tariffs</h3></div>
                             <p>Here you can find tariffs manage panel<br></p>
                             <div class="features"></div>
                             <a class="btn btn-primary d-block"
                                href="/tarifflist">Manage</a>
                             <div class="price"></div>
-                        </div>
+                        </form>
                     </div>
-                    <div class="col-md-5 col-lg-4">
-                        <div class="clean-pricing-item">
+                    <div class="col-md-5 col-lg-4" style="padding: 3px">
+                        <form class="clean-pricing-item" style="height: 70; width: 30%; padding: 10px">
                             <div class="heading"><h3>Supplements</h3></div>
                             <p>Here you can find supplements manage panel<br></p>
                             <div class="features"></div>
                             <a class="btn btn-primary d-block" href="/supplementlist">Manage</a>
                             <div class="price"></div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
         <div class="form-container"></div>
     </section>
 </main>
 <footer class="footer-basic">
-    <div class="social"><a href="http://instagram.com/firstofthekind"><img src="assets/img/small-logos/instagram.png"
+    <div class="social"><a href="http://instagram.com/firstofthekind"><img src="/static/img/small-logos/instagram.png"
                                                                            width="40" style="margin: 0px 12px 0px 0px;"
                                                                            href="instagram.com/firstofthekind"></a><a
-            href="http://vk.com/firstofthekind"><img src="assets/img/small-logos/vk-social-logotype.png" width="40"
+            href="http://vk.com/firstofthekind"><img src="/static/img/small-logos/vk-social-logotype.png" width="70"
                                                      style="margin: 0px 12px 0px 0px;" href="vk.com/firstofthekind"
                                                      link="vk.com/firstofthekind"></a><a
-            href="http://github.com/firstofthekind"><img src="assets/img/small-logos/github.png" width="40"
+            href="http://github.com/firstofthekind"><img src="/static/img/small-logos/github.png" width="40"
                                                          style="margin: 0px 12px 0px 0px;"
                                                          href="github.com/firstofthekind"></a></div>
     <ul class="list-inline">

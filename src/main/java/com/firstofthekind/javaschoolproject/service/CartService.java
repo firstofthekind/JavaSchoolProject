@@ -68,10 +68,10 @@ public class CartService {
         log.info("Tariff is added to the cart");
     }
 
-    public List<SupplementDto> getAvailableSupplements(CartDto cartDto) {
+    public  LinkedList<SupplementDto> getAvailableSupplements(CartDto cartDto) {
         ItemDto itemDto = cartDto.getItemDto();
         Set<SupplementDto> itemSupplements = getItemSupplements(itemDto);
-        List<SupplementDto> availableSupplements = ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
+         LinkedList<SupplementDto> availableSupplements = ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
         for (SupplementDto supplementDto :
                 itemSupplements) {
             availableSupplements.removeIf(o -> o.getId() == supplementDto.getId());
@@ -79,14 +79,14 @@ public class CartService {
         return availableSupplements;
     }*/
 /*
-    private HashSet<SupplementDto> getItemSupplements(ItemDto itemDto) {
-        HashSet<SupplementDto> cartItemOptions;
+    private  LinkedList<SupplementDto> getItemSupplements(ItemDto itemDto) {
+         LinkedList<SupplementDto> cartItemOptions;
         if (itemDto != null) {
-            cartItemOptions = new HashSet<>(itemDto.getSupplementDtoSet());
+            cartItemOptions = new  LinkedList<>(itemDto.getSupplementDtoSet());
             cartItemOptions.addAll(itemDto.getTariffDto().getSupplementDtoSet());
         } else {
             ContractDto contractDto = new ContractDto();
-            cartItemOptions = new HashSet<>(contractDto.getSupplementDto());
+            cartItemOptions = new  LinkedList<>(contractDto.getSupplementDto());
             TariffDto tariffDto = contractDto.getTariffDto();
             if (tariffDto != null) {
                 cartItemOptions.addAll(tariffDto.getSupplementDtoSet());
@@ -99,7 +99,7 @@ public class CartService {
             CodependentSupplementException {
         SupplementDto supplement = supplementRepository.getSupplementDtoById(supplementID);
         ItemDto itemDto = cartDto.getItemDto();
-        HashSet<SupplementDto> itemSupplements = getItemSupplements(itemDto);
+         LinkedList<SupplementDto> itemSupplements = getItemSupplements(itemDto);
         if (!supplement.isCompatible(itemSupplements)) {
             throw new IncompatibleSupplementException(supplement.getTitle() + " incompatible with current supplements");
         }
@@ -130,7 +130,7 @@ public class CartService {
         ItemDto cartItem = new ItemDto();
         ContractDto contractDto = new ContractDto();
         TariffDto tariffDto = contractDto.getTariffDto();
-        Set<SupplementDto> supplementDtos = new HashSet<>(contractDto.getSupplementDto());
+        Set<SupplementDto> supplementDtos = new  LinkedList<>(contractDto.getSupplementDto());
         cartItem.setContractDto(contractDto);
         cartItem.setTariffDto(tariffDto);
         cartItem.setSupplementDtoSet(supplementDtos);

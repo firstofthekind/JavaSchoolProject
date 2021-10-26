@@ -11,6 +11,7 @@ import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,5 +22,5 @@ public interface TariffRepository extends JpaRepository<TariffEntity, Long> {
     @Override
     TariffEntity getById(Long aLong);
 
-    List<TariffEntity> findAll();
+     LinkedList<TariffEntity> findAll();
 }

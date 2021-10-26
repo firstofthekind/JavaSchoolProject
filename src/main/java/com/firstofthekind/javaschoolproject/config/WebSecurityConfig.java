@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .defaultSuccessUrl("/tariffs")
+                .defaultSuccessUrl("/main")
                 .and()
                 .rememberMe()
                 .key("eCareToken")

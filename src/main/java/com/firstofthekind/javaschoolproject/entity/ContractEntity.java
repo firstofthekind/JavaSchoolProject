@@ -8,6 +8,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
+import java.util. LinkedList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -41,11 +43,11 @@ public class ContractEntity extends AbstractEntity {
     @JoinTable(name = "contract_supplement",
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id"))
-    private Set<SupplementEntity> supplement = new HashSet<>();
+    private List<SupplementEntity> supplement = new  LinkedList<>();
 
     public ContractEntity(String number, double price,
                           double connectionCost, ClientEntity client,
-                          TariffEntity tariffEntity, Set<SupplementEntity> supplementSet) {
+                          TariffEntity tariffEntity,  LinkedList<SupplementEntity> supplementSet) {
         this.number = number;
         this.price = price;
         this.supplement = supplementSet;

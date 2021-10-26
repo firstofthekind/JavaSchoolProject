@@ -20,15 +20,10 @@ public class ObjectMapperUtils {
         return modelMapper.map(entity, outClass);
     }
 
-    public static <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
+    public static <D, T>  LinkedList<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
         return entityList.stream()
                 .map(entity -> map(entity, outCLass))
-                .collect(Collectors.toList());
-    }
-    public static <D, T> Set<D> mapAllSet(final Collection<T> entityList, Class<D> outCLass) {
-        return entityList.stream()
-                .map(entity -> map(entity, outCLass))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     public static <S, D> D map(final S source, D destination) {

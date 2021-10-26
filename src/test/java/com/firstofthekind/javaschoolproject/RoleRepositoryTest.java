@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.util.Assert;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @DataJpaTest

@@ -3,16 +3,12 @@ package com.firstofthekind.javaschoolproject.controller;
 
 import com.firstofthekind.javaschoolproject.dto.ClientDto;
 import com.firstofthekind.javaschoolproject.dto.ContractDto;
-import com.firstofthekind.javaschoolproject.dto.TariffDto;
 import com.firstofthekind.javaschoolproject.service.ClientService;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util. LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,15 +45,15 @@ public class AdminController {
     }
     @GetMapping("/contractlist/{contractid}/undel")
     public String unblockClient(@PathVariable("contractid") long id, ModelMap modelMap) {
-        contractService.blockContract(id,false);
-        log.info("contract with id " + id + " was restored");
+        contractService.blockContractByAdmin(id,false);
+        log.info("contract with id " + id + " was restored by admin");
         return "redirect:" + "/contractlist";
     }
 
     @GetMapping("/contractlist/{contractid}/del")
     public String blockContract(@PathVariable("contractid") long id, ModelMap modelMap) {
-        contractService.blockContract(id,true);
-        log.info("contract with id " + id + " was restored");
+        contractService.blockContractByAdmin(id,true);
+        log.info("contract with id " + id + " was blocked by admin");
         return "redirect:" + "/contractlist";
     }
 
@@ -82,7 +77,7 @@ public class AdminController {
         ClientDto clientDto = clientService.getClientDto(id);
         clientDto.setDeleted(false);
         clientService.updateClient(clientDto);
-        log.info("tariff with id " + clientDto.getId() + " was restored");
+        log.info("client with id " + clientDto.getId() + " was restored");
         return "redirect:" + "/userlist";
     }
 
@@ -91,7 +86,7 @@ public class AdminController {
         ClientDto clientDto = clientService.getClientDto(id);
         clientDto.setDeleted(true);
         clientService.updateClient(clientDto);
-        log.info("client with id " + clientDto.getId() + " was dleeted");
+        log.info("client with id " + clientDto.getId() + " was deleted");
         return "redirect:" + "/userlist";
     }
 
@@ -100,7 +95,7 @@ public class AdminController {
                                     ModelMap modelMap) {
         ClientDto clientDto = clientService.getClientDto(id);
         modelMap.put("currentClient", clientDto);
-        HashSet<ContractDto> contractDtos = (HashSet<ContractDto>) contractService.getAllByClientId(id);
+         LinkedList<ContractDto> contractDtos = ( LinkedList<ContractDto>) contractService.getAllByClientId(id);
         modelMap.put("contracts", contractDtos);
         return "clientprofile";
     }

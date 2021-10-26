@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util. LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Log4j2
@@ -72,8 +74,8 @@ public class ClientService {
                 regDto.getEmail(),
                 passwordEncoder.encode(regDto.getPassword()));
 
-        Set<String> strRoles = regDto.getRole();
-        Set<RoleEntity> roles = new HashSet<>();
+        List<String> strRoles = regDto.getRole();
+        List<RoleEntity> roles = new  LinkedList<>();
 
         if (!strRoles.contains("admin")) {
             RoleEntity clientRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -97,7 +99,7 @@ public class ClientService {
         if (client.getRoles() == null & clientDto.getRolesStr() == null || clientDto.getRolesStr() == null) {
             client.setRoles(clientRepository.findById(clientDto.getId()).getRoles());
         } else {
-            Set<RoleEntity> roleEntities = new HashSet<>();
+            List<RoleEntity> roleEntities = new  LinkedList<>();
             for (String role : clientDto.getRolesStr()) {
                 roleEntities.add(roleRepository.findAllByName(ERole.valueOf(role)));
             }

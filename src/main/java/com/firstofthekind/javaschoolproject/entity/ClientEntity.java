@@ -8,8 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "client")
@@ -30,7 +29,7 @@ public class ClientEntity extends AbstractEntity {
     private String lastname;
 
     @OneToMany(mappedBy = "client")
-    private Set<ContractEntity> contracts;
+    private List<ContractEntity> contracts;
 
     @NotBlank
     private String birthdate;
@@ -52,7 +51,7 @@ public class ClientEntity extends AbstractEntity {
     @JoinTable(name = "client_role",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles = new HashSet<>();
+    private List<RoleEntity> roles = new ArrayList<>();
 
     public ClientEntity(String firstname, String lastname, String birthdate, String passport, String address, String email, String password) {
         this.firstname = firstname;

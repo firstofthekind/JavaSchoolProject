@@ -5,6 +5,7 @@ import com.firstofthekind.javaschoolproject.entity.RoleEntity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.Set;
 
 @Data
@@ -16,8 +17,8 @@ public class ClientDto {
     private String address;
     private String passport;
     private String email;
-    private Set<ContractDto> contractDtos;
-    private Set<RoleEntity> roles;
+    private LinkedList<ContractDto> contractDtos;
+    private LinkedList<RoleEntity> roles;
     private Set<String> rolesStr;
     private boolean isDeleted;
     private String getShortNames() {

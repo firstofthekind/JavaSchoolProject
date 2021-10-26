@@ -11,12 +11,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
+import java.util. LinkedList;
 import java.util.Set;
 
 @Repository
 public interface ContractRepository extends JpaRepository<ContractEntity, Long> {
-    Set<ContractEntity> findAllByClientOrderByNumber(ClientEntity client);
-    Set<ContractEntity> findAllByTariffIsNotNull();
+     LinkedList<ContractEntity> findAllByClientOrderById(ClientEntity client);
+     LinkedList<ContractEntity> findAllByTariffIsNotNullOrderById();
     ContractEntity findByNumber(String number);
     ContractEntity getById(long id);
 }

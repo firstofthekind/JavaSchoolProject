@@ -40,13 +40,15 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public String registration(Model model, @Valid @ModelAttribute("regDto") RegDto regDto, BindingResult result) {
+    public String registration(Model model,
+                               @Valid @ModelAttribute("regDto") RegDto regDto,
+                               BindingResult result) {
         if (result.hasErrors()) {
-            log.info("ERROR PROWEl");
+            log.info("Registration error");
             return "registration";
         } else {
             clientService.registerClient(regDto);
-            return "redirect:/login";
+            return "redirect:/login?reg";
         }
     }
 

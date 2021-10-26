@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.Set;
 
 @Setter
@@ -44,7 +45,7 @@ public class RegDto {
     @AssertTrue(message = "You should be agree with licence terms")
     private boolean checkbox;
 
-    private Set<String> role;
+    private List<String> role;
 
 
 

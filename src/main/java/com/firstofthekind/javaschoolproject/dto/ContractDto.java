@@ -7,6 +7,8 @@ import com.firstofthekind.javaschoolproject.entity.TariffEntity;
 import lombok.*;
 
 import java.util.HashSet;
+import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +22,7 @@ public class ContractDto {
     private double connectionCost;
     private ClientEntity client;
     private TariffEntity tariff;
-    private Set<SupplementEntity> supplement;
+    private  LinkedList<SupplementEntity> supplement;
     private boolean isDeleted;
 
     private boolean isBlockedByClient ;

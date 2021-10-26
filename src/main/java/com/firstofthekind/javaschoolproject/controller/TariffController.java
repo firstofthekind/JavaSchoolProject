@@ -2,6 +2,7 @@ package com.firstofthekind.javaschoolproject.controller;
 
 
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.service.ClientService;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
 import com.firstofthekind.javaschoolproject.utils.Merge;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 
@@ -21,11 +23,27 @@ public class TariffController {
 
     private final TariffService tariffService;
     private final ContractService contractService;
+    private final ClientService clientService;
 
     @GetMapping("/tariffs")
     public String showTariff(ModelMap modelMap) {
         modelMap.put("tariffs", tariffService.getAll());
         return "tariffs";
+    }
+
+    @GetMapping("/tariffs/{id}")
+    public String showTariffforClient(@PathVariable("id") long id,
+                                      ModelMap modelMap, HttpSession session) {
+        modelMap.put("tariffs", tariffService.getAll());
+        session.setAttribute("client", clientService.getClientDto(id));
+        return "tariffs";
+    }
+    @GetMapping("/tariffs/{clientId}/select/{tariffId}")
+    public String addTariffClient(@PathVariable long tariffId,
+                                  ModelMap map, HttpSession session) {
+        log.info("tariff prowel");
+        session.setAttribute("tariff", tariffService.getById(tariffId));
+        return "redirect:/supplements";
     }
 
     @GetMapping("/newtariff")

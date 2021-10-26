@@ -87,7 +87,7 @@ button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disab
   background-color: #fff;
   border: 1px solid #d2d6da;
   appearance: none;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
@@ -837,5 +837,8 @@ p {
 
 .navbar-main {
   transition: box-shadow 0.25s ease-in, background-color 0.25s ease-in;
+}
+
+button {
 }
 

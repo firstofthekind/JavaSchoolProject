@@ -6,7 +6,7 @@
 .register-photo .image-holder {
   display: table-cell;
   width: auto;
-  background: url(/assets/img/tech/123.png);
+  background: url(../img/tech/123.png);
   background-size: cover;
 }
 
@@ -44,18 +44,17 @@
 }
 
 .register-photo form .btn-primary {
-  background: #66d7d7;
+  background: #56c6c6;
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
   padding: 11px;
   box-shadow: none;
-  margin-top: 35px;
   text-shadow: none;
   outline: none !important;
 }
 
 .register-photo form .btn-primary:hover, .register-photo form .btn-primary:active {
-  background: #398c8d;
+  background: #69dcdc;
 }
 
 .register-photo form .btn-primary:active {
@@ -118,5 +117,57 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
   appearance: none;
   border-radius: 0.5rem;
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-check:checked + .btn-danger, .btn-check:active + .btn-danger, .btn-danger:active, .btn-danger.active, .show > .btn-danger.dropdown-toggle {
+  color: #fff;
+  background-color: #b02a37;
+  border-color: #a52834;
+}
+
+.btn-check:focus + .btn-success, .btn-success:focus {
+  color: #fff;
+  background-color: #56c6c6;
+  border-color: ##56c6c6;
+  box-shadow: 0 0 0 .25rem rgba(60,153,110,.5);
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #56c6c6;
+  border-color: #198754;
+  border-radius: 15pt;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #f16e7a;
+  border-color: #dc3545;
+  border-radius: 15pt;
+  padding-top: 11px;
+  padding-bottom: 11px;
+  padding-right: 11px;
+  padding-left: 11px;
+}
+
+.btn-warning {
+  color: #000;
+  background-color: #f16e7a;
+  border-color: #dc3545;
+  border-radius: 200px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.btn-check:focus + .btn-warning, .btn-warning:focus {
+  color: #000;
+  background-color: #f16e7a;
+  border-color: #f16e7a;
+}
+
+.btn-warning:hover {
+  color: #000;
+  background-color: #dc3545;
+  border-color: #f16e7a;
 }
 
