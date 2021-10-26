@@ -35,13 +35,34 @@ public class TariffController {
     public String showTariffforClient(@PathVariable("id") long id,
                                       ModelMap modelMap, HttpSession session) {
         modelMap.put("tariffs", tariffService.getAll());
+        session.removeAttribute("contract");
         session.setAttribute("client", clientService.getClientDto(id));
         return "tariffs";
     }
+
     @GetMapping("/tariffs/{clientId}/select/{tariffId}")
     public String addTariffClient(@PathVariable long tariffId,
                                   ModelMap map, HttpSession session) {
         log.info("tariff prowel");
+        session.setAttribute("tariff", tariffService.getById(tariffId));
+        return "redirect:/supplements";
+    }
+
+    @GetMapping("/tariffs/c/{contractId}")
+    public String showChangeTariff(@PathVariable("contractId") long contractId,
+                                   ModelMap modelMap, HttpSession session) {
+        modelMap.put("tariffs", tariffService.getAll());
+        session.removeAttribute("client");
+        session.setAttribute("contract", contractService.getById(contractId));
+        return "tariffs";
+    }
+
+    @GetMapping("/tariffs/c/{contractId}/select/{tariffId}")
+    public String changeTariff(@PathVariable long contractId,
+                               @PathVariable long tariffId,
+                               ModelMap map, HttpSession session) {
+        log.info("tariff prowel");
+        session.setAttribute("contract", contractService.getById(contractId));
         session.setAttribute("tariff", tariffService.getById(tariffId));
         return "redirect:/supplements";
     }
@@ -53,17 +74,19 @@ public class TariffController {
 
     @GetMapping("/tarifflist/{tariffid}/del")
     public String deleteTariff(@PathVariable("tariffid") long id, ModelMap modelMap) {
-        TariffDto tariffDto = tariffService.getById(id);
-        tariffDto.setDeleted(true);
-        tariffService.save(tariffDto);
-        log.info("tariff with id " + tariffDto.getId() + " was dleeted");
+        tariffService.setDeleted(id, true);
+        return "redirect:" + "/tarifflist";
+    }
+
+    @GetMapping("/tarifflist/{tariffid}/undel")
+    public String restoreTariff(@PathVariable("tariffid") long id, ModelMap modelMap) {
+        tariffService.setDeleted(id, false);
         return "redirect:" + "/tarifflist";
     }
 
     @GetMapping("/edittariff/{tariffid}")
     public String showEditTariff(@PathVariable("tariffid") long id, ModelMap modelMap) {
-        TariffDto tariffDto = tariffService.getById(id);
-        modelMap.put("tariff", tariffDto);
+        modelMap.put("tariff", tariffService.getById(id));
         return "/edittariff";
     }
 
@@ -71,21 +94,11 @@ public class TariffController {
     public String editTariff(@PathVariable("tariffid") long id,
                              @ModelAttribute("editTariffDto") TariffDto editTariffDto,
                              ModelMap modelMap) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        TariffDto tariffDto = tariffService.getById(id);
-        tariffDto = Merge.merge(tariffDto, editTariffDto);
-        tariffService.save(tariffDto);
+        tariffService.save(Merge.merge(tariffService.getById(id), editTariffDto));
         log.info("tariff with id " + editTariffDto.getId() + " was updated");
         return "redirect:" + "/tarifflist";
     }
 
-    @GetMapping("/tarifflist/{tariffid}/undel")
-    public String restoreTariff(@PathVariable("tariffid") long id, ModelMap modelMap) {
-        TariffDto tariffDto = tariffService.getById(id);
-        tariffDto.setDeleted(false);
-        tariffService.save(tariffDto);
-        log.info("tariff with id " + tariffDto.getId() + " was dleeted");
-        return "redirect:" + "/tarifflist";
-    }
 
     @PostMapping("/newtariff")
     public String newTarrif(@Valid @ModelAttribute("tariffDto") TariffDto tariffDto) {

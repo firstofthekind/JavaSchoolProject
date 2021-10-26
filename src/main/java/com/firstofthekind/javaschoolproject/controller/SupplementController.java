@@ -37,11 +37,16 @@ public class SupplementController {
     }
 
     @GetMapping("/supplementlist/{supplementid}/del")
-    public String deleteSupplement(@PathVariable("supplementid") long id, ModelMap modelMap) {
-        SupplementDto supplementDto = supplementService.getById(id);
-        supplementDto.setDeleted(true);
-        supplementService.save(supplementDto);
-        log.info("supplement with id " + supplementDto.getId() + " was dleeted");
+    public String deleteSupplement(@PathVariable("supplementid") long id,
+                                   ModelMap modelMap) {
+        supplementService.setDeleted(id, true);
+        return "redirect:" + "/supplementlist";
+    }
+
+    @GetMapping("/supplementlist/{supid}/undel")
+    public String restoreSupplement(@PathVariable("supid") long id,
+                                    ModelMap modelMap) {
+        supplementService.setDeleted(id, false);
         return "redirect:" + "/supplementlist";
     }
 
@@ -56,26 +61,15 @@ public class SupplementController {
     public String editSupplement(@PathVariable("supid") long id,
                                  @ModelAttribute("editSupplementDto") SupplementDto editsupplementDto,
                                  ModelMap modelMap) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-        SupplementDto supDto = supplementService.getById(id);
-        supDto = Merge.merge(supDto, editsupplementDto);
-        supplementService.save(supDto);
+        supplementService.save(Merge.merge(supplementService.getById(id), editsupplementDto));
         log.info("supplement with id " + editsupplementDto.getId() + " was updated");
-        return "redirect:" + "/supplementlist";
-    }
-
-    @GetMapping("/supplementlist/{supid}/undel")
-    public String restoreSupplement(@PathVariable("supid") long id, ModelMap modelMap) {
-        SupplementDto supDto = supplementService.getById(id);
-        supDto.setDeleted(false);
-        supplementService.save(supDto);
-        log.info("supplement with id " + supDto.getId() + " was dleeted");
         return "redirect:" + "/supplementlist";
     }
 
 
     @PostMapping("/newsupplement")
     public String newSupplement(@Valid @ModelAttribute("supplementDto")
-                                            SupplementDto supplementDto) {
+                                        SupplementDto supplementDto) {
         supplementService.save(supplementDto);
         return "redirect:" + "/supplementlist?created";
     }

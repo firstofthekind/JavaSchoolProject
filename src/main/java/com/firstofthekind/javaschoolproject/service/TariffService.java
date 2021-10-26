@@ -40,4 +40,10 @@ public class TariffService {
         tariffRepository.save(ObjectMapperUtils.map(tariffDto, TariffEntity.class));
         log.info("Tariff "+tariffDto.getTitle()+" updated.");
     }
+    public void setDeleted(long id, boolean b){
+        TariffDto tariffDto = getById(id);
+        tariffDto.setDeleted(b);
+        save(tariffDto);
+        log.info("tariff's status with id " + tariffDto.getId() + " was updated");
+    }
 }

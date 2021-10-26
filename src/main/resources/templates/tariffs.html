@@ -32,7 +32,8 @@
         <div class="container">
             <div class="block-heading" style="margin-top: 20px"
             ><h2 class="text-center">Select one of available tariffs</h2></div>
-            <h5 class="text-center" th:if="${session.client}!=null" th:text="'for client with id'+${session.client.id}">client</h5></div>
+            <h5 class="text-center" th:if="${session.client}!=null" th:text="'for client with id '+${session.client.id}">client</h5>
+            <h5 class="text-center" th:if="${session.contract}!=null" th:text="'for contract with id '+${session.contract.getId()}">client</h5></div>
             <div class="row justify-content-center">
                 <div class="col-md-12" th:each="tariff,iterStat : ${tariffs}"
                      th:class="${iterStat.odd}? 'odd'" th:if="${!tariff.isDeleted()}" style="width: 30%">

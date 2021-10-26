@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.Set;
 
 @Service
@@ -26,18 +26,18 @@ public class ContractService {
     private final SupplementService supplementService;
 
     public Iterable<ContractDto> getAll() {
-         LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
+        LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
     public Iterable<ContractDto> getAllByClientId(long id) {
-         LinkedList<ContractEntity> contractEntities = contractRepository
+        LinkedList<ContractEntity> contractEntities = contractRepository
                 .findAllByClientOrderById(clientService.getClientEntity(id));
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
     public Iterable<ContractDto> getAllByClientEmail(String email) {
-         LinkedList<ContractEntity> contractEntities = contractRepository
+        LinkedList<ContractEntity> contractEntities = contractRepository
                 .findAllByClientOrderById(clientService.getClientByEmail(email));
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
@@ -45,31 +45,36 @@ public class ContractService {
 
     public ContractDto getById(long id) {
         return ObjectMapperUtils.map(contractRepository
-                .findById(id), ContractDto.class);
+                .getById(id), ContractDto.class);
     }
+
     public ContractEntity getEntityById(long id) {
         return contractRepository.getById(id);
     }
+
     public ContractEntity getByNumber(String number) {
         return contractRepository.findByNumber(number);
     }
+
     public void blockContractByAdmin(long id, boolean b) {
         ContractEntity contract = contractRepository.getById(id);
         contract.setBlockedByAdmin(b);
         contractRepository.save(contract);
     }
+
     public void blockContractByClient(long id, boolean b) {
         ContractEntity contract = contractRepository.getById(id);
         contract.setBlockedByClient(b);
         contractRepository.save(contract);
     }
+
     public void save(ContractEntity contract) {
         contractRepository.save(contract);
     }
 
     public void save(ContractDto contractDto, ClientDto clientDto,
-                     TariffDto tariffDto,  LinkedList<SupplementDto> supplementDtos) {
-         LinkedList<SupplementEntity> supplementSet = new  LinkedList<>();
+                     TariffDto tariffDto, LinkedList<SupplementDto> supplementDtos) {
+        LinkedList<SupplementEntity> supplementSet = new LinkedList<>();
         for (SupplementDto sup : supplementDtos) {
             supplementSet.add(supplementService.getOne(sup.getId()));
         }
@@ -87,4 +92,24 @@ public class ContractService {
     public ContractEntity save(ContractDto contractDto) {
         return contractRepository.save(ObjectMapperUtils.map(contractDto, ContractEntity.class));
     }
+
+    public void addNewContract(String email,
+                               TariffDto tariffDto,
+                               LinkedList<SupplementDto> supplementDtos
+                               ) {
+        ContractDto contractDto = new ContractDto();
+        long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
+        contractDto.setNumber(Long.toString(num));
+        save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
+    }
+    public void updateContract(String email,
+                               TariffDto tariffDto,
+                               LinkedList<SupplementDto> supplementDtos,
+                               long id) {
+        ContractDto contractDto = new ContractDto();
+        long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
+        contractDto.setNumber(Long.toString(num));
+        save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
+    }
+
 }

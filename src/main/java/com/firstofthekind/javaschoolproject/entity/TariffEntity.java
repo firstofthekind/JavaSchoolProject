@@ -7,10 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tariff")
@@ -31,7 +29,7 @@ public class TariffEntity extends AbstractEntity {
             joinColumns = @JoinColumn(name = "tariff_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id")
     )
-    private List<SupplementEntity> supplement = new  LinkedList<>();
+    private List<SupplementEntity> supplement = new LinkedList<>();
 
     public void addOption(SupplementEntity o) {
         supplement.add(o);

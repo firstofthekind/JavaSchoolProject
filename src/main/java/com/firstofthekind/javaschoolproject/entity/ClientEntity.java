@@ -8,16 +8,14 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
 @Getter
 @Setter
 public class ClientEntity extends AbstractEntity {
-    public ClientEntity() {
-
-    }
 
     @NotBlank
     private String firstname;
@@ -35,7 +33,7 @@ public class ClientEntity extends AbstractEntity {
     private String birthdate;
 
     @NotBlank
-    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Enter passport in format 1234 123456")
+    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Введите номер в формате 1234 123456")
     private String passport;
 
     @NotBlank
@@ -67,5 +65,8 @@ public class ClientEntity extends AbstractEntity {
     public ClientEntity(String firstname, String encode) {
         this.firstname = firstname;
         this.password = encode;
+    }
+    public ClientEntity() {
+
     }
 }

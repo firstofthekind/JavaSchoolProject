@@ -1,16 +1,12 @@
 package com.firstofthekind.javaschoolproject.entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.HashSet;
-import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity

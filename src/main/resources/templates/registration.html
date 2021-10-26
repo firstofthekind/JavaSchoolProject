@@ -39,9 +39,15 @@
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="text" name="firstname"
-                                                placeholder="Enter your first name" th:field="*{firstname}"></div>
+                                                placeholder="Enter your first name" th:field="*{firstname}">
+                            <div><small><a th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
+                                           class="text-danger"></a></small></div>
+                        </div>
                         <div class="col"><input class="form-control" type="text" name="lastname"
-                                                placeholder="Enter your last name" th:field="*{lastname}"></div>
+                                                placeholder="Enter your last name" th:field="*{lastname}">
+                            <div><small><a th:if="${#fields.hasErrors('lastname')}" th:errors="*{lastname}"
+                                           class="text-danger"></a></small></div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -54,9 +60,15 @@
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="email" name="email" placeholder="Email"
-                                                th:field="*{email}"></div>
+                                                th:field="*{email}">
+                            <div><small><a th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                           class="text-danger"></a></small></div>
+                        </div>
                         <div class="col"><input class="form-control" type="email" name="emailConfirm"
-                                                placeholder="Confirm Email" th:field="*{emailConfirm}"></div>
+                                                placeholder="Confirm Email" th:field="*{emailConfirm}">
+                            <div><small><a th:if="${#fields.hasErrors('emailConfirm')}" th:errors="*{emailConfirm}"
+                                           class="text-danger"></a></small></div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col">
@@ -64,27 +76,23 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Birthdate</small></div>
-                        <div class="col"><small>Passport data</small></div>
+                        <div class="col"><small>Birthdate</small>
+                        </div>
+                        <div class="col"><small>Passport data</small>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col"><input class="form-control" type="date" name="birthdate"
-                                                th:field="*{birthdate}"></div>
+                                                min="1920-01-01" max="2003-10-26"
+                                                th:field="*{birthdate}">
+                            <div><small><a th:if="${#fields.hasErrors('birthdate')}" th:errors="*{birthdate}"
+                                     class="text-danger"></a></small></div>
+                        </div>
                         <div class="col"><input class="form-control" type="text" name="passport"
                                                 placeholder="Passport number in format: 1234 123456"
-                                                pattern="[0-9]{4} [0-9]{6}" th:field="*{passport}"></div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="mb-3"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><small>Home adress</small></div>
-                    </div>
-                    <div class="row">
-                        <div class="col"><input class="form-control" type="text" name="address"
-                                                placeholder="Saint-Petersburg, Nevskaya st., 4" th:field="*{address}">
+                                                pattern="[0-9]{4} [0-9]{6}" th:field="*{passport}">
+                            <div><small><a th:if="${#fields.hasErrors('passport')}" th:errors="*{passport}"
+                                           class="text-danger"></a></small></div>
                         </div>
                     </div>
                     <div class="row">
@@ -93,36 +101,61 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col"><small>Password</small></div>
-                        <div class="col"><small>Confirm password</small></div>
+                        <div class="col"><small>Home adress</small>
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="text" name="address"
+                                                    placeholder="Saint-Petersburg, Nevskaya st., 4"
+                                                    th:field="*{address}">
+                                <div><small><a th:if="${#fields.hasErrors('address')}" th:errors="*{address}"
+                                               class="text-danger"></a></small></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="mb-3"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"><small>Password</small></div>
+
+                            <div class="col"><small>Confirm password</small></div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col"><input class="form-control" type="password" name="password"
+                                                    placeholder="Password" th:field="*{password}">
+                                <div><small><a th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                               class="text-danger"></a></small></div>
+                            </div>
+                            <div class="col"><input class="form-control" type="password" name="passwordConfirm"
+                                                    placeholder="Confirm password" th:field="*{passwordConfirm}">
+                                <div><small><a th:if="${#fields.hasErrors('passwordConfirm')}"
+                                               th:errors="*{passwordConfirm}"
+                                               class="text-danger"></a></small></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col"><input class="form-control" type="password" name="password"
-                                                placeholder="Password" th:field="*{password}"></div>
-                        <div class="col"><input class="form-control" type="password" name="passwordConfirm"
-                                                placeholder="Confirm password" th:field="*{passwordConfirm}"></div>
-                    </div>
-                </div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3"></div>
-                <div class="mb-3">
-                    <input type="hidden" name="role" value="user" th:field="*{role}"/>
-                    <div class="form-check">
-                        <label class="form-check-label" th:field="*{checkbox}" name="checkbox">
-                            <input class="form-check-input" th:field="*{checkbox}" type="checkbox">
-                            I agree to the license terms.</label>
-                        <span th:if="${#fields.hasErrors('checkbox')}" th:errors="*{checkbox}"
-                              class="alert alert-danger"></span>
-                    </div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
+                    <div class="mb-3"></div>
                     <div class="mb-3">
-                        <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
+                        <input type="hidden" name="role" value="user" th:field="*{role}"/>
+                        <div class="form-check">
+                            <label class="form-check-label" th:field="*{checkbox}" name="checkbox">
+                                <input class="form-check-input" th:field="*{checkbox}" type="checkbox">
+                                I agree to the license terms.</label>
+                            <div><a th:if="${#fields.hasErrors('checkbox')}" th:errors="*{checkbox}"
+                                    class="text-danger"></a></div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
+                        </div>
+                        <a class="already" href="/login">You already have an account? Login here.</a>
                     </div>
-                    <a class="already" href="/login">You already have an account? Login here.</a>
-                </div>
             </form>
         </div>
     </section>

@@ -38,6 +38,13 @@ public class SupplementService {
         log.info("Supplement " + supplementDto.getTitle() + " created.");
     }
 
+    public void setDeleted(long id, boolean b) {
+        SupplementDto supDto = getById(id);
+        supDto.setDeleted(b);
+        save(supDto);
+        log.info("supplement's status with id " + supDto.getId() + " was updated");
+    }
+
     void updateSupplementDto(SupplementDto supplementDto) {
         supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
     }

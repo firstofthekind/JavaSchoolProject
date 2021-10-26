@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
-import java.util. LinkedList;
+import java.util.LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,19 +35,15 @@ public class ClientController {
     public String showProfile(ModelMap modelMap) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String email = user.getUsername();
-        ClientDto clientDto = clientService.getClientDtoByEmail(email);
-        modelMap.put("currentClient", clientDto);
-         LinkedList<ContractDto> contractDtos = ( LinkedList<ContractDto>) contractService.getAllByClientEmail(email);
-        modelMap.put("contracts", contractDtos);
+        modelMap.put("currentClient", clientService.getClientDtoByEmail(email));
+        modelMap.put("contracts", (LinkedList<ContractDto>) contractService.getAllByClientEmail(email));
         return "profile";
     }
 
     @GetMapping("/profileedit")
     public String showEditProfile(ModelMap modelMap) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String email = user.getUsername();
-        ClientDto clientDto1 = clientService.getClientDtoByEmail(email);
-        modelMap.put("currentClient", clientDto1);
+        modelMap.put("currentClient", clientService.getClientDtoByEmail(user.getUsername()));
         return "/profileedit";
     }
 

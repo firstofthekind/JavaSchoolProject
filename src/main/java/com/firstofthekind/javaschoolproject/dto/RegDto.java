@@ -27,8 +27,8 @@ public class RegDto {
     @NotEmpty
     private String lastname;
 
-    @NotEmpty
-    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Enter passport in format 1234 123456")
+
+    @Pattern(regexp = "\\d{4}\\s\\d{6}", message = "Введите номер в формате 1234 123456")
     private String passport;
 
     @NotEmpty
@@ -42,7 +42,7 @@ public class RegDto {
     @Email
     private String emailConfirm;
 
-    @AssertTrue(message = "You should be agree with licence terms")
+    @AssertTrue(message = "Вы должны согласиться с лицензионными условиями")
     private boolean checkbox;
 
     private List<String> role;

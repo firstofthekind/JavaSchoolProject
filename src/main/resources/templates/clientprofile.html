@@ -98,7 +98,7 @@
                                         class="font-monospace text-black-50 feature" th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
                                 </h6></div>
                                 <div class="price"></div>
-                                <a class="btn btn-primary d-block" href="/profileEdit">Edit</a></div>
+                                <a class="btn btn-primary d-block" th:href="@{/editcontract/{id} (id=${contract.getId()})}">Edit</a></div>
                         </div>
                     </div>
                 </div>

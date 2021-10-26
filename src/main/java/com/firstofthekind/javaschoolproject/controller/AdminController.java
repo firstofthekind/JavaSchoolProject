@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util. LinkedList;
+import java.util.LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,16 +43,17 @@ public class AdminController {
         modelMap.put("contracts", contractService.getAll());
         return "contractlist";
     }
+
     @GetMapping("/contractlist/{contractid}/undel")
     public String unblockClient(@PathVariable("contractid") long id, ModelMap modelMap) {
-        contractService.blockContractByAdmin(id,false);
+        contractService.blockContractByAdmin(id, false);
         log.info("contract with id " + id + " was restored by admin");
         return "redirect:" + "/contractlist";
     }
 
     @GetMapping("/contractlist/{contractid}/del")
     public String blockContract(@PathVariable("contractid") long id, ModelMap modelMap) {
-        contractService.blockContractByAdmin(id,true);
+        contractService.blockContractByAdmin(id, true);
         log.info("contract with id " + id + " was blocked by admin");
         return "redirect:" + "/contractlist";
     }
@@ -60,8 +61,7 @@ public class AdminController {
     @GetMapping("/clientedit/{id}")
     public String showEditClient(@PathVariable("id") long id,
                                  ModelMap modelMap) {
-        ClientDto clientDto1 = clientService.getClientDto(id);
-        modelMap.put("currentClient", clientDto1);
+        modelMap.put("currentClient", clientService.getClientDto(id));
         return "/clientedit";
     }
 
@@ -74,62 +74,28 @@ public class AdminController {
 
     @GetMapping("/userlist/{clientid}/undel")
     public String restoreClient(@PathVariable("clientid") long id, ModelMap modelMap) {
-        ClientDto clientDto = clientService.getClientDto(id);
-        clientDto.setDeleted(false);
-        clientService.updateClient(clientDto);
-        log.info("client with id " + clientDto.getId() + " was restored");
+        clientService.setStatus(id, false);
         return "redirect:" + "/userlist";
     }
 
     @GetMapping("/userlist/{clientid}/del")
     public String deleteClient(@PathVariable("clientid") long id, ModelMap modelMap) {
-        ClientDto clientDto = clientService.getClientDto(id);
-        clientDto.setDeleted(true);
-        clientService.updateClient(clientDto);
-        log.info("client with id " + clientDto.getId() + " was deleted");
+        clientService.setStatus(id, true);
         return "redirect:" + "/userlist";
     }
 
     @GetMapping("/clientprofile/{id}")
     public String showClientProfile(@PathVariable("id") long id,
                                     ModelMap modelMap) {
-        ClientDto clientDto = clientService.getClientDto(id);
-        modelMap.put("currentClient", clientDto);
-         LinkedList<ContractDto> contractDtos = ( LinkedList<ContractDto>) contractService.getAllByClientId(id);
-        modelMap.put("contracts", contractDtos);
+        modelMap.put("currentClient", clientService.getClientDto(id));
+        modelMap.put("contracts", (LinkedList<ContractDto>) contractService.getAllByClientId(id));
         return "clientprofile";
     }
-/*
-    @GetMapping("/profileedit/{id}")
-    public String showEditClientProfile(@PathVariable("id") long id,
-                                  ModelMap modelMap) {
-        ClientDto clientDto1 = clientService.getClientDto(id);
-        modelMap.put("currentClient", clientDto1);
-        return "/profileedit";
-    }
-    @PostMapping("/profileedit/{id}")
-    public String editClientProfile(ModelMap modelMap,
-                              @ModelAttribute("editClientDto") ClientDto clientDto) {
-        clientService.updateClient(clientDto);
-        return "/main";
-    }*/
 
     @PostMapping("/finduser")
     public String findClientProfile(ModelMap modelMap,
                                     @ModelAttribute("contract") ContractDto contractDto) {
-        return "redirect:"+"/clientprofile/"+contractService.getByNumber(contractDto.getNumber()).getClient().getId();
+        return "redirect:" + "/clientprofile/" + contractService.getByNumber(contractDto.getNumber()).getClient().getId();
     }
-/*
-
-    @GetMapping("/supplementlist")
-    public String showContracts(ModelMap modelMap) {
-        modelMap.put("tariffs", contractService.getAll());
-        return "tariffs";
-    }
-    @GetMapping("/supplementlist")
-    public String showSupplements(ModelMap modelMap) {
-        modelMap.put("supplements", supplementService.getAll());
-        return "supplementlist";
-    }*/
 
 }

@@ -34,6 +34,8 @@
                         class="text-center">Selected supplements</h2>
                     <h2 class="text-center" th:if="${session.client }!= null"
                         th:text="'For client with id '+ ${session.client.getId()}">Selected
+                        supplements</h2><h2 class="text-center" th:if="${session.contract }!= null"
+                        th:text="'For contract with id '+ ${session.contract.getId()}">Selected
                         supplements</h2>
                     <h2 class="text-center"
                         th:text="'Tariff '+ ${session.tariff.getTitle()}">Selected

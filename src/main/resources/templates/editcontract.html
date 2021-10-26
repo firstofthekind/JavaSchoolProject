@@ -46,7 +46,7 @@
                 <div class="features" ></div>
                 <h4 style="margin-top: 40px"><span class="feature">Tariff:&nbsp;</span><span
                         th:text="${contract.tariff.title}">No</span>
-                    <a class="btn btn btn-primary d-block " th:href="@{/changetariff/{id} (id=${contract.getId()})}"
+                    <a class="btn btn btn-primary d-block " th:href="@{/tariffs/c/{id} (id=${contract.getId()})}"
                        style="float: right; border-radius: 30px">Change tariff</a></h4>
                 <h4 style="margin-top: 40px"><span class="feature">Price (USD per month):&nbsp;</span>
                     <span style="float: right"

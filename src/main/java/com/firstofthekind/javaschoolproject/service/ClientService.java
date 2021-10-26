@@ -17,7 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,18 +25,11 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class ClientService {
-    @Autowired
-    private RoleService roleService;
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-    private ContractService contractService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final RoleService roleService;
+    private final ClientRepository clientRepository;
+    private final RoleRepository roleRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     public ClientDto getClientDto(long id) {
         ClientEntity client = clientRepository.findById(id);
@@ -47,6 +40,7 @@ public class ClientService {
         ClientEntity client = clientRepository.findByEmail(email);
         return ObjectMapperUtils.map(client, ClientDto.class);
     }
+
     public ClientEntity getClientByEmail(String email) {
         return clientRepository.findByEmail(email);
     }
@@ -75,7 +69,7 @@ public class ClientService {
                 passwordEncoder.encode(regDto.getPassword()));
 
         List<String> strRoles = regDto.getRole();
-        List<RoleEntity> roles = new  LinkedList<>();
+        List<RoleEntity> roles = new LinkedList<>();
 
         if (!strRoles.contains("admin")) {
             RoleEntity clientRole = roleRepository.findByName(ERole.ROLE_USER)
@@ -99,7 +93,7 @@ public class ClientService {
         if (client.getRoles() == null & clientDto.getRolesStr() == null || clientDto.getRolesStr() == null) {
             client.setRoles(clientRepository.findById(clientDto.getId()).getRoles());
         } else {
-            List<RoleEntity> roleEntities = new  LinkedList<>();
+            List<RoleEntity> roleEntities = new LinkedList<>();
             for (String role : clientDto.getRolesStr()) {
                 roleEntities.add(roleRepository.findAllByName(ERole.valueOf(role)));
             }
@@ -117,5 +111,12 @@ public class ClientService {
 
     public Iterable<ClientDto> getAll() {
         return ObjectMapperUtils.mapAll(clientRepository.findAll(), ClientDto.class);
+    }
+
+    public void setStatus(long id, boolean b){
+        ClientDto clientDto = getClientDto(id);
+        clientDto.setDeleted(b);
+        updateClient(clientDto);
+        log.info("client's status with id " + clientDto.getId() + " was updated");
     }
 }
