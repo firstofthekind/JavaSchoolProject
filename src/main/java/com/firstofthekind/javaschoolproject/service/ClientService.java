@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -31,24 +32,29 @@ public class ClientService {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Transactional
     public ClientDto getClientDto(long id) {
         ClientEntity client = clientRepository.findById(id);
         return ObjectMapperUtils.map(client, ClientDto.class);
     }
 
+    @Transactional
     public ClientDto getClientDtoByEmail(String email) {
         ClientEntity client = clientRepository.findByEmail(email);
         return ObjectMapperUtils.map(client, ClientDto.class);
     }
 
+    @Transactional
     public ClientEntity getClientByEmail(String email) {
         return clientRepository.findByEmail(email);
     }
 
+    @Transactional
     public ClientEntity getClientEntity(long id) {
         return clientRepository.findById(id);
     }
 
+    @Transactional
     public String registerClient(RegDto regDto) {
         if (clientRepository.existsByEmail(regDto.getEmail())) {
             return "Error: Email is already in use!";
@@ -88,6 +94,7 @@ public class ClientService {
         return "login";
     }
 
+    @Transactional
     public void updateClient(ClientDto clientDto) {
         ClientEntity client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
         if (client.getRoles() == null & clientDto.getRolesStr() == null || clientDto.getRolesStr() == null) {
@@ -103,16 +110,19 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    @Transactional
     public void updateClient(RegDto clientDto) {
         ClientEntity client = clientRepository.findByEmail(clientDto.getEmail());
         client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
         clientRepository.save(client);
     }
 
+    @Transactional
     public Iterable<ClientDto> getAll() {
         return ObjectMapperUtils.mapAll(clientRepository.findAll(), ClientDto.class);
     }
 
+    @Transactional
     public void setStatus(long id, boolean b){
         ClientDto clientDto = getClientDto(id);
         clientDto.setDeleted(b);

@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientDetailsService implements UserDetailsService {
 
-@Autowired
+    @Autowired
     private ClientRepository clientRepository;
 
 

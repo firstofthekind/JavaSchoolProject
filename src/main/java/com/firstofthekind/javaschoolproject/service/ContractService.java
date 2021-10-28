@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.Set;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ContractService {
 
@@ -25,17 +24,20 @@ public class ContractService {
     private final TariffService tariffService;
     private final SupplementService supplementService;
 
+    @Transactional
     public Iterable<ContractDto> getAll() {
         LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
+    @Transactional
     public Iterable<ContractDto> getAllByClientId(long id) {
         LinkedList<ContractEntity> contractEntities = contractRepository
                 .findAllByClientOrderById(clientService.getClientEntity(id));
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
     }
 
+    @Transactional
     public Iterable<ContractDto> getAllByClientEmail(String email) {
         LinkedList<ContractEntity> contractEntities = contractRepository
                 .findAllByClientOrderById(clientService.getClientByEmail(email));
@@ -43,41 +45,49 @@ public class ContractService {
     }
 
 
+    @Transactional
     public ContractDto getById(long id) {
         return ObjectMapperUtils.map(contractRepository
                 .getById(id), ContractDto.class);
     }
 
+    @Transactional
     public ContractEntity getEntityById(long id) {
         return contractRepository.getById(id);
     }
 
+    @Transactional
     public ContractEntity getByNumber(String number) {
         return contractRepository.findByNumber(number);
     }
 
+    @Transactional
     public void blockContractByAdmin(long id, boolean b) {
         ContractEntity contract = contractRepository.getById(id);
         contract.setBlockedByAdmin(b);
         contractRepository.save(contract);
     }
 
+    @Transactional
     public void blockContractByClient(long id, boolean b) {
         ContractEntity contract = contractRepository.getById(id);
         contract.setBlockedByClient(b);
         contractRepository.save(contract);
     }
 
+    @Transactional
     public void editContractNum(ContractDto contractDto) {
         ContractEntity contract = contractRepository.getById(contractDto.getId());
         contract.setNumber(contractDto.getNumber());
         contractRepository.save(contract);
     }
 
+    @Transactional
     public void save(ContractEntity contract) {
         contractRepository.save(contract);
     }
 
+    @Transactional
     public void save(ContractDto contractDto, ClientDto clientDto,
                      TariffDto tariffDto, LinkedList<SupplementDto> supplementDtos) {
         LinkedList<SupplementEntity> supplementSet = new LinkedList<>();
@@ -95,10 +105,12 @@ public class ContractService {
         contractRepository.save(contract);
     }
 
+    @Transactional
     public ContractEntity save(ContractDto contractDto) {
         return contractRepository.save(ObjectMapperUtils.map(contractDto, ContractEntity.class));
     }
 
+    @Transactional
     public void addNewContract(String email,
                                TariffDto tariffDto,
                                LinkedList<SupplementDto> supplementDtos
@@ -109,6 +121,7 @@ public class ContractService {
         save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
     }
 
+    @Transactional
     public void updateContract(String email,
                                TariffDto tariffDto,
                                LinkedList<SupplementDto> supplementDtos,

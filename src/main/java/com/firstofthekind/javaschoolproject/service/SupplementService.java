@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -21,23 +22,28 @@ import java.util.Set;
 public class SupplementService {
     private final SupplementRepository supplementRepository;
 
+    @Transactional
     public Iterable<SupplementDto> getAll() {
         return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
     }
 
+    @Transactional
     public SupplementEntity getOne(long id) {
         return supplementRepository.getById(id);
     }
 
+    @Transactional
     public SupplementDto getById(long id) {
         return ObjectMapperUtils.map(supplementRepository.getById(id), SupplementDto.class);
     }
 
+    @Transactional
     public void save(SupplementDto supplementDto) {
         supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
         log.info("Supplement " + supplementDto.getTitle() + " created.");
     }
 
+    @Transactional
     public void setDeleted(long id, boolean b) {
         SupplementDto supDto = getById(id);
         supDto.setDeleted(b);
