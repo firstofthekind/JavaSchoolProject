@@ -3,6 +3,7 @@ package com.firstofthekind.javaschoolproject.controller;
 
 import com.firstofthekind.javaschoolproject.dto.SupplementDto;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.utils.Merge;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 @Log4j2
 public class SupplementController {
     private final SupplementService supplementService;
+    private final ContractService contractService;
 
 
     @GetMapping("/supplementlist")
@@ -32,6 +34,14 @@ public class SupplementController {
 
     @GetMapping("/supplements/{supplementId}")
     public String showAvailable(ModelMap modelMap) {
+        modelMap.put("supplements", supplementService.getAll());
+        return "supplements";
+    }
+
+    @GetMapping("/supplements/c/{contractId}")
+    public String showContractSupplements( @PathVariable("contractId") long id,
+                                           ModelMap modelMap) {
+        modelMap.put("contract", contractService.getById(id));
         modelMap.put("supplements", supplementService.getAll());
         return "supplements";
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://java.sun.com/jsf/html">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
@@ -32,48 +32,66 @@
         <div class="form-container">
             <div th:if="!${contract.isBlockedByAdmin()}">
                 <div class="clean-pricing-item">
-                    <div class="heading">
-                        <h3>
-                        <a class="text-center" th:text="'Contract No '+${contract.getNumber()}">
-                        Contract № </a>
-                        <a class="btn btn-primary d-block " style="float: right; border-radius: 30px"
-                           sec:authorize="${hasAuthority('ADMIN')}"
-                           th:href="@{/changenumber/{id} (id=${contract.getId()})}">Change number</a></h3>
-                        <div class="text-warning" style="text-align: center"
-                             th:if="${contract.isBlockedByClient()}">blocked by client
-                        </div>
-                </div>
-                <div class="features" ></div>
-                <h4 style="margin-top: 40px"><span class="feature">Tariff:&nbsp;</span><span
-                        th:text="${contract.tariff.title}">No</span>
-                    <a class="btn btn btn-primary d-block " th:href="@{/tariffs/c/{id} (id=${contract.getId()})}"
-                       style="float: right; border-radius: 30px">Change tariff</a></h4>
-                <h4 style="margin-top: 40px"><span class="feature">Price (USD per month):&nbsp;</span>
-                    <span style="float: right"
-                        th:text="${contract.getPrice()}">No</span></h4>
-                <h4 style="margin-top: 40px"><span class="feature">Connection cost (USD):&nbsp;</span><span
-                        th:text="${contract.getConnectionCost()}" style="float: right">30 Days</span></h4>
-                <h4 style="margin-top: 40px"
-                        class="feature">Supplements:&nbsp;
-                    <a class="btn btn btn-primary d-block "
-                       th:href="@{/changesupplements/{id} (id=${contract.getId()})}"
-                       style="float: right; border-radius: 30px">Edit supplements</a>
-                    <h6 th:each="sup : ${contract.getSupplement()}"><a
-                            class="font-monospace text-black-50 feature"
-                            th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
-                    </h6></h4>
-                <button type="submit" class="btn btn-primary d-block " style="width: 100%; border-radius: 30px">save
-                    changes
-                </button>
-            </div>
 
-        </div>
-        <div th:if="${contract.isBlockedByAdmin()}" class="clean-pricing-item">
-            <h3 class="text-center">Contract was blocked by admin</h3>
-            <a class="btn btn-primary d-block" href="/main" style="margin-top: 10px">main page</a>
-            <a class="btn btn-primary d-block" href="/admin" style="margin-top: 10px" sec:authorize="${hasAuthority('ADMIN')}">admin panel</a>
-            <a class="btn btn-primary d-block" style="margin-top: 10px" th:href="@{/contractlist/{id}/undel (id=${contract.getId()})}" sec:authorize="${hasAuthority('ADMIN')}">restore</a>
-        </div>
+                        <div class="heading">
+                            <form th:action="@{/editcontract/n}"
+                                  th:object="${contractDto}" style="padding: 0; width: 100%; float: right ">
+                            <h3>
+                                <a class="text-center" sec:authorize="${hasAuthority('USER')}"
+                                   th:text="'Contract No '+${contract.getNumber()}">
+                                    Contract № </a>
+                                <a class="text-center" sec:authorize="${hasAuthority('ADMIN')}">Contract No
+                                </a>
+
+                                <input type="hidden" name="id" th:value="${contract.getId()}"/>
+                            <input class="text-center" name="number" type="text"
+                                   sec:authorize="${hasAuthority('ADMIN')}"
+                                   th:value="${contract.getNumber()}">
+                            <button sec:authorize="${hasAuthority('ADMIN')}" class="btn btn-primary d-block "
+                                    style="float: right; border-radius: 30px"
+
+                                    type="submit">Change number
+                            </button>
+                            </h3>
+                            </form>
+                            <div class="text-warning" style="text-align: center"
+                                 th:if="${contract.isBlockedByClient()}">blocked by client
+                            </div>
+                        </div>
+                    <div class="features"></div>
+                    <h4 style="margin-top: 40px"><span class="feature">Tariff:&nbsp;</span><span
+                            th:text="${contract.tariff.title}">No</span>
+                        <a class="btn btn btn-primary d-block " th:href="@{/tariffs/c/{id} (id=${contract.getId()})}"
+                           style="float: right; border-radius: 30px">Change tariff</a></h4>
+                    <h4 style="margin-top: 40px"><span class="feature">Price (USD per month):&nbsp;</span>
+                        <span style="float: right"
+                              th:text="${contract.getPrice()}">No</span></h4>
+                    <h4 style="margin-top: 40px"><span class="feature">Connection cost (USD):&nbsp;</span><span
+                            th:text="${contract.getConnectionCost()}" style="float: right">30 Days</span></h4>
+                    <h4 style="margin-top: 40px"
+                        class="feature">Supplements:&nbsp;
+                        <a class="btn btn btn-primary d-block "
+                           th:href="@{/supplements}"
+                           style="float: right; border-radius: 30px">Edit supplements</a>
+                        <h6 th:each="sup : ${contract.getSupplement()}"><a
+                                class="font-monospace text-black-50 feature"
+                                th:text="${sup.getTitle()}">Supplements:&nbsp;</a>
+                        </h6></h4>
+                    <button type="submit" class="btn btn-primary d-block " style="width: 100%; border-radius: 30px">save
+                        changes
+                    </button>
+                </div>
+
+            </div>
+            <div th:if="${contract.isBlockedByAdmin()}" class="clean-pricing-item">
+                <h3 class="text-center">Contract was blocked by admin</h3>
+                <a class="btn btn-primary d-block" href="/main" style="margin-top: 10px">main page</a>
+                <a class="btn btn-primary d-block" href="/admin" style="margin-top: 10px"
+                   sec:authorize="${hasAuthority('ADMIN')}">admin panel</a>
+                <a class="btn btn-primary d-block" style="margin-top: 10px"
+                   th:href="@{/contractlist/{id}/undel (id=${contract.getId()})}"
+                   sec:authorize="${hasAuthority('ADMIN')}">restore</a>
+            </div>
         </div>
 
         </div>

@@ -37,7 +37,7 @@
                         supplements</h2><h2 class="text-center" th:if="${session.contract }!= null"
                         th:text="'For contract with id '+ ${session.contract.getId()}">Selected
                         supplements</h2>
-                    <h2 class="text-center"
+                    <h2 class="text-center" th:if="${session.tariff}!= null"
                         th:text="'Tariff '+ ${session.tariff.getTitle()}">Selected
                         supplements</h2>
                     <div class="clean-pricing-item">

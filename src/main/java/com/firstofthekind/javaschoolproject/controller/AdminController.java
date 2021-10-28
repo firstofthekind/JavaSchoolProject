@@ -95,7 +95,8 @@ public class AdminController {
     @PostMapping("/finduser")
     public String findClientProfile(ModelMap modelMap,
                                     @ModelAttribute("contract") ContractDto contractDto) {
-        return "redirect:" + "/clientprofile/" + contractService.getByNumber(contractDto.getNumber()).getClient().getId();
+        return "redirect:" + "/clientprofile/" +
+                contractService.getByNumber(contractDto.getNumber()).getClient().getId();
     }
 
 }

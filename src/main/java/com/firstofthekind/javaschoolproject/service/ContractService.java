@@ -68,6 +68,12 @@ public class ContractService {
         contractRepository.save(contract);
     }
 
+    public void editContractNum(ContractDto contractDto) {
+        ContractEntity contract = contractRepository.getById(contractDto.getId());
+        contract.setNumber(contractDto.getNumber());
+        contractRepository.save(contract);
+    }
+
     public void save(ContractEntity contract) {
         contractRepository.save(contract);
     }
@@ -96,12 +102,13 @@ public class ContractService {
     public void addNewContract(String email,
                                TariffDto tariffDto,
                                LinkedList<SupplementDto> supplementDtos
-                               ) {
+    ) {
         ContractDto contractDto = new ContractDto();
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
         contractDto.setNumber(Long.toString(num));
         save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
     }
+
     public void updateContract(String email,
                                TariffDto tariffDto,
                                LinkedList<SupplementDto> supplementDtos,
