@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @RequiredArgsConstructor
-public class SupplementEntity extends AbstractEntity{
+public class SupplementEntity extends AbstractEntity {
 
     @NotBlank
     private String title;
@@ -40,4 +40,49 @@ public class SupplementEntity extends AbstractEntity{
     )
     private Set<SupplementEntity> codependents = new HashSet<>();
 
+    public void addIncompatible(SupplementEntity sup) {
+        incompatible.add(sup);
+    }
+
+    public void deleteIncompatible(SupplementEntity sup) {
+        incompatible.removeIf(option1 -> option1.getId() == sup.getId());
+    }
+
+    public void addCodependent(SupplementEntity sup) {
+        codependents.add(sup);
+    }
+
+    public void deleteCodependent(SupplementEntity sup) {
+        codependents.removeIf(o -> o.getId() == sup.getId());
+    }
+
+    public boolean isCompatibleWith(Set<SupplementEntity> added) {
+        if (this.incompatible.isEmpty()) {
+            return true;
+        }
+        for (SupplementEntity sup :
+                added) {
+            if (sup.getIncompatible()
+                    .stream()
+                    .anyMatch(o -> o.getId() == this.getId())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isDependentFrom(Set<SupplementEntity> added) {
+        if (this.codependents.isEmpty()) {
+            return true;
+        }
+        for (SupplementEntity sup:
+                this.getCodependents()) {
+            if (added
+                    .stream()
+                    .noneMatch(o -> o.getId() == sup.getId())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
