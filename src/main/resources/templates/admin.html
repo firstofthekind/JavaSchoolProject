@@ -46,10 +46,17 @@
                         th:method="post" th:object="${contract}" style="width: 30%; padding: 10px">
                             <div class="heading"><h3>Find by contract number</h3></div>
                             <p>Here you can find client by contract number<br></p>
-                            <div><input class="form-control" type="text" name="number"
+
+                            <div style="margin-bottom: 16px"><input class="form-control" type="text" name="number"
                                    placeholder="Enter contract number" /></div>
+                            <div>
+                                <div th:if="${param.notfound}">
+                                    <div class="alert alert-danger" style="border-radius: 20px; padding: 5px; text-align: center">
+                                        Invalid contract number.
+                                    </div>
+                                </div>
                             <button class="btn btn-primary d-block"
-                               type="submit" style="width: 100%">find</button></form>
+                               type="submit" style="width: 100%">find</button></div></form>
                     </div>
                     <div class="col-md-5 col-lg-4" style="padding: 3px">
                         <form class="clean-pricing-item" style="width: 30%; padding: 10px">

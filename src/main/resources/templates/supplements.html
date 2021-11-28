@@ -69,7 +69,7 @@
                 <div class="col"><h2 class="text-center">Available supplements</h2>
                     <div class="row justify-content-center">
                         <div class="col-md-5 col-lg-4" th:each="tariff : ${supplements}"
-                             th:if="!${session.selected.contains(tariff)} and !${tariff.isDeleted()}">
+                             th:if="!${session.selected.contains(tariff)} and !${tariff.isDeleted()} and !${incompatible.contains(tariff)}">
                             <form class="clean-pricing-item"
                                   th:action="@{/supplements/select/{id} (id=${tariff.getId()})}">
                                 <div class="heading"><h3 class="text-center" th:text="${tariff.title}">Supplement

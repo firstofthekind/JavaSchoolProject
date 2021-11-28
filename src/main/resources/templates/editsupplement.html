@@ -30,64 +30,65 @@
 <main class="page landing-page">
     <section class="register-photo">
         <div class="form-container">
-            <form method="post" th:object="${editSupplementDto}" th:action="@{/editsupplement/{id} (id=${supplement.getId()})}">
+            <form method="post" th:object="${editSupplementDto}"
+                  th:action="@{/editsupplement/{id} (id=${supplement.getId()})}">
                 <h2
                         class="text-center"><h2
-                        class="text-center"><strong>Edit</strong>&nbsp;supplement.</h2>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-6"><small>Current title</small></div>
-                            <div class="col-md-6"><small>New title</small></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><p th:text="${supplement.getTitle()}">Here's curr title</p></div>
-                            <div class="col"><input class="form-control" type="text" name="title"
-                                                    placeholder="Enter new supplement title" th:value="
+                        class="text-center"><strong>Edit</strong>&nbsp;supplement.</h2></h2>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6"><small>Current title</small></div>
+                        <div class="col-md-6"><small>New title</small></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><p th:text="${supplement.getTitle()}">Here's curr title</p></div>
+                        <div class="col"><input class="form-control" type="text" name="title"
+                                                placeholder="Enter new supplement title" th:value="
                                                     ${supplement.getTitle()}"></div>
-                        </div>
-                        <input type="hidden" name="id" th:value="${supplement.getId()}"/>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><small>Current price (USD per month)</small></div>
-                            <div class="col"><small>New price (USD per month)</small></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><p th:text="${supplement.getPrice()}">Here's curr price</p></div>
-                            <div class="col"><input class="form-control" type="text" name="price"
-                                                    placeholder="Enter new supplement price"
-                                                    th:value="${supplement.getPrice()}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><small>Current connection cost (USD)</small></div>
-                            <div class="col"><small>New connection cost (USD)</small></div>
-                        </div>
-                        <div class="row">
-                            <div class="col"><p th:text="${supplement.getConnectionCost()}">Here's curr connection
-                                cost</p>
-                            </div>
-                            <div class="col"><input class="form-control" type="text" name="connectionCost"
-                                                    placeholder="Enter new supplement connection cost"
-                                                    th:value="${supplement.getConnectionCost()}"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="mb-3"></div>
-                            </div>
+                    </div>
+                    <input type="hidden" name="id" th:value="${supplement.getId()}"/>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3"></div>
                         </div>
                     </div>
-                    <div class="mb-3"></div>
-                    <div class="mb-3">
-                        <button class="btn btn-primary d-block w-100" type="submit">Apply</button>
+                    <div class="row">
+                        <div class="col"><small>Current price (USD per month)</small></div>
+                        <div class="col"><small>New price (USD per month)</small></div>
                     </div>
+                    <div class="row">
+                        <div class="col"><p th:text="${supplement.getPrice()}">Here's curr price</p></div>
+                        <div class="col"><input class="form-control" type="text" name="price"
+                                                placeholder="Enter new supplement price"
+                                                th:value="${supplement.getPrice()}"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><small>Current connection cost (USD)</small></div>
+                        <div class="col"><small>New connection cost (USD)</small></div>
+                    </div>
+                    <div class="row">
+                        <div class="col"><p th:text="${supplement.getConnectionCost()}">Here's curr connection
+                            cost</p>
+                        </div>
+                        <div class="col"><input class="form-control" type="text" name="connectionCost"
+                                                placeholder="Enter new supplement connection cost"
+                                                th:value="${supplement.getConnectionCost()}"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3"></div>
+                <div class="mb-3">
+                    <button class="btn btn-primary d-block w-100" type="submit">Apply</button>
+                </div>
             </form>
         </div>
     </section>

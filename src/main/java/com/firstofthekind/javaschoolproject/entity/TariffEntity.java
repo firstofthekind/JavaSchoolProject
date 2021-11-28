@@ -29,7 +29,7 @@ public class TariffEntity extends AbstractEntity {
             joinColumns = @JoinColumn(name = "tariff_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id")
     )
-    private LinkedList<SupplementEntity> supplement = new LinkedList<>();
+    private List<SupplementEntity> supplement = new LinkedList<>();
 
     public void addOption(SupplementEntity o) {
         supplement.add(o);

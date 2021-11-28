@@ -15,8 +15,8 @@ public class SupplementDto {
     private String title;
     private double price;
     private double connectionCost;
-    private Set<SupplementDto> incompatible;
-    private Set<SupplementDto> codependents;
+    private Set<SupplementEntity> incompatible;
+    private Set<SupplementEntity> codependents;
     private boolean isDeleted;
 
 

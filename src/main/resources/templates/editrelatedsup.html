@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Javaschool</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
+    <link rel="stylesheet" href="/static/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/fonts/simple-line-icons.min.css">
+    <link rel="stylesheet" href="/static/css/Footer-Basic.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css">
+    <link rel="stylesheet" href="/static/css/Navigation-with-Button.css">
+    <link rel="stylesheet" href="/static/css/Registration-Form-with-Photo.css">
+    <link rel="stylesheet" href="/static/css/Soft-ui-Navbar.css">
+    <link rel="stylesheet" href="/static/css/vanilla-zoom.min.css">
+    <link rel="stylesheet" href="/static/css/Light-Contact-List.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---3-Profile.css">
+    <link rel="stylesheet" href="/static/css/Ludens-Users---4-Edit-Profile.css">
+    <link rel="stylesheet" href="/static/css/Manage-Users.css">
+</head>
+
+<body>
+
+<div th:replace="/fragments/navbar :: navbar">
+</div>
+<main class="page landing-page">
+    <section class="register-photo">
+        <div class="container" style="max-width: 1200px">
+            <h2
+                    class="text-center"
+                    th:utext="'&lt;strong&gt; Edit &lt;/strong&gt; related to &lt;strong&gt;'+${supplement.getTitle()}+'&lt;/strong&gt; supplements.'">
+                <strong>Edit</strong> related supplements for.</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col features"><h3 class="heading features">Current Codependent</h3></div>
+                    <div class="col features"><h3 class="heading features">New Codependent</h3></div>
+                </div>
+                <div class="row">
+                    <div class="col clean-pricing-item">
+                        <div class="row" th:each="cod : ${codependent}">
+                            <form   th:action="@{{supid}/dep/{relsupid} (relsupid=${cod.getId()}, supid=${supplement.getId()})}"
+                                    th:method="get" class="col clean-pricing-item" style="padding: 6px">
+                                <div class="row">
+                                    <div class="col">
+                                        <a th:text="${cod.getTitle()}"></a>
+                                        <button class="btn btn-outline-info" style="border-radius: 30px; float: right"
+                                                type="submit">X
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col clean-pricing-item">
+                        <div class="row" th:each="com : ${available}">
+                            <form   th:action="@{{supid}/dep/{relsupid} (relsupid=${com.getId()}, supid=${supplement.getId()})}"
+                                    th:method="post" class="col clean-pricing-item" style="padding: 6px">
+                                <div class="row">
+                                    <div class="col">
+                                        <a th:text="${com.getTitle()}"></a>
+                                        <button class="btn btn-outline-info" style="border-radius: 30px; float: right"
+                                                type="submit">V
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col features"><h3 class="heading features">Current Incompatible</h3></div>
+                    <div class="col features"><h3 class="heading features">New Incompatible</h3></div>
+                </div>
+                <div class="row">
+                    <div class="col clean-pricing-item">
+                        <div class="row" th:each="inc : ${incompatible}">
+                            <form   th:action="@{{supid}/inc/{relsupid} (relsupid=${inc.getId()}, supid=${supplement.getId()})}"
+                                    th:method="get" class="col clean-pricing-item" style="padding: 6px">
+                                <div class="row">
+                                    <div class="col">
+                                        <a th:text="${inc.getTitle()}"></a>
+                                        <button class="btn btn-outline-info" style="border-radius: 30px; float: right"
+                                                type="submit">X
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col clean-pricing-item">
+                        <div class="row" th:each="ava : ${available}">
+                            <form   th:action="@{{supid}/inc/{relsupid} (relsupid=${ava.getId()}, supid=${supplement.getId()})}"
+                                    th:method="post" class="col clean-pricing-item" style="padding: 6px">
+                                <div class="row">
+                                    <div class="col">
+                                        <a th:text="${ava.getTitle()}"></a>
+                                        <button class="btn btn-outline-info" style="border-radius: 30px; float: right"
+                                                type="submit">V
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <a class="btn btn-primary d-block w-100" href="/supplementlist">Back</a>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="mb-3"></div>
+        </form>
+        </div>
+    </section>
+    <footer class="footer-basic">
+        <div class="social"><a href="http://instagram.com/firstofthekind"><img
+                src="/static/img/small-logos/instagram.png" width="40" style="margin: 0px 12px 0px 0px;"
+                href="instagram.com/firstofthekind"></a><a href="http://vk.com/firstofthekind"><img
+                src="/static/img/small-logos/vk-social-logotype.png" width="40" style="margin: 0px 12px 0px 0px;"
+                href="vk.com/firstofthekind" link="vk.com/firstofthekind"></a><a
+                href="http://github.com/firstofthekind"><img src="/static/img/small-logos/github.png" width="40"
+                                                             style="margin: 0px 12px 0px 0px;"
+                                                             href="github.com/firstofthekind"></a></div>
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="#">Home</a></li>
+            <li class="list-inline-item"><a href="#">Services</a></li>
+            <li class="list-inline-item"><a href="#">About</a></li>
+            <li class="list-inline-item"><a href="#">Terms</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+        </ul>
+        <p class="copyright">Viacheslav Liashenko © 2021</p></footer>
+</main>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+<script src="/static/js/vanilla-zoom.js"></script>
+<script src="/static/js/theme.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,10 +1,7 @@
 package com.firstofthekind.javaschoolproject.service;
 
 
-import com.firstofthekind.javaschoolproject.dto.ClientDto;
-import com.firstofthekind.javaschoolproject.dto.ContractDto;
-import com.firstofthekind.javaschoolproject.dto.SupplementDto;
-import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.dto.*;
 import com.firstofthekind.javaschoolproject.entity.*;
 import com.firstofthekind.javaschoolproject.repository.ContractRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
@@ -89,9 +86,9 @@ public class ContractService {
 
     @Transactional
     public void save(ContractDto contractDto, ClientDto clientDto,
-                     TariffDto tariffDto, LinkedList<SupplementDto> supplementDtos) {
+                     TariffDto tariffDto, LinkedList<SupplementSelectDto> supplementDtos) {
         LinkedList<SupplementEntity> supplementSet = new LinkedList<>();
-        for (SupplementDto sup : supplementDtos) {
+        for (SupplementSelectDto sup : supplementDtos) {
             supplementSet.add(supplementService.getOne(sup.getId()));
         }
         ClientEntity client = clientService.getClientByEmail(clientDto.getEmail());
@@ -113,7 +110,7 @@ public class ContractService {
     @Transactional
     public void addNewContract(String email,
                                TariffDto tariffDto,
-                               LinkedList<SupplementDto> supplementDtos
+                               LinkedList<SupplementSelectDto> supplementDtos
     ) {
         ContractDto contractDto = new ContractDto();
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
@@ -124,7 +121,7 @@ public class ContractService {
     @Transactional
     public void updateContract(String email,
                                TariffDto tariffDto,
-                               LinkedList<SupplementDto> supplementDtos,
+                               LinkedList<SupplementSelectDto> supplementDtos,
                                long id) {
         ContractDto contractDto = new ContractDto();
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));

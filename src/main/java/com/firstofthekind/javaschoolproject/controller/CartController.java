@@ -1,13 +1,11 @@
 package com.firstofthekind.javaschoolproject.controller;
 
-import com.firstofthekind.javaschoolproject.dto.ClientDto;
-import com.firstofthekind.javaschoolproject.dto.ContractDto;
-import com.firstofthekind.javaschoolproject.dto.SupplementDto;
-import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.dto.*;
 import com.firstofthekind.javaschoolproject.service.ClientService;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
+import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,9 +37,11 @@ public class CartController {
     }
 
     @GetMapping("/tariffs/select/{tariffId}")
-    public String addTariff(@PathVariable long tariffId, ModelMap map, HttpSession session) {
+    public String addTariff(@PathVariable long tariffId, ModelMap modelMap, HttpSession session) {
         log.info("tariff prowel");
         session.setAttribute("tariff", tariffService.getById(tariffId));
+        session.removeAttribute("selected");
+        modelMap.remove("selected");
         return "redirect:/supplements";
     }
 
@@ -51,10 +51,11 @@ public class CartController {
             log.info("u should add tariff first");
             return "redirect:" + "/tariffs";
         } else if (session.getAttribute("selected") == null) {
-            List<SupplementDto> supplements = new LinkedList<>();
+            List<SupplementSelectDto> supplements = new LinkedList<>();
             session.setAttribute("selected", supplements);
         }
-        modelMap.put("supplements", supplementService.getAll());
+        modelMap.put("supplements", supplementService.getAllSelect());
+        modelMap.put("incompatible", supplementService.getIncompatibleForAll((LinkedList<SupplementSelectDto>) session.getAttribute("selected")));
         return "supplements";
     }
 
@@ -65,13 +66,15 @@ public class CartController {
         if (session.getAttribute("tariff") == null) {
             log.info("u should add tariff first");
         } else if (session.getAttribute("selected") == null) {
-            List<SupplementDto> supplements = new LinkedList<>();
-            supplements.add(supplementService.getById(supplementId));
+            List<SupplementSelectDto> supplements = new LinkedList<>();
+            supplements.add(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
+            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
         } else {
-            List<SupplementDto> supplements = (LinkedList<SupplementDto>) session.getAttribute("selected");
-            supplements.add(supplementService.getById(supplementId));
+            List<SupplementSelectDto> supplements = (LinkedList<SupplementSelectDto>) session.getAttribute("selected");
+            supplements.add(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
+            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
         }
@@ -83,7 +86,7 @@ public class CartController {
 
         contractService.addNewContract(getEmail(session),
                 (TariffDto) session.getAttribute("tariff"),
-                (LinkedList<SupplementDto>) session.getAttribute("selected"));
+                (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
         return "redirect:" + "/profile";
     }
 /*
@@ -99,13 +102,19 @@ public class CartController {
 
     @GetMapping("/supplements/delete/{supplementId}")
     public String delSupplement(@PathVariable long supplementId,
-                                ModelMap map, HttpSession session) {
-        List<SupplementDto> supplements = (LinkedList<SupplementDto>) session.getAttribute("selected");
+                                ModelMap modelMap, HttpSession session) {
+        List<SupplementSelectDto> supplements = (LinkedList<SupplementSelectDto>) session.getAttribute("selected");
         if (supplements != null) {
-            supplements.remove(supplementService.getById(supplementId));
+            supplements.remove(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
+            supplements.removeAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
+
             session.setAttribute("selected", supplements);
+            modelMap.replace("selected", supplements);
+            System.out.println(supplements);
+            System.out.println(supplementService.getById(supplementId));
         } else {
             session.removeAttribute("selected");
+            modelMap.remove("selected");
         }
         log.info("supplement udalen");
         return "redirect:" + "/supplements";

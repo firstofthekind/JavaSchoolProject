@@ -13,4 +13,5 @@ public class TariffDto {
     private double connectionCost;
     private Set<SupplementDto> supplementDtoSet;
     private boolean isDeleted;
+    private long count;
 }
