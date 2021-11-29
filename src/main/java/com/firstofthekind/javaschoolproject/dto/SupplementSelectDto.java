@@ -1,18 +1,19 @@
 package com.firstofthekind.javaschoolproject.dto;
 
 
+import com.firstofthekind.javaschoolproject.entity.SupplementEntity;
 import lombok.Data;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class TariffDto {
+public class SupplementSelectDto {
     private long id;
     private String title;
     private double price;
     private double connectionCost;
-    private List<SupplementDto> supplementDtoSet;
     private boolean isDeleted;
-    private long count;
+
+
 }

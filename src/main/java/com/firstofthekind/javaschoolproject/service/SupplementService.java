@@ -3,11 +3,13 @@ package com.firstofthekind.javaschoolproject.service;
 
 import com.firstofthekind.javaschoolproject.dto.SupplementDto;
 import com.firstofthekind.javaschoolproject.dto.SupplementSelectDto;
+import com.firstofthekind.javaschoolproject.entity.AbstractEntity;
 import com.firstofthekind.javaschoolproject.entity.SupplementEntity;
 import com.firstofthekind.javaschoolproject.entity.TariffEntity;
 import com.firstofthekind.javaschoolproject.exception.CodependentSupplementException;
 import com.firstofthekind.javaschoolproject.exception.IncompatibleSupplementException;
 import com.firstofthekind.javaschoolproject.repository.SupplementRepository;
+import com.firstofthekind.javaschoolproject.repository.TariffRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -25,6 +27,7 @@ import java.util.Set;
 @Log4j2
 public class SupplementService {
     private final SupplementRepository supplementRepository;
+    private final TariffRepository tariffRepository;
 
     @Transactional
     public Iterable<SupplementDto> getAll() {
@@ -32,8 +35,8 @@ public class SupplementService {
     }
 
     @Transactional
-    public LinkedList<SupplementSelectDto> getAllSelect() {
-        return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementSelectDto.class);
+    public LinkedList<SupplementSelectDto> getAllSelect(long tariffid) {
+        return ObjectMapperUtils.mapAll(getAllAvailableToTariff(tariffid), SupplementSelectDto.class);
     }
 
     @Transactional
@@ -65,15 +68,6 @@ public class SupplementService {
         supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
     }
 
-    @Transactional
-    public LinkedList<SupplementDto> getAllAvailableToTariff(TariffEntity tariff) {
-        List<SupplementEntity> tariffSupplements = tariff.getSupplement();
-        LinkedList<SupplementEntity> allSupplements = supplementRepository.findAll();
-        for (SupplementEntity supplement : tariffSupplements) {
-            allSupplements.removeIf(s -> s.getId() == supplement.getId());
-        }
-        return ObjectMapperUtils.mapAll(allSupplements, SupplementDto.class);
-    }
 
     @Transactional
     public void addIncompatible(long firstSupId,
@@ -207,4 +201,25 @@ public class SupplementService {
         return independent;
     }
 
+    @Transactional
+    public LinkedList<SupplementDto> getAllAvailableToTariff(long id) {
+        TariffEntity tariff = tariffRepository.getById(id);
+        List<SupplementEntity> tariffSupplements = tariff.getSupplement();
+        LinkedList<SupplementEntity> allSupplements = supplementRepository.findAll();
+        for (SupplementEntity supplement : tariffSupplements) {
+            allSupplements.removeIf(s -> s.getId() == supplement.getId());
+        }
+        return ObjectMapperUtils.mapAll(allSupplements, SupplementDto.class);
+    }
+
+    @Transactional
+    public LinkedList<SupplementDto> getTariffSupplements(long id) {
+        TariffEntity tariff = tariffRepository.getById(id);
+        return ObjectMapperUtils.mapAll(tariff.getSupplement(), SupplementDto.class);
+    }
+    @Transactional
+    public LinkedList<SupplementSelectDto> getTariffSelectSupplements(long id) {
+        TariffEntity tariff = tariffRepository.getById(id);
+        return ObjectMapperUtils.mapAll(tariff.getSupplement(), SupplementSelectDto.class);
+    }
 }

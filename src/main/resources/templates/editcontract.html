@@ -71,7 +71,7 @@
                     <h4 style="margin-top: 40px"
                         class="feature">Supplements:&nbsp;
                         <a class="btn btn btn-primary d-block "
-                           th:href="@{/supplements}"
+                           th:href="@{/supplements/c/{id} (id=${contract.getId()})}"
                            style="float: right; border-radius: 30px">Edit supplements</a>
                         <h6 th:each="sup : ${contract.getSupplement()}"><a
                                 class="font-monospace text-black-50 feature"

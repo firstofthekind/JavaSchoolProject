@@ -2,6 +2,7 @@ package com.firstofthekind.javaschoolproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.dto.TariffJsonDto;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.MessageSender;
 import com.firstofthekind.javaschoolproject.service.TariffService;
@@ -27,7 +28,7 @@ public class HotTariffController {
 
     @GetMapping(value = "/hottariff", produces = { "application/json;**charset=UTF-8**" })
     public String sendTariffs() throws JsonProcessingException {
-        List<TariffDto> tariffDtos = service.getTariffsWithCount();
+        List<TariffJsonDto> tariffDtos = service.getTariffsWithCount();
         messageSender.sendMessage(tariffDtos);
         return messageSender.convertToJson(tariffDtos);
     }

@@ -1,9 +1,12 @@
 package com.firstofthekind.javaschoolproject.controller;
 
 
+import com.firstofthekind.javaschoolproject.dto.SupplementDto;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.exception.IncompatibleSupplementException;
 import com.firstofthekind.javaschoolproject.service.ClientService;
 import com.firstofthekind.javaschoolproject.service.ContractService;
+import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
 import com.firstofthekind.javaschoolproject.utils.Merge;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +27,12 @@ public class TariffController {
     private final TariffService tariffService;
     private final ContractService contractService;
     private final ClientService clientService;
+    private final SupplementService supplementService;
 
     @GetMapping("/tariffs")
-    public String showTariff(ModelMap modelMap) {
+    public String showTariff(ModelMap modelMap, HttpSession session) {
+        session.removeAttribute("contract");
+        session.removeAttribute("tariff");
         modelMap.put("tariffs", tariffService.getAll());
         return "tariffs";
     }
@@ -110,5 +116,37 @@ public class TariffController {
     public String showAllTariffs(ModelMap modelMap) {
         modelMap.put("tariffs", tariffService.getAll());
         return "tarifflist";
+    }
+
+    //Tariff' supplements editor
+
+    @GetMapping("/edittariffsup/{tariffid}")
+    public String showEditRelatedSupplement(@PathVariable("tariffid") long id, ModelMap modelMap) {
+        SupplementDto supDto = supplementService.getById(id);
+        TariffDto tariffDto = tariffService.getById(id);
+        modelMap.put("tariff", tariffDto);
+        modelMap.put("available", supplementService.getAllAvailableToTariff(id));
+        modelMap.put("current", supplementService.getTariffSupplements(id));
+        return "edittariffsup";
+    }
+
+    @PostMapping("/edittariffsup/{tariffid}/dep/{supid}")
+    public String addDependent(@PathVariable("tariffid") long id,
+                               @PathVariable("supid") long relId,
+                               @ModelAttribute("editSupplementDto") SupplementDto editsupplementDto,
+                               ModelMap modelMap) throws InvocationTargetException, IllegalAccessException, InstantiationException, IncompatibleSupplementException {
+        tariffService.addSupplement(id, relId);
+        log.info("supplement with id " + editsupplementDto.getId() + " was updated");
+        return "redirect:" + "/edittariffsup/" + id;
+    }
+
+    @GetMapping("/edittariffsup/{tariffid}/dep/{supid}")
+    public String delDependent(@PathVariable("tariffid") long id,
+                               @PathVariable("supid") long relId,
+                               @ModelAttribute("editSupplementDto") SupplementDto editsupplementDto,
+                               ModelMap modelMap) throws InvocationTargetException, IllegalAccessException, InstantiationException, IncompatibleSupplementException {
+        tariffService.delSupplement(id, relId);
+        log.info("tariff with id " + editsupplementDto.getId() + " was updated");
+        return "redirect:" + "/edittariffsup/" + id;
     }
 }

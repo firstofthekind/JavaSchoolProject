@@ -2,20 +2,25 @@ package com.firstofthekind.javaschoolproject.controller;
 
 
 import com.firstofthekind.javaschoolproject.dto.SupplementDto;
+import com.firstofthekind.javaschoolproject.dto.SupplementSelectDto;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
 import com.firstofthekind.javaschoolproject.exception.CodependentSupplementException;
 import com.firstofthekind.javaschoolproject.exception.IncompatibleSupplementException;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.SupplementService;
+import com.firstofthekind.javaschoolproject.service.TariffService;
 import com.firstofthekind.javaschoolproject.utils.Merge;
+import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
+import java.util.LinkedList;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 public class SupplementController {
     private final SupplementService supplementService;
     private final ContractService contractService;
+    private final TariffService tariffService;
 
 
     @GetMapping("/supplementlist")
@@ -32,17 +38,20 @@ public class SupplementController {
     }
 
     @GetMapping("/supplements/{supplementId}")
-    public String showAvailable(ModelMap modelMap) {
-        modelMap.put("supplements", supplementService.getAll());
+    public String showAvailable(ModelMap modelMap, HttpSession session) {
+        TariffDto tariffDto = ObjectMapperUtils.map(session.getAttribute("tariff"), TariffDto.class);
+        modelMap.put("supplements", supplementService.getAllSelect(tariffDto.getId()));
         return "supplements";
     }
 
     @GetMapping("/supplements/c/{contractId}")
     public String showContractSupplements(@PathVariable("contractId") long id,
-                                          ModelMap modelMap) {
-        modelMap.put("contract", contractService.getById(id));
-        modelMap.put("supplements", supplementService.getAll());
-        return "supplements";
+                                          ModelMap modelMap, HttpSession session) {
+        session.removeAttribute("selected");
+        modelMap.remove("selected");
+        session.setAttribute("tariff", tariffService.getById(contractService.getById(id).getTariff().getId()));
+        session.setAttribute("contract", contractService.getById(id));
+        return "redirect:/supplements";
     }
 
     @GetMapping("/supplementlist/{supplementid}/del")
@@ -84,7 +93,7 @@ public class SupplementController {
         modelMap.put("incompatible", supplementService.getIncompatible(id));
         modelMap.put("codependent", supplementService.getDependentSupplements(id));
         modelMap.put("available", supplementService.getAvailableSupplements(id));
-        return "/editrelatedsup";
+        return "editrelatedsup";
     }
 
     @PostMapping("/editrelatedsup/{supid}/dep/{relsupid}")

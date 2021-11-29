@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -20,6 +21,7 @@ public class ContractService {
     private final ClientService clientService;
     private final TariffService tariffService;
     private final SupplementService supplementService;
+    public final MessageSender messageSender;
 
     @Transactional
     public Iterable<ContractDto> getAll() {
@@ -82,6 +84,32 @@ public class ContractService {
     @Transactional
     public void save(ContractEntity contract) {
         contractRepository.save(contract);
+
+        List<TariffJsonDto> tariffDtos = tariffService.getTariffsWithCount();
+        messageSender.sendMessage(tariffDtos);
+    }
+
+    @Transactional
+    public void save(ContractDto contractDto, TariffDto tariffDto,
+                     LinkedList<SupplementSelectDto> supplementDtos) {
+        ContractEntity entity = contractRepository.getById(contractDto.getId());
+        LinkedList<SupplementEntity> supplementSet = new LinkedList<>();
+        for (SupplementSelectDto sup : supplementDtos) {
+            supplementSet.add(supplementService.getOne(sup.getId()));
+        }
+        entity.setTariff(tariffService.getOne(tariffDto.getId()));
+        TariffEntity tariffEntity = tariffService.getOne(tariffDto.getId());
+        double connection = supplementSet.stream().
+                mapToDouble(SupplementEntity::getConnectionCost).sum() + tariffEntity.getConnectionCost();
+        double price = supplementSet.stream().
+                mapToDouble(SupplementEntity::getPrice).sum() + tariffEntity.getPrice();
+        entity.setConnectionCost(connection);
+        entity.setPrice(price);
+        entity.setSupplement(supplementSet);
+        contractRepository.save(entity);
+
+        List<TariffJsonDto> tariffDtos = tariffService.getTariffsWithCount();
+        messageSender.sendMessage(tariffDtos);
     }
 
     @Transactional
@@ -100,11 +128,9 @@ public class ContractService {
         ContractEntity contract = new ContractEntity(contractDto.getNumber(), price,
                 connection, client, tariffEntity, supplementSet);
         contractRepository.save(contract);
-    }
 
-    @Transactional
-    public ContractEntity save(ContractDto contractDto) {
-        return contractRepository.save(ObjectMapperUtils.map(contractDto, ContractEntity.class));
+        List<TariffJsonDto> tariffDtos = tariffService.getTariffsWithCount();
+        messageSender.sendMessage(tariffDtos);
     }
 
     @Transactional
@@ -116,17 +142,7 @@ public class ContractService {
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
         contractDto.setNumber(Long.toString(num));
         save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
-    }
 
-    @Transactional
-    public void updateContract(String email,
-                               TariffDto tariffDto,
-                               LinkedList<SupplementSelectDto> supplementDtos,
-                               long id) {
-        ContractDto contractDto = new ContractDto();
-        long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
-        contractDto.setNumber(Long.toString(num));
-        save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
     }
 
 }

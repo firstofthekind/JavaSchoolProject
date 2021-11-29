@@ -49,6 +49,7 @@
                                     <th scope="col" class="border-0 text-uppercase font-medium">Title</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Connection cost</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Price</th>
+                                    <th scope="col" class="border-0 text-uppercase font-medium">Available Supps</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Deleted</th>
                                     <th scope="col" class="border-0 text-uppercase font-medium">Manage</th>
                                 </tr>
@@ -70,10 +71,25 @@
 
                                     </td>
                                     <td>
+                                        <details>
+                                            <summary><span class="feature">Available supplements:&nbsp;</span>
+                                            </summary>
+                                       <span class="text-muted" th:each="inc : *{sup.getSupplementDtoSet()}">
+
+                                            <a th:text="*{inc.getTitle()}"></a><br>
+                                        </span><br>
+                                        </details>
+                                    </td>
+                                    <td>
                                         <span class="text-muted" th:text="*{sup.isDeleted()}+' '">price</span>
 
                                     </td>
                                     <td>
+                                        <a th:href="@{/edittariffsup/{id} (id=${sup.getId()})}">
+                                            <button type="button"
+                                                    class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i
+                                                    class="fa fa-chain"></i></button>
+                                        </a>
                                         <a th:href="@{/edittariff/{id} (id=${sup.getId()})}">
                                             <button type="button"
                                                     class="btn btn-outline-info btn-circle btn-lg btn-circle ml-2"><i

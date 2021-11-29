@@ -54,7 +54,8 @@ public class CartController {
             List<SupplementSelectDto> supplements = new LinkedList<>();
             session.setAttribute("selected", supplements);
         }
-        modelMap.put("supplements", supplementService.getAllSelect());
+        TariffDto tariffDto = ObjectMapperUtils.map(session.getAttribute("tariff"), TariffDto.class);
+        modelMap.put("supplements", supplementService.getTariffSelectSupplements(tariffDto.getId()));
         modelMap.put("incompatible", supplementService.getIncompatibleForAll((LinkedList<SupplementSelectDto>) session.getAttribute("selected")));
         return "supplements";
     }
@@ -83,21 +84,17 @@ public class CartController {
 
     @PostMapping("/addnewcontract")
     public String addNewContract(ModelMap map, HttpSession session) {
-
-        contractService.addNewContract(getEmail(session),
-                (TariffDto) session.getAttribute("tariff"),
-                (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
+if (session.getAttribute("contract") == null){
+    contractService.addNewContract(getEmail(session),
+            (TariffDto) session.getAttribute("tariff"),
+            (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
+}else {
+    contractService.save((ContractDto) session.getAttribute("contract"),
+            (TariffDto) session.getAttribute("tariff"),
+        (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
+}
         return "redirect:" + "/profile";
     }
-/*
-    @PostMapping("/updatecontract")
-    public String updateContract(ModelMap map, HttpSession session) {
-
-        contractService.updateContract(getEmail(session),
-                (TariffDto) session.getAttribute("tariff"),
-                (LinkedList<SupplementDto>) session.getAttribute("selected"));
-        return "redirect:" + "/profile";
-    }*/
 
 
     @GetMapping("/supplements/delete/{supplementId}")
@@ -110,8 +107,6 @@ public class CartController {
 
             session.setAttribute("selected", supplements);
             modelMap.replace("selected", supplements);
-            System.out.println(supplements);
-            System.out.println(supplementService.getById(supplementId));
         } else {
             session.removeAttribute("selected");
             modelMap.remove("selected");

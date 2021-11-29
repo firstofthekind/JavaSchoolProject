@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.dto.TariffJsonDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ import java.util.List;
 public class MessageSender {
     private final ActiveMQConnectionFactory connectionFactory;
 
-    public void sendMessage(List<TariffDto> standDto) {
+    public void sendMessage(List<TariffJsonDto> standDto) {
         try {
             Connection connection = connectionFactory.createQueueConnection();
             connection.start();
@@ -45,7 +46,7 @@ public class MessageSender {
             log.error("Error sending message", e);
         }
     }
-    public String convertToJson(List<TariffDto> dto) throws JsonProcessingException {
+    public String convertToJson(List<TariffJsonDto> dto) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper.writeValueAsString(dto);
