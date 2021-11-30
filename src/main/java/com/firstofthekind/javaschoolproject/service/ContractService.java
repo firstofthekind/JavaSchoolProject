@@ -6,6 +6,7 @@ import com.firstofthekind.javaschoolproject.entity.*;
 import com.firstofthekind.javaschoolproject.repository.ContractRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,6 +16,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class ContractService {
 
     private final ContractRepository contractRepository;
@@ -135,10 +137,22 @@ public class ContractService {
     }
 
     @Transactional
+    public Iterable<ContractEntity> getAllEntetiesByClientId(long id) {
+        return contractRepository
+                .getAllByClientId(id);
+    }
+
+    @Transactional
     public Iterable<ContractDto> getAllByClientEmail(String email) {
         LinkedList<ContractEntity> contractEntities = contractRepository
                 .findAllByClientOrderById(clientService.getClientByEmail(email));
         return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
+    }
+
+    @Transactional
+    public Iterable<ContractEntity> getAllEntetiesByClientEmail(String email) {
+        return contractRepository
+                .findAllByClientOrderById(clientService.getClientByEmail(email));
     }
 
     @Transactional
@@ -177,5 +191,4 @@ public class ContractService {
         contract.setNumber(contractDto.getNumber());
         contractRepository.save(contract);
     }
-
 }

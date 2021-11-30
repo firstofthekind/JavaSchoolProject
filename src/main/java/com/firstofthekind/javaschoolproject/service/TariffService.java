@@ -159,4 +159,15 @@ public class TariffService {
         log.info("tariff's status with id " + tariffDto.getId() + " was updated");
     }
 
+    @Transactional
+    public List<TariffEntity> getNotAddedToContractTariffs(long tariffId) {
+        List<TariffEntity> tariffs = tariffRepository.findAll();
+        tariffs.removeIf(t -> t.getId() == tariffId);
+        return tariffs;
+    }
+
+    @Transactional
+    public Iterable<TariffEntity> getAllEnteties() {
+        return tariffRepository.findAll();
+    }
 }

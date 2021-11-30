@@ -7,6 +7,7 @@ import com.firstofthekind.javaschoolproject.entity.TariffEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 @Repository
@@ -20,4 +21,5 @@ public interface ContractRepository extends JpaRepository<ContractEntity, Long> 
     ContractEntity getById(long id);
 
     LinkedList<ContractEntity> findAllByTariff(TariffEntity tariff);
+    ArrayList<ContractEntity> getAllByClientId(long id);
 }
