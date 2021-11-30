@@ -23,72 +23,6 @@ public class ContractService {
     private final SupplementService supplementService;
     public final MessageSender messageSender;
 
-    @Transactional
-    public Iterable<ContractDto> getAll() {
-        LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
-        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
-    }
-
-    @Transactional
-    public Iterable<ContractDto> getAllByClientId(long id) {
-        LinkedList<ContractEntity> contractEntities = contractRepository
-                .findAllByClientOrderById(clientService.getClientEntity(id));
-        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
-    }
-
-    @Transactional
-    public Iterable<ContractDto> getAllByClientEmail(String email) {
-        LinkedList<ContractEntity> contractEntities = contractRepository
-                .findAllByClientOrderById(clientService.getClientByEmail(email));
-        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
-    }
-
-
-    @Transactional
-    public ContractDto getById(long id) {
-        return ObjectMapperUtils.map(contractRepository
-                .getById(id), ContractDto.class);
-    }
-
-    @Transactional
-    public ContractEntity getEntityById(long id) {
-        return contractRepository.getById(id);
-    }
-
-    @Transactional
-    public ContractEntity getByNumber(String number) {
-        return contractRepository.findByNumber(number);
-    }
-
-    @Transactional
-    public void blockContractByAdmin(long id, boolean b) {
-        ContractEntity contract = contractRepository.getById(id);
-        contract.setBlockedByAdmin(b);
-        contractRepository.save(contract);
-    }
-
-    @Transactional
-    public void blockContractByClient(long id, boolean b) {
-        ContractEntity contract = contractRepository.getById(id);
-        contract.setBlockedByClient(b);
-        contractRepository.save(contract);
-    }
-
-    @Transactional
-    public void editContractNum(ContractDto contractDto) {
-        ContractEntity contract = contractRepository.getById(contractDto.getId());
-        contract.setNumber(contractDto.getNumber());
-        contractRepository.save(contract);
-    }
-
-    @Transactional
-    public void save(ContractEntity contract) {
-        contractRepository.save(contract);
-
-        List<TariffJsonDto> tariffDtos = tariffService.getTariffsWithCount();
-        messageSender.sendMessage(tariffDtos);
-    }
-
     /**
      * To update contact to the database,
      * you need to set the tariff, supplements,
@@ -96,7 +30,7 @@ public class ContractService {
      * The cost of the connection and the price
      * are considered as a method of summing the
      * values in the tariff and supplements.
-     * <p>
+     *
      * Additionally, json is sent to the activemq queue
      * to update data on the number of contracts in the second application.
      *
@@ -185,6 +119,63 @@ public class ContractService {
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
         contractDto.setNumber(Long.toString(num));
         save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
+    }
+
+    @Transactional
+    public Iterable<ContractDto> getAll() {
+        LinkedList<ContractEntity> contractEntities = contractRepository.findAllByTariffIsNotNullOrderById();
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
+    }
+
+    @Transactional
+    public Iterable<ContractDto> getAllByClientId(long id) {
+        LinkedList<ContractEntity> contractEntities = contractRepository
+                .findAllByClientOrderById(clientService.getClientEntity(id));
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
+    }
+
+    @Transactional
+    public Iterable<ContractDto> getAllByClientEmail(String email) {
+        LinkedList<ContractEntity> contractEntities = contractRepository
+                .findAllByClientOrderById(clientService.getClientByEmail(email));
+        return ObjectMapperUtils.mapAll(contractEntities, ContractDto.class);
+    }
+
+    @Transactional
+    public ContractDto getById(long id) {
+        return ObjectMapperUtils.map(contractRepository
+                .getById(id), ContractDto.class);
+    }
+
+    @Transactional
+    public ContractEntity getEntityById(long id) {
+        return contractRepository.getById(id);
+    }
+
+    @Transactional
+    public ContractEntity getByNumber(String number) {
+        return contractRepository.findByNumber(number);
+    }
+
+    @Transactional
+    public void blockContractByAdmin(long id, boolean b) {
+        ContractEntity contract = contractRepository.getById(id);
+        contract.setBlockedByAdmin(b);
+        contractRepository.save(contract);
+    }
+
+    @Transactional
+    public void blockContractByClient(long id, boolean b) {
+        ContractEntity contract = contractRepository.getById(id);
+        contract.setBlockedByClient(b);
+        contractRepository.save(contract);
+    }
+
+    @Transactional
+    public void editContractNum(ContractDto contractDto) {
+        ContractEntity contract = contractRepository.getById(contractDto.getId());
+        contract.setNumber(contractDto.getNumber());
+        contractRepository.save(contract);
     }
 
 }

@@ -22,7 +22,15 @@ import java.util.List;
 public class MessageSender {
     private final ActiveMQConnectionFactory connectionFactory;
 
-    public void sendMessage(List<TariffJsonDto> standDto) {
+    /**
+     * The activemq server is used to send tariff data
+     * to the second application. To begin with, a connection
+     * is established, then a session and a queue are created.
+     * Then the tariff data is converted to json format and sent to the queue.
+     * @param tariffJsonDtoList - data about the tariffs to be sent to the second application.
+     */
+
+    public void sendMessage(List<TariffJsonDto> tariffJsonDtoList) {
         try {
             Connection connection = connectionFactory.createQueueConnection();
             connection.start();
@@ -35,7 +43,7 @@ public class MessageSender {
             messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
             ActiveMQTextMessage mqTextMessage = (ActiveMQTextMessage) session.createTextMessage();
-            String textMessage = convertToJson(standDto);
+            String textMessage = convertToJson(tariffJsonDtoList);
             mqTextMessage.setText(textMessage);
             messageProducer.send(mqTextMessage);
             log.info("Message sent > " + textMessage);
@@ -46,6 +54,7 @@ public class MessageSender {
             log.error("Error sending message", e);
         }
     }
+
     public String convertToJson(List<TariffJsonDto> dto) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);

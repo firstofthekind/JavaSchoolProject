@@ -31,44 +31,12 @@ public class SupplementService {
     private final TariffRepository tariffRepository;
 
     /**
+     * To add incompatible options, first you need to check whether they are dependent.
      *
-     * @return
+     * @param firstSupId  - first supplement's id.
+     * @param secondSupId - second supplement's id.
+     * @throws CodependentSupplementException
      */
-    @Transactional
-    public Iterable<SupplementDto> getAll() {
-        return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
-    }
-
-    @Transactional
-    public LinkedList<SupplementSelectDto> getAllSelect(long tariffid) {
-        return ObjectMapperUtils.mapAll(getAllAvailableToTariff(tariffid), SupplementSelectDto.class);
-    }
-
-    @Transactional
-    public SupplementEntity getOne(long id) {
-        return supplementRepository.getById(id);
-    }
-
-    @Transactional
-    public SupplementDto getById(long id) {
-        return ObjectMapperUtils.map(supplementRepository.getById(id), SupplementDto.class);
-    }
-
-    @Transactional
-    public void save(SupplementDto supplementDto) {
-        supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
-        log.info("Supplement " + supplementDto.getTitle() + " created.");
-    }
-
-    @Transactional
-    public void setDeleted(long id, boolean b) {
-        SupplementDto supDto = getById(id);
-        supDto.setDeleted(b);
-        save(supDto);
-        log.info("supplement's status with id " + supDto.getId() + " was updated");
-    }
-
-
     @Transactional
     public void addIncompatible(long firstSupId,
                                 long secondSupId) throws CodependentSupplementException {
@@ -108,6 +76,12 @@ public class SupplementService {
         return Supplement.getIncompatible();
     }
 
+    /**
+     * Used to get incompatible supplements for the supplements list.
+     *
+     * @param selectDtos - list of selected supplements.
+     * @return list of incompatible supplements.
+     */
     @Transactional
     public Set<SupplementSelectDto> getIncompatibleForAll(Iterable<SupplementSelectDto> selectDtos) {
         Set<SupplementSelectDto> incompatible = new HashSet<>();
@@ -120,7 +94,7 @@ public class SupplementService {
                 incompatible.addAll(ObjectMapperUtils.mapAll(getDependentSupplements(entity.getId()), SupplementSelectDto.class));
             }
         }
-        System.out.println(incompatible);
+        log.info("incompatible options: " + incompatible);
         return incompatible;
     }
 
@@ -139,6 +113,13 @@ public class SupplementService {
         return compatible;
     }
 
+    /**
+     * To add codependent options, first you need to check whether they are incompatible.
+     *
+     * @param firstSupplementId  - first supplement's id.
+     * @param secondSupplementId - second supplement's id.
+     * @throws IncompatibleSupplementException
+     */
     @Transactional
     public void addDependent(long firstSupplementId,
                              long secondSupplementId) throws IncompatibleSupplementException {
@@ -217,9 +198,45 @@ public class SupplementService {
         TariffEntity tariff = tariffRepository.getById(id);
         return ObjectMapperUtils.mapAll(tariff.getSupplement(), SupplementDto.class);
     }
+
     @Transactional
     public LinkedList<SupplementSelectDto> getTariffSelectSupplements(long id) {
         TariffEntity tariff = tariffRepository.getById(id);
         return ObjectMapperUtils.mapAll(tariff.getSupplement(), SupplementSelectDto.class);
     }
+
+    @Transactional
+    public Iterable<SupplementDto> getAll() {
+        return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
+    }
+
+    @Transactional
+    public LinkedList<SupplementSelectDto> getAllSelect(long tariffid) {
+        return ObjectMapperUtils.mapAll(getAllAvailableToTariff(tariffid), SupplementSelectDto.class);
+    }
+
+    @Transactional
+    public SupplementEntity getOne(long id) {
+        return supplementRepository.getById(id);
+    }
+
+    @Transactional
+    public SupplementDto getById(long id) {
+        return ObjectMapperUtils.map(supplementRepository.getById(id), SupplementDto.class);
+    }
+
+    @Transactional
+    public void save(SupplementDto supplementDto) {
+        supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
+        log.info("Supplement " + supplementDto.getTitle() + " created.");
+    }
+
+    @Transactional
+    public void setDeleted(long id, boolean b) {
+        SupplementDto supDto = getById(id);
+        supDto.setDeleted(b);
+        save(supDto);
+        log.info("supplement's status with id " + supDto.getId() + " was updated");
+    }
+
 }
