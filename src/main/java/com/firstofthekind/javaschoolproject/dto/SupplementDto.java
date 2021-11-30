@@ -34,6 +34,7 @@ public class SupplementDto {
         }
         return true;
     }
+
     public boolean isCodependent(HashSet<SupplementDto> supplementDtos) {
         if (this.codependents.isEmpty()) {
             return true;

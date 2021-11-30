@@ -95,11 +95,11 @@ public class AdminController {
     @PostMapping("/finduser")
     public String findClientProfile(ModelMap modelMap,
                                     @ModelAttribute("contract") ContractDto contractDto) {
-        try{
+        try {
             return "redirect:" + "/clientprofile/" +
                     contractService.getByNumber(contractDto.getNumber()).getClient().getId();
-        } catch (NullPointerException e){
-            return "redirect:"+"/admin?notfound";
+        } catch (NullPointerException e) {
+            return "redirect:" + "/admin?notfound";
         }
     }
 

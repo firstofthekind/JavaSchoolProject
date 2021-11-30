@@ -75,7 +75,7 @@ public class SupplementEntity extends AbstractEntity {
         if (this.codependents.isEmpty()) {
             return true;
         }
-        for (SupplementEntity sup:
+        for (SupplementEntity sup :
                 this.getCodependents()) {
             if (added
                     .stream()

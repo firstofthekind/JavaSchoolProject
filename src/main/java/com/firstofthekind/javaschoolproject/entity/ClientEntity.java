@@ -66,6 +66,7 @@ public class ClientEntity extends AbstractEntity {
         this.firstname = firstname;
         this.password = encode;
     }
+
     public ClientEntity() {
 
     }

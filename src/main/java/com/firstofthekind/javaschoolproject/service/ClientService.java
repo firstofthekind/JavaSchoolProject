@@ -59,6 +59,7 @@ public class ClientService {
      * Before saving a new user to the database,
      * it is necessary to check the email address
      * and passport number for uniqueness.
+     *
      * @param regDto
      */
     @Transactional
@@ -102,8 +103,9 @@ public class ClientService {
     }
 
     /**
-     *To update the client in the database,
+     * To update the client in the database,
      * you need to convert clientDto to clientEntity class.
+     *
      * @param clientDto
      */
     @Transactional
@@ -120,7 +122,7 @@ public class ClientService {
         }
         client.setPassword(clientRepository.findById(clientDto.getId()).getPassword());
         clientRepository.save(client);
-        log.info("Client with id: " + client.getId() +" was updated." );
+        log.info("Client with id: " + client.getId() + " was updated.");
     }
 
     @Transactional

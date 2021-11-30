@@ -33,8 +33,8 @@ public class ContractController {
     }
 
     @GetMapping("/editcontract/n")
-    public String editContractNumber(@ModelAttribute("contractDto")ContractDto contractDto,
-                                             ModelMap modelMap) {
+    public String editContractNumber(@ModelAttribute("contractDto") ContractDto contractDto,
+                                     ModelMap modelMap) {
         contractService.editContractNum(contractDto);
         log.info("contract number with id " + contractDto.getId()
                 + " changed to " + contractDto.getNumber());

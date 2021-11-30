@@ -14,6 +14,4 @@ public class SupplementSelectDto {
     private double price;
     private double connectionCost;
     private boolean isDeleted;
-
-
 }

@@ -39,11 +39,11 @@ public class ContractEntity extends AbstractEntity {
     @JoinTable(name = "contract_supplement",
             joinColumns = @JoinColumn(name = "contract_id"),
             inverseJoinColumns = @JoinColumn(name = "supplement_id"))
-    private List<SupplementEntity> supplement = new  LinkedList<>();
+    private List<SupplementEntity> supplement = new LinkedList<>();
 
     public ContractEntity(String number, double price,
                           double connectionCost, ClientEntity client,
-                          TariffEntity tariffEntity,  LinkedList<SupplementEntity> supplementSet) {
+                          TariffEntity tariffEntity, LinkedList<SupplementEntity> supplementSet) {
         this.number = number;
         this.price = price;
         this.supplement = supplementSet;

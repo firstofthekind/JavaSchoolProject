@@ -26,7 +26,7 @@ public class HotTariffController {
     private final ContractService contractService;
     public final MessageSender messageSender;
 
-    @GetMapping(value = "/hottariff", produces = { "application/json;**charset=UTF-8**" })
+    @GetMapping(value = "/hottariff", produces = {"application/json;**charset=UTF-8**"})
     public String sendTariffs() throws JsonProcessingException {
         List<TariffJsonDto> tariffDtos = service.getTariffsWithCount();
         messageSender.sendMessage(tariffDtos);

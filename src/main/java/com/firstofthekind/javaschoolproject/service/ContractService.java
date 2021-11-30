@@ -30,7 +30,7 @@ public class ContractService {
      * The cost of the connection and the price
      * are considered as a method of summing the
      * values in the tariff and supplements.
-     *
+     * <p>
      * Additionally, json is sent to the activemq queue
      * to update data on the number of contracts in the second application.
      *

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class MvcConfig implements WebMvcConfigurer {
-    public void addViewControllers(ViewControllerRegistry registry){
+    public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/main").setViewName("main");
         registry.addViewController("/").setViewName("main");
         registry.addViewController("/login").setViewName("login");
@@ -20,6 +20,7 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addViewController("/error").setViewName("main");
 
     }
+
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry
                 .addResourceHandler("/assets/css/**")
@@ -38,6 +39,6 @@ public class MvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:assets/");
 
     }
-    
+
 
 }

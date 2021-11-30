@@ -58,17 +58,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/login?logout");
     }
+
     public void configure(WebSecurity web) throws Exception {
         //@formatter:off
         super.configure(web);
         web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
     }
+
     @Bean
     public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
         StrictHttpFirewall firewall = new StrictHttpFirewall();
         firewall.setAllowUrlEncodedSlash(true);
         return firewall;
     }
+
     @Bean
     public RoleHierarchy roleHierarchy() {
         var hierarchy = new RoleHierarchyImpl();

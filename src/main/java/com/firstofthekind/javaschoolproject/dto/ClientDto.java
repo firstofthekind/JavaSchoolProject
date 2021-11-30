@@ -21,6 +21,7 @@ public class ClientDto {
     private LinkedList<RoleEntity> roles;
     private Set<String> rolesStr;
     private boolean isDeleted;
+
     private String getShortNames() {
         StringBuilder list = new StringBuilder();
         for (RoleEntity role : roles

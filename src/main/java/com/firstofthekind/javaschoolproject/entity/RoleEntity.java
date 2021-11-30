@@ -24,7 +24,8 @@ public class RoleEntity {
     public RoleEntity(ERole name) {
         this.name = name;
     }
-    public RoleEntity(){
+
+    public RoleEntity() {
 
     }
 

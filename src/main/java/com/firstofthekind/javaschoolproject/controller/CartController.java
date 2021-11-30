@@ -69,13 +69,13 @@ public class CartController {
         } else if (session.getAttribute("selected") == null) {
             List<SupplementSelectDto> supplements = new LinkedList<>();
             supplements.add(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
-            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
+            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId), SupplementSelectDto.class));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
         } else {
             List<SupplementSelectDto> supplements = (LinkedList<SupplementSelectDto>) session.getAttribute("selected");
             supplements.add(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
-            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
+            supplements.addAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId), SupplementSelectDto.class));
             session.setAttribute("selected", supplements);
             modelMap.put("selected", supplements);
         }
@@ -84,15 +84,15 @@ public class CartController {
 
     @PostMapping("/addnewcontract")
     public String addNewContract(ModelMap map, HttpSession session) {
-if (session.getAttribute("contract") == null){
-    contractService.addNewContract(getEmail(session),
-            (TariffDto) session.getAttribute("tariff"),
-            (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
-}else {
-    contractService.save((ContractDto) session.getAttribute("contract"),
-            (TariffDto) session.getAttribute("tariff"),
-        (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
-}
+        if (session.getAttribute("contract") == null) {
+            contractService.addNewContract(getEmail(session),
+                    (TariffDto) session.getAttribute("tariff"),
+                    (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
+        } else {
+            contractService.save((ContractDto) session.getAttribute("contract"),
+                    (TariffDto) session.getAttribute("tariff"),
+                    (LinkedList<SupplementSelectDto>) session.getAttribute("selected"));
+        }
         return "redirect:" + "/profile";
     }
 
@@ -103,7 +103,7 @@ if (session.getAttribute("contract") == null){
         List<SupplementSelectDto> supplements = (LinkedList<SupplementSelectDto>) session.getAttribute("selected");
         if (supplements != null) {
             supplements.remove(ObjectMapperUtils.map(supplementService.getById(supplementId), SupplementSelectDto.class));
-            supplements.removeAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId),SupplementSelectDto.class));
+            supplements.removeAll(ObjectMapperUtils.mapAll(supplementService.getDependentSupplements(supplementId), SupplementSelectDto.class));
 
             session.setAttribute("selected", supplements);
             modelMap.replace("selected", supplements);

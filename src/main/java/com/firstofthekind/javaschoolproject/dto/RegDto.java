@@ -48,5 +48,4 @@ public class RegDto {
     private List<String> role;
 
 
-
 }

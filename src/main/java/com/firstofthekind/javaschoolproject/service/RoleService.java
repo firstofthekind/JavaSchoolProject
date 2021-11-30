@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util. LinkedList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,7 +21,7 @@ public class RoleService {
 
     @Transactional
     public void create() {
-        List<RoleEntity> roleEntitySet = new  LinkedList<>();
+        List<RoleEntity> roleEntitySet = new LinkedList<>();
         for (ERole role : ERole.values()) {
             if (!roleRepository.existsByName(role)) {
                 roleEntitySet.add(new RoleEntity(role));
@@ -29,6 +29,6 @@ public class RoleService {
         }
         String roleList = new RoleEntity().getShortNames(roleEntitySet);
         roleRepository.saveAll(roleEntitySet);
-        log.info("Roles " + roleList +" was added to DB");
+        log.info("Roles " + roleList + " was added to DB");
     }
 }

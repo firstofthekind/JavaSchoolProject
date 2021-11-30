@@ -27,6 +27,7 @@ public class MessageSender {
      * to the second application. To begin with, a connection
      * is established, then a session and a queue are created.
      * Then the tariff data is converted to json format and sent to the queue.
+     *
      * @param tariffJsonDtoList - data about the tariffs to be sent to the second application.
      */
 
@@ -49,8 +50,7 @@ public class MessageSender {
             log.info("Message sent > " + textMessage);
             session.close();
             connection.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error sending message", e);
         }
     }
