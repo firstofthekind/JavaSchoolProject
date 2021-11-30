@@ -7,6 +7,7 @@ import com.firstofthekind.javaschoolproject.entity.ClientEntity;
 import com.firstofthekind.javaschoolproject.entity.ContractEntity;
 import com.firstofthekind.javaschoolproject.entity.ERole;
 import com.firstofthekind.javaschoolproject.entity.RoleEntity;
+import com.firstofthekind.javaschoolproject.exception.ClientExistException;
 import com.firstofthekind.javaschoolproject.repository.ClientRepository;
 import com.firstofthekind.javaschoolproject.repository.RoleRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
@@ -54,16 +55,23 @@ public class ClientService {
         return clientRepository.findById(id);
     }
 
+    /**
+     * Before saving a new user to the database,
+     * it is necessary to check the email address
+     * and passport number for uniqueness.
+     * @param regDto
+     */
     @Transactional
-    public String registerClient(RegDto regDto) {
+    public void registerClient(RegDto regDto) {
         if (clientRepository.existsByEmail(regDto.getEmail())) {
-            return "Error: Email is already in use!";
+            throw new ClientExistException("Error: Client with that email registered already!");
+        }
+        if (clientRepository.existsByPassport(regDto.getPassport())) {
+            throw new ClientExistException("Error: Client with that passport number registered already!");
         }
         if (!regDto.getPassword().equals(regDto.getPasswordConfirm())) {
-            return "Error: Passwords don' match!";
+            return;
         }
-
-        // Create new client's account - to controller
 
         ClientEntity client = new ClientEntity(
                 regDto.getFirstname(),
@@ -91,9 +99,13 @@ public class ClientService {
         String roleList = new RoleEntity().getShortNames(roles);
         log.info("New client was created." +
                 "\n Email: " + client.getEmail() + "; Role " + roleList);
-        return "login";
     }
 
+    /**
+     *To update the client in the database,
+     * you need to convert clientDto to clientEntity class.
+     * @param clientDto
+     */
     @Transactional
     public void updateClient(ClientDto clientDto) {
         ClientEntity client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
@@ -108,13 +120,7 @@ public class ClientService {
         }
         client.setPassword(clientRepository.findById(clientDto.getId()).getPassword());
         clientRepository.save(client);
-    }
-
-    @Transactional
-    public void updateClient(RegDto clientDto) {
-        ClientEntity client = clientRepository.findByEmail(clientDto.getEmail());
-        client = ObjectMapperUtils.map(clientDto, ClientEntity.class);
-        clientRepository.save(client);
+        log.info("Client with id: " + client.getId() +" was updated." );
     }
 
     @Transactional
@@ -123,7 +129,7 @@ public class ClientService {
     }
 
     @Transactional
-    public void setStatus(long id, boolean b){
+    public void setStatus(long id, boolean b) {
         ClientDto clientDto = getClientDto(id);
         clientDto.setDeleted(b);
         updateClient(clientDto);

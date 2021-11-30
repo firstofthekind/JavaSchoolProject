@@ -17,4 +17,6 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     ClientEntity findById(long id);
 
     Boolean existsByEmail(String email);
+
+    Boolean existsByPassport(String passport);
 }

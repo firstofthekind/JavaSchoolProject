@@ -3,6 +3,7 @@ package com.firstofthekind.javaschoolproject.service;
 
 import com.firstofthekind.javaschoolproject.dto.SupplementDto;
 import com.firstofthekind.javaschoolproject.dto.SupplementSelectDto;
+import com.firstofthekind.javaschoolproject.dto.TariffJsonDto;
 import com.firstofthekind.javaschoolproject.entity.AbstractEntity;
 import com.firstofthekind.javaschoolproject.entity.SupplementEntity;
 import com.firstofthekind.javaschoolproject.entity.TariffEntity;
@@ -29,6 +30,10 @@ public class SupplementService {
     private final SupplementRepository supplementRepository;
     private final TariffRepository tariffRepository;
 
+    /**
+     *
+     * @return
+     */
     @Transactional
     public Iterable<SupplementDto> getAll() {
         return ObjectMapperUtils.mapAll(supplementRepository.findAll(), SupplementDto.class);
@@ -61,11 +66,6 @@ public class SupplementService {
         supDto.setDeleted(b);
         save(supDto);
         log.info("supplement's status with id " + supDto.getId() + " was updated");
-    }
-
-    @Transactional
-    void updateSupplementDto(SupplementDto supplementDto) {
-        supplementRepository.save(ObjectMapperUtils.map(supplementDto, SupplementEntity.class));
     }
 
 

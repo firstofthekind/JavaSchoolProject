@@ -89,6 +89,22 @@ public class ContractService {
         messageSender.sendMessage(tariffDtos);
     }
 
+    /**
+     * To update contact to the database,
+     * you need to set the tariff, supplements,
+     * connection cost and monthly payment.
+     * The cost of the connection and the price
+     * are considered as a method of summing the
+     * values in the tariff and supplements.
+     * <p>
+     * Additionally, json is sent to the activemq queue
+     * to update data on the number of contracts in the second application.
+     *
+     * @param contractDto    - contract that needs to be saved to the database.
+     * @param tariffDto      - selected tariff.
+     * @param supplementDtos - selected supplements.
+     */
+
     @Transactional
     public void save(ContractDto contractDto, TariffDto tariffDto,
                      LinkedList<SupplementSelectDto> supplementDtos) {
@@ -112,6 +128,23 @@ public class ContractService {
         messageSender.sendMessage(tariffDtos);
     }
 
+    /**
+     * To save a new contact to the database,
+     * you need to set  the client, the tariff, supplements,
+     * connection cost and monthly payment.
+     * The cost of the connection and the price
+     * are considered as a method of summing the
+     * values in the tariff and supplements.
+     * <p>
+     * Additionally, json is sent to the activemq queue
+     * to update data on the number of contracts in the second application.
+     *
+     * @param contractDto    - contract that needs to be saved to the database.
+     * @param clientDto      - client for whom this contract is being created.
+     * @param tariffDto      - selected tariff.
+     * @param supplementDtos - selected supplements.
+     */
+
     @Transactional
     public void save(ContractDto contractDto, ClientDto clientDto,
                      TariffDto tariffDto, LinkedList<SupplementSelectDto> supplementDtos) {
@@ -133,6 +166,16 @@ public class ContractService {
         messageSender.sendMessage(tariffDtos);
     }
 
+    /**
+     * To save a new contact to the database without clientDto,
+     * you need to set the client by founding entity in DB, the tariff, supplements
+     * and use another method to save in db.
+     *
+     * @param email          - email address by which the client will be found for his appointment to the contract.
+     * @param tariffDto      - selected tariff.
+     * @param supplementDtos - selected supplements.
+     */
+
     @Transactional
     public void addNewContract(String email,
                                TariffDto tariffDto,
@@ -142,7 +185,6 @@ public class ContractService {
         long num = (79030000000L + (long) (Math.random() * ((79039999999L - 79030000000L) + 1)));
         contractDto.setNumber(Long.toString(num));
         save(contractDto, clientService.getClientDtoByEmail(email), tariffDto, supplementDtos);
-
     }
 
 }

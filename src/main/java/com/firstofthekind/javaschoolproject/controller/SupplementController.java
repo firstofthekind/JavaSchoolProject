@@ -4,9 +4,11 @@ package com.firstofthekind.javaschoolproject.controller;
 import com.firstofthekind.javaschoolproject.dto.SupplementDto;
 import com.firstofthekind.javaschoolproject.dto.SupplementSelectDto;
 import com.firstofthekind.javaschoolproject.dto.TariffDto;
+import com.firstofthekind.javaschoolproject.dto.TariffJsonDto;
 import com.firstofthekind.javaschoolproject.exception.CodependentSupplementException;
 import com.firstofthekind.javaschoolproject.exception.IncompatibleSupplementException;
 import com.firstofthekind.javaschoolproject.service.ContractService;
+import com.firstofthekind.javaschoolproject.service.MessageSender;
 import com.firstofthekind.javaschoolproject.service.SupplementService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
 import com.firstofthekind.javaschoolproject.utils.Merge;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class SupplementController {
     private final SupplementService supplementService;
     private final ContractService contractService;
     private final TariffService tariffService;
+    public final MessageSender messageSender;
 
 
     @GetMapping("/supplementlist")
@@ -80,6 +84,9 @@ public class SupplementController {
                                  @ModelAttribute("editSupplementDto") SupplementDto editsupplementDto,
                                  ModelMap modelMap) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         supplementService.save(Merge.merge(supplementService.getById(id), editsupplementDto));
+
+        List<TariffJsonDto> tariffDtos = tariffService.getTariffsWithCount();
+        messageSender.sendMessage(tariffDtos);
         log.info("supplement with id " + editsupplementDto.getId() + " was updated");
         return "redirect:" + "/supplementlist";
     }
