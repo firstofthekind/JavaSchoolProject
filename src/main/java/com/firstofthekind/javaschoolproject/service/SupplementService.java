@@ -233,10 +233,15 @@ public class SupplementService {
 
     @Transactional
     public void setDeleted(long id, boolean b) {
-        SupplementDto supDto = getById(id);
-        supDto.setDeleted(b);
-        save(supDto);
-        log.info("supplement's status with id " + supDto.getId() + " was updated");
+        SupplementEntity entity = getOne(id);
+        entity.setDeleted(b);
+        if (b) {
+            for (SupplementEntity entity1 : getDependentSupplements(entity.getId())) {
+                deleteDependent(entity.getId(), entity1.getId());
+            }
+        }
+        supplementRepository.save(entity);
+        log.info("supplement's status with id " + entity.getId() + " was updated");
     }
 
 }

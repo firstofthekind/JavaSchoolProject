@@ -60,7 +60,7 @@ public class ClientService {
      * it is necessary to check the email address
      * and passport number for uniqueness.
      *
-     * @param regDto
+     * @param regDto - client dto for registration from registration.html.
      */
     @Transactional
     public void registerClient(RegDto regDto) {
