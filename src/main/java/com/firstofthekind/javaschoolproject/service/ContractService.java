@@ -3,6 +3,7 @@ package com.firstofthekind.javaschoolproject.service;
 
 import com.firstofthekind.javaschoolproject.dto.*;
 import com.firstofthekind.javaschoolproject.entity.*;
+import com.firstofthekind.javaschoolproject.exception.ContractExistException;
 import com.firstofthekind.javaschoolproject.repository.ContractRepository;
 import com.firstofthekind.javaschoolproject.utils.ObjectMapperUtils;
 import lombok.RequiredArgsConstructor;
@@ -187,6 +188,9 @@ public class ContractService {
 
     @Transactional
     public void editContractNum(ContractDto contractDto) {
+        if (contractRepository.findByNumber(contractDto.getNumber()) != null) {
+            throw new ContractExistException("Contract with number " + contractDto.getNumber() + " already exist.");
+        }
         ContractEntity contract = contractRepository.getById(contractDto.getId());
         contract.setNumber(contractDto.getNumber());
         contractRepository.save(contract);

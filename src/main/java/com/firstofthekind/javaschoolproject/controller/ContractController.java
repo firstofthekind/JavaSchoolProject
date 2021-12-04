@@ -1,6 +1,7 @@
 package com.firstofthekind.javaschoolproject.controller;
 
 import com.firstofthekind.javaschoolproject.dto.ContractDto;
+import com.firstofthekind.javaschoolproject.exception.ContractExistException;
 import com.firstofthekind.javaschoolproject.service.ClientService;
 import com.firstofthekind.javaschoolproject.service.ContractService;
 import com.firstofthekind.javaschoolproject.service.TariffService;
@@ -35,7 +36,11 @@ public class ContractController {
     @GetMapping("/editcontract/n")
     public String editContractNumber(@ModelAttribute("contractDto") ContractDto contractDto,
                                      ModelMap modelMap) {
-        contractService.editContractNum(contractDto);
+        try {
+            contractService.editContractNum(contractDto);
+        } catch (ContractExistException e){
+            return "redirect:"+"/editcontract/"+contractDto.getId()+"?mt1";
+        }
         log.info("contract number with id " + contractDto.getId()
                 + " changed to " + contractDto.getNumber());
 

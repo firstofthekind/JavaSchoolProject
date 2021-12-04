@@ -55,6 +55,11 @@
                                         Invalid contract number.
                                     </div>
                                 </div>
+                                <div th:if="${param.mt1}">
+                                    <div class="alert alert-danger" style="border-radius: 20px; padding: 5px; text-align: center">
+                                        There is more than one contract with that number.
+                                    </div>
+                                </div>
                             <button class="btn btn-primary d-block"
                                type="submit" style="width: 100%">find</button></div></form>
                     </div>

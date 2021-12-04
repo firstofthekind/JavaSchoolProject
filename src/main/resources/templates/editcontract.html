@@ -42,7 +42,11 @@
                                     Contract № </a>
                                 <a class="text-center" sec:authorize="${hasAuthority('ADMIN')}">Contract No
                                 </a>
-
+                                <div th:if="${param.mt1}">
+                                    <div class="alert alert-danger" style="border-radius: 20px; padding: 5px; text-align: center">
+                                        Contract with that number already exist.
+                                    </div>
+                                </div>
                                 <input type="hidden" name="id" th:value="${contract.getId()}"/>
                             <input class="text-center" name="number" type="text"
                                    sec:authorize="${hasAuthority('ADMIN')}"

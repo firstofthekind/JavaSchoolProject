@@ -100,6 +100,8 @@ public class AdminController {
                     contractService.getByNumber(contractDto.getNumber()).getClient().getId();
         } catch (NullPointerException e) {
             return "redirect:" + "/admin?notfound";
+        } catch (Exception e){
+            return "redirect:" + "/admin?mt1";
         }
     }
 
